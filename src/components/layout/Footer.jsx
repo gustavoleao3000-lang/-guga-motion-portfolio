@@ -20,11 +20,12 @@ const LinkedInIcon = () => (
   </svg>
 );
 
+// Adicione URLs reais aqui pra os ícones aparecerem. Links vazios ficam ocultos.
 const SOCIALS = [
-  { name: 'Behance', Icon: BehanceIcon, url: '#' }, // TODO: Adicione seus links aqui
-  { name: 'Instagram', Icon: InstagramIcon, url: '#' },
-  { name: 'LinkedIn', Icon: LinkedInIcon, url: '#' },
-];
+  { name: 'Behance', Icon: BehanceIcon, url: '' },
+  { name: 'Instagram', Icon: InstagramIcon, url: '' },
+  { name: 'LinkedIn', Icon: LinkedInIcon, url: '' },
+].filter((s) => s.url && s.url !== '#');
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -41,21 +42,23 @@ export default function Footer() {
             <p className="font-mono text-xs text-muted-foreground leading-relaxed max-w-xs mb-6">
               {t('footer_desc')}
             </p>
-            {/* Social icons */}
-            <div className="flex items-center gap-3">
-              {SOCIALS.map(({ name, Icon, url }) => (
-                <a
-                  key={name}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={name}
-                  className="w-9 h-9 rounded-xl border border-border/50 bg-card/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-200"
-                >
-                  <Icon />
-                </a>
-              ))}
-            </div>
+            {/* Social icons (só aparece se tiver URL real configurada) */}
+            {SOCIALS.length > 0 && (
+              <div className="flex items-center gap-3">
+                {SOCIALS.map(({ name, Icon, url }) => (
+                  <a
+                    key={name}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={name}
+                    className="w-9 h-9 rounded-xl border border-border/50 bg-card/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-200"
+                  >
+                    <Icon />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Nav */}

@@ -1,7 +1,10 @@
 import React from 'react';
 import HeroSection from '../components/home/HeroSection';
 import ShowreelSection from '../components/home/ShowreelSection';
-import ServicesSection from '../components/home/ServicesSection';
+import StatsBanner from '../components/home/StatsBanner';
+import ProcessSection from '../components/home/ProcessSection';
+import PackagesSection from '../components/home/PackagesSection';
+import FAQSection from '../components/home/FAQSection';
 import CTASection from '../components/home/CTASection';
 import { VIDEOS, WIDESCREEN_VIDEOS } from '../data/videos';
 
@@ -37,7 +40,10 @@ export default function Home() {
         subtitle="Brand films, edições longas e peças horizontais"
       />
 
-      <ServicesSection />
+      <StatsBanner />
+      <ProcessSection />
+      <PackagesSection />
+      <FAQSection />
       <CTASection />
     </div>
   );

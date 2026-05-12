@@ -29,11 +29,14 @@ const LinkedInIcon = () => (
   </svg>
 );
 
+// Pra adicionar seus links de social: troque os '' por URLs reais.
+// Links vazios ficam OCULTOS automaticamente (não viram <a href="#"> morto).
+// Ex: { name: 'Instagram', Icon: InstagramIcon, url: 'https://instagram.com/seu_user' }
 const SOCIALS = [
-  { name: 'Behance', Icon: BehanceIcon, url: '#' }, // TODO: Adicione seus links aqui
-  { name: 'Instagram', Icon: InstagramIcon, url: '#' },
-  { name: 'LinkedIn', Icon: LinkedInIcon, url: '#' }
-];
+  { name: 'Behance', Icon: BehanceIcon, url: '' },
+  { name: 'Instagram', Icon: InstagramIcon, url: '' },
+  { name: 'LinkedIn', Icon: LinkedInIcon, url: '' },
+].filter((s) => s.url && s.url !== '#');
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -93,8 +96,16 @@ export default function Navbar() {
             </motion.span>
           </Link>
 
-          {/* Right: Socials + Language (desktop) */}
+          {/* Right: WhatsApp + Socials (se houver) + Language (desktop) */}
           <div className="hidden md:flex items-center gap-5 flex-1 justify-end">
+            <a
+              href="https://wa.me/5562998744360?text=Oi%2C%20Guga!%20Vi%20seu%20portf%C3%B3lio."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/10 px-3.5 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-[#25D366] transition-all duration-200 hover:border-[#25D366] hover:bg-[#25D366]/20"
+            >
+              WhatsApp →
+            </a>
             {SOCIALS.map(({ name, Icon, url }) => (
               <a
                 key={name}
@@ -170,18 +181,31 @@ export default function Navbar() {
                 ))}
               </div>
 
-              <div className="px-12 pb-12 border-t border-border pt-6 flex gap-6">
-                {SOCIALS.map(({ name, Icon, url }) => (
-                  <a
-                    key={name}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={name}
-                    className="text-muted-foreground hover:text-primary transition-colors">
-                    <Icon />
-                  </a>
-                ))}
+              <div className="px-12 pb-12 border-t border-border pt-6 flex flex-col gap-4">
+                <a
+                  href="https://wa.me/5562998744360?text=Oi%2C%20Guga!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMenuOpen(false)}
+                  className="inline-flex w-fit items-center gap-2 rounded-full border border-[#25D366]/40 bg-[#25D366]/10 px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-[#25D366]"
+                >
+                  WhatsApp →
+                </a>
+                {SOCIALS.length > 0 && (
+                  <div className="flex gap-6">
+                    {SOCIALS.map(({ name, Icon, url }) => (
+                      <a
+                        key={name}
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={name}
+                        className="text-muted-foreground hover:text-primary transition-colors">
+                        <Icon />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             </motion.div>
           </>
