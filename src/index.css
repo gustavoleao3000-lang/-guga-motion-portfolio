@@ -61,3 +61,22 @@
   background: hsl(305 100% 50% / 0.3);
   color: hsl(0 0% 99.2%);
 }
+
+/* Marquee — trem horizontal infinito */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee linear infinite;
+  will-change: transform;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+          mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
