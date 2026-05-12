@@ -15,14 +15,9 @@ export default function Home() {
         videos={VIDEOS}
         aspect="story"
         direction="left"
-        eyebrow="Showreel"
-        title={
-          <>
-            Trabalhos selecionados<br className="hidden md:block" />
-            <span className="text-primary"> em movimento.</span>
-          </>
-        }
-        subtitle="Passa o cursor pra pausar · Clica pra ver com som"
+        eyebrow="Showreel · Stories"
+        compact
+        withTopBorder={false}
       />
 
       <ShowreelSection

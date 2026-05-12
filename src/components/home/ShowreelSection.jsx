@@ -291,6 +291,7 @@ export default function ShowreelSection({
   subtitle,
   direction = 'left',
   withTopBorder = true,
+  compact = false,
 }) {
   const [openIndex, setOpenIndex] = useState(null);
   const sectionRef = useRef(null);
@@ -329,7 +330,7 @@ export default function ShowreelSection({
     <section
       id={id}
       ref={sectionRef}
-      className={`py-10 md:py-14 ${withTopBorder ? 'border-t border-border/30' : ''}`}
+      className={`${compact ? 'pt-2 pb-8 md:pt-3 md:pb-12' : 'py-10 md:py-14'} ${withTopBorder ? 'border-t border-border/30' : ''}`}
     >
       <div className="mx-auto max-w-7xl px-5 md:px-12">
         <motion.div
@@ -337,21 +338,29 @@ export default function ShowreelSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-7 md:mb-10"
+          className={compact ? 'mb-4 md:mb-5' : 'mb-7 md:mb-10'}
         >
-          <div className="mb-4 flex items-center gap-3">
+          <div className={`flex items-center gap-3 ${compact ? 'mb-2' : 'mb-4'}`}>
             <span className="block h-px w-6 bg-primary" />
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
               {eyebrow}
             </span>
           </div>
           {title && (
-            <h2 className="font-display text-3xl font-black leading-tight tracking-tight md:text-5xl">
+            <h2
+              className={`font-display font-black leading-tight tracking-tight ${
+                compact ? 'text-xl md:text-2xl' : 'text-3xl md:text-5xl'
+              }`}
+            >
               {title}
             </h2>
           )}
           {subtitle && (
-            <p className="mt-3 max-w-md font-mono text-xs text-muted-foreground md:text-sm">
+            <p
+              className={`max-w-md font-mono text-xs text-muted-foreground md:text-sm ${
+                compact ? 'mt-2' : 'mt-3'
+              }`}
+            >
               {subtitle}
             </p>
           )}
