@@ -1,0 +1,5 @@
+# Atenção: About.jsx e Contact.jsx
+
+Vou criar os arquivos About.jsx e Contact.jsx em /home/claude/guga-motion-portfolio/src/pages/
+
+Como esses arquivos são grandes, estou criando-os separadamente.
