@@ -38,6 +38,33 @@
   }
   body {
     @apply bg-background text-foreground;
+    position: relative;
+  }
+  /* Grão de filme + glow magenta sutil ao fundo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(305 100% 50% / 0.10), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(305 100% 50% / 0.06), transparent 60%);
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.45 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.32'/></svg>");
+  }
+  /* Conteúdo acima das camadas decorativas */
+  #root {
+    position: relative;
+    z-index: 2;
   }
 }
 
