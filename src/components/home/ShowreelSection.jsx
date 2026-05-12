@@ -101,9 +101,30 @@ function CardPreview({ video, active }) {
 
 function ReelCard({ video, onOpen, active, index, aspectClass }) {
   const poster = getPoster(video);
+  const cardRef = useRef(null);
+  const [cardInView, setCardInView] = useState(false);
+
+  // IO por card: vídeo só carrega quando o card está perto da viewport.
+  // Combinado com `active` (seção visível), reduz drasticamente o número
+  // de iframes do Vimeo carregados ao mesmo tempo.
+  useEffect(() => {
+    if (!active) {
+      setCardInView(false);
+      return;
+    }
+    const el = cardRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setCardInView(entry.isIntersecting),
+      { rootMargin: '250px', threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [active]);
 
   return (
     <button
+      ref={cardRef}
       onClick={onOpen}
       className={`group relative flex-shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-card/50 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,0,255,0.5)] ${aspectClass}`}
       aria-label={`Abrir ${video.title}`}
@@ -120,7 +141,7 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-card to-black" />
       )}
 
-      <CardPreview video={video} active={active} />
+      <CardPreview video={video} active={active && cardInView} />
 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
 
