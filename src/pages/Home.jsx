@@ -16,6 +16,7 @@ export default function Home() {
         aspect="story"
         direction="left"
         eyebrow="Showreel · Stories"
+        rows={2}
         compact
         withTopBorder={false}
       />
@@ -26,6 +27,7 @@ export default function Home() {
         aspect="wide"
         direction="right"
         eyebrow="Widescreen"
+        rows={2}
         title={
           <>
             Em formato<br className="hidden md:block" />

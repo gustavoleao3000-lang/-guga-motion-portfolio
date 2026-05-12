@@ -32,11 +32,19 @@ const ASPECTS = {
     player: 'aspect-[9/16] h-[82vh] max-h-[82vh] w-auto',
   },
   wide: {
-    card: 'aspect-video w-72 sm:w-80 md:w-[22rem] lg:w-[26rem]',
-    container: 'w-full max-w-5xl',
+    card: 'aspect-video w-80 sm:w-[24rem] md:w-[30rem] lg:w-[36rem]',
+    container: 'w-full max-w-6xl',
     player: 'aspect-video w-full',
   },
 };
+
+// Distribui os vídeos em N faixas (round-robin pra balancear)
+function distribute(arr, n) {
+  if (!n || n <= 1) return [arr];
+  const result = Array.from({ length: n }, () => []);
+  arr.forEach((v, i) => result[i % n].push(v));
+  return result.filter((row) => row.length > 0);
+}
 
 function CardPreview({ video, active }) {
   const v = parseVimeo(video.vimeo);
@@ -71,6 +79,7 @@ function CardPreview({ video, active }) {
         allow="autoplay; fullscreen; picture-in-picture"
         title={video.title}
         tabIndex={-1}
+        loading="lazy"
       />
     );
   }
@@ -292,6 +301,7 @@ export default function ShowreelSection({
   direction = 'left',
   withTopBorder = true,
   compact = false,
+  rows = 1,
 }) {
   const [openIndex, setOpenIndex] = useState(null);
   const sectionRef = useRef(null);
@@ -320,11 +330,12 @@ export default function ShowreelSection({
     [videos.length]
   );
 
-  // Duração proporcional ao número de vídeos
-  const baseTime = aspect === 'wide' ? 8 : 7;
-  const marqueeDuration = Math.max(28, videos.length * baseTime);
+  // Distribui em N faixas
+  const rowsList = distribute(videos, rows);
 
-  const loopList = [...videos, ...videos];
+  // Duração base (cada faixa fica um pouquinho mais lenta pra ficar orgânico)
+  const baseTime = aspect === 'wide' ? 9 : 7;
+  const baseDuration = Math.max(28, Math.ceil(videos.length / rows) * baseTime * 2);
 
   return (
     <section
@@ -370,24 +381,46 @@ export default function ShowreelSection({
       {videos.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="group/marquee marquee-mask relative overflow-hidden">
-          <div
-            className={`flex w-max gap-3 sm:gap-4 animate-marquee group-hover/marquee:[animation-play-state:paused] ${
-              direction === 'right' ? '[animation-direction:reverse]' : ''
-            }`}
-            style={{ animationDuration: `${marqueeDuration}s` }}
-          >
-            {loopList.map((v, i) => (
-              <ReelCard
-                key={`${v.vimeo || v.src}-${i}`}
-                video={v}
-                index={i % videos.length}
-                active={sectionVisible}
-                aspectClass={cfg.card}
-                onOpen={() => setOpenIndex(i % videos.length)}
-              />
-            ))}
-          </div>
+        <div className="space-y-3 md:space-y-4">
+          {rowsList.map((rowVideos, rowIdx) => {
+            // Alterna direção: row par segue direction, ímpar inverte
+            const rowDir =
+              rowIdx % 2 === 0
+                ? direction
+                : direction === 'left'
+                ? 'right'
+                : 'left';
+            // Cada faixa um pouquinho mais lenta — parallax orgânico
+            const rowDuration = baseDuration + rowIdx * 6;
+            const loopList = [...rowVideos, ...rowVideos];
+            return (
+              <div
+                key={rowIdx}
+                className="group/marquee marquee-mask relative overflow-hidden"
+              >
+                <div
+                  className={`flex w-max gap-3 sm:gap-4 animate-marquee group-hover/marquee:[animation-play-state:paused] ${
+                    rowDir === 'right' ? '[animation-direction:reverse]' : ''
+                  }`}
+                  style={{ animationDuration: `${rowDuration}s` }}
+                >
+                  {loopList.map((v, i) => {
+                    const originalIndex = videos.indexOf(v);
+                    return (
+                      <ReelCard
+                        key={`${v.vimeo || v.src}-${rowIdx}-${i}`}
+                        video={v}
+                        index={originalIndex}
+                        active={sectionVisible}
+                        aspectClass={cfg.card}
+                        onOpen={() => setOpenIndex(originalIndex)}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 
