@@ -1,56 +1,89 @@
-# Vídeos do Showreel
+# Vídeos do Showreel — Guia de hospedagem
 
-Você tem duas formas de adicionar vídeos. Recomendo **Vimeo**.
+O site suporta **3 formas** de subir vídeo. Pode misturar à vontade.
 
 ---
 
-## ✅ Opção 1 — Vimeo (mais fácil e mais leve)
+## ⭐ Opção 1 — CLOUDINARY (recomendado)
 
-1. Sobe o vídeo em [vimeo.com](https://vimeo.com)
-2. Copia a URL (ex: `https://vimeo.com/123456789`) — pode ser só o número também
-3. Abre `src/data/videos.js` e adiciona:
+Hospedagem própria, CDN global, grátis até 25GB. Sem branding do Vimeo.
+
+### Setup inicial (uma vez só)
+
+1. Cadastra grátis em **https://cloudinary.com/users/register/free**
+2. Vai no **Dashboard** → copia o **"Cloud name"** (ex: `gugamotion`)
+3. Abre `src/data/videos.js` e cola na linha:
    ```js
-   { title: 'Meu Projeto', tag: 'Motion', vimeo: '123456789' },
+   export const CLOUDINARY_CLOUD_NAME = 'gugamotion';
    ```
-4. Salva. A capa é puxada automática do Vimeo.
 
-**Vimeo privado/unlisted?** Cola a URL completa com o hash:
+### Pra cada vídeo novo:
+
+1. Vai no **Media Library** do Cloudinary → arrasta o `.mp4`
+2. Recomendado: organiza em pasta (ex: cria pasta `showreel`)
+3. Copia o **Public ID** (ex: `showreel/motion-novo`)
+4. Adiciona em `src/data/videos.js`:
+   ```js
+   { title: 'Motion novo', tag: 'Motion', cloudinary: 'showreel/motion-novo' },
+   ```
+5. Pronto! O site automaticamente:
+   - Gera thumbnail do 1º segundo
+   - Cria versão leve (400px, `q_auto:low`) pro preview no card
+   - Usa versão HD (`q_auto:good`) no lightbox
+
+### Limites do plano grátis:
+- 25GB de storage
+- 25GB de banda/mês
+- Vídeo consome 4× créditos → na prática ~6GB de banda de vídeo/mês
+- Pra portfólio pessoal: sobra. Se viralizar, upgrade pra $99/mês.
+
+---
+
+## Opção 2 — VIMEO
+
+Funciona, mas tem branding e limites na conta free.
+
 ```js
-{ title: 'Privado', tag: 'Cliente', vimeo: 'https://vimeo.com/123456789/abc123def4' }
+{ title: 'X', tag: 'Y', vimeo: '123456789' }
 ```
 
-**Capa customizada (opcional):** salva uma JPG nesta pasta e adiciona `poster: '/videos/capa.jpg'`.
+Vimeo unlisted (privado com link): cola URL completa
+```js
+{ vimeo: 'https://vimeo.com/123456789/abc123def4' }
+```
 
 ---
 
-## Opção 2 — MP4 local nesta pasta
+## Opção 3 — MP4 local nessa pasta
 
-1. Coloque `.mp4` + `.jpg` (capa) aqui dentro
-2. Adicione em `src/data/videos.js`:
-   ```js
-   { title: 'Vinheta', tag: 'Branding', src: '/videos/vinheta.mp4', poster: '/videos/vinheta.jpg' },
-   ```
+Bom pra 1-2 vídeos pequenos. Não recomendado pra muitos (pesa o repo).
 
-**Comprimir antes de subir** (importante!):
+```js
+{ title: 'X', tag: 'Y', src: '/videos/x.mp4', poster: '/videos/x.jpg' }
+```
+
+**Compressão obrigatória** antes de subir:
 ```bash
 ffmpeg -i original.mp4 -vcodec libx264 -crf 24 -preset slow -movflags +faststart -an saida.mp4
 ```
-Sem terminal: use o [HandBrake](https://handbrake.fr/) com o preset **"Web Optimized 1080p30"**.
+Ou usa [HandBrake](https://handbrake.fr/) preset "Web Optimized 1080p30".
 
 ---
 
-## Por que Vimeo é melhor?
+## Migração Vimeo → Cloudinary
 
-| | Vimeo | MP4 local |
-|---|---|---|
-| Peso do site | ~0 (só thumb) | ~5–20MB por vídeo |
-| Qualidade adaptativa | ✅ ajusta à conexão | ❌ fixa |
-| Trocar vídeo | edita no Vimeo | re-upload + commit |
-| Limite de armazenamento | conta Vimeo (free 500MB/sem) | espaço do servidor |
-| Stats de view | ✅ painel Vimeo | ❌ |
+Quando quiser tirar o Vimeo de vez:
+1. Baixa os vídeos originais do Vimeo (Settings → Distribution → Video File)
+2. Sobe pra Cloudinary
+3. Edita `videos.js`: troca `vimeo: '...'` por `cloudinary: '...'`
+
+Pode fazer um por um — os tipos misturados (vimeo + cloudinary) funcionam juntos.
 
 ---
 
-## Regras pra nome de arquivo
-- Sem espaços, sem acentos: `motion-01.mp4` (não `Motion 01.mp4`)
-- Caminho começa com `/videos/` no código (NÃO `public/videos/`)
+## Cuidados
+
+- Nome dos arquivos sem espaço/acento: `motion-01.mp4`, não `Motion 01.mp4`
+- Resolução máx: **1920×1080** (não precisa de 4K na web)
+- Duração ideal: **10-30s por peça** pra showreel
+- Sempre tem capa automática — não precisa subir JPG separado pro Cloudinary

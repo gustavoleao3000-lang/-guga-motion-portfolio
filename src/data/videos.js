@@ -1,16 +1,22 @@
 // Listas de vídeos do showreel.
 //
-// Como adicionar um vídeo novo:
-//   1) Sobe no vimeo.com
-//   2) Copia o ID (o número da URL, ex: https://vimeo.com/123456789 → 123456789)
-//   3) Adiciona uma linha na lista certa (story = vertical 9:16, wide = horizontal 16:9):
-//      { title: 'Nome', tag: 'Motion', vimeo: '123456789' },
+// 3 formas de hospedar (pode misturar):
 //
-// Capa é puxada automática do Vimeo. Pra capa custom, adiciona:
-//   poster: '/videos/minha-capa.jpg'  (coloque o arquivo em public/videos/)
+// 1) CLOUDINARY (recomendado — sem Vimeo, hospedagem própria, CDN rápido)
+//    a) Cadastre grátis em https://cloudinary.com (25GB storage + 25GB banda/mês)
+//    b) Pegue o "Cloud Name" no dashboard e cole abaixo
+//    c) Suba o vídeo pelo dashboard (drag-drop) → copia o "Public ID"
+//       Ex: se subiu como "showreel/motion-2", o public ID é exatamente isso
+//    d) Adiciona uma entrada: { title: 'X', tag: 'Y', cloudinary: 'showreel/motion-2' }
 //
-// Vimeo unlisted (privado com link): cola a URL completa
-//   ex: vimeo: 'https://vimeo.com/123456789/abc123def4'
+// 2) VIMEO (atual — funciona, mas tem branding e limite na conta free)
+//    { title: 'X', tag: 'Y', vimeo: '123456789' }
+//
+// 3) MP4 LOCAL em /public/videos/
+//    { title: 'X', tag: 'Y', src: '/videos/x.mp4', poster: '/videos/x.jpg' }
+
+// 👇 Cole seu Cloud Name aqui depois de cadastrar (deixe '' enquanto não tiver):
+export const CLOUDINARY_CLOUD_NAME = '';
 
 // ===== STORIES (formato vertical 9:16) =====
 export const VIDEOS = [
@@ -21,6 +27,8 @@ export const VIDEOS = [
   { title: 'Motion 52', tag: 'Motion', vimeo: '1191694192' },
   { title: 'Motion 55', tag: 'Motion', vimeo: '1191694230' },
   { title: 'Motion 85', tag: 'Motion', vimeo: '1191693403' },
+  // Exemplo Cloudinary (descomenta quando tiver subido):
+  // { title: 'Reel novo', tag: 'Motion', cloudinary: 'showreel/reel-novo' },
 ];
 
 // ===== WIDESCREEN (formato horizontal 16:9) =====

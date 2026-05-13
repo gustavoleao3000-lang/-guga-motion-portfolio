@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, VolumeX } from 'lucide-react';
+import { CLOUDINARY_CLOUD_NAME } from '../../data/videos';
 
 function parseVimeo(input) {
   if (!input) return null;
@@ -17,8 +18,22 @@ function parseVimeo(input) {
   return { id, hash };
 }
 
+// Constrói URLs do Cloudinary a partir do public ID.
+// Diferentes versões: preview (leve, pro autoplay do card) + full (HD, pro lightbox) + poster (thumbnail).
+function cloudinaryUrls(publicId) {
+  if (!CLOUDINARY_CLOUD_NAME || !publicId) return null;
+  const base = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload`;
+  return {
+    preview: `${base}/q_auto:low,f_auto,w_400,c_limit/${publicId}.mp4`,
+    full:    `${base}/q_auto:good,f_auto/${publicId}.mp4`,
+    poster:  `${base}/so_1,f_jpg,q_auto,w_800/${publicId}.jpg`,
+  };
+}
+
 function getPoster(video) {
   if (video.poster) return video.poster;
+  const cld = cloudinaryUrls(video.cloudinary);
+  if (cld) return cld.poster;
   const v = parseVimeo(video.vimeo);
   if (v) return `https://vumbnail.com/${v.id}_large.jpg`;
   return null;
@@ -47,6 +62,7 @@ function distribute(arr, n) {
 }
 
 function CardPreview({ video, active }) {
+  const cld = cloudinaryUrls(video.cloudinary);
   const v = parseVimeo(video.vimeo);
   const videoRef = useRef(null);
 
@@ -63,6 +79,24 @@ function CardPreview({ video, active }) {
 
   if (!active) return null;
 
+  // Cloudinary: preview leve (~400px wide, qualidade auto:low) — economiza banda
+  if (cld) {
+    return (
+      <video
+        ref={videoRef}
+        src={cld.preview}
+        poster={cld.poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+    );
+  }
+
+  // Vimeo: iframe em background mode
   if (v) {
     const params = new URLSearchParams({
       background: '1',
@@ -84,6 +118,7 @@ function CardPreview({ video, active }) {
     );
   }
 
+  // MP4 local em /public/videos/
   return (
     <video
       ref={videoRef}
@@ -176,7 +211,25 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
 }
 
 function VideoPlayer({ video, playerClass }) {
+  const cld = cloudinaryUrls(video.cloudinary);
   const v = parseVimeo(video.vimeo);
+
+  // Cloudinary: qualidade HD pro lightbox
+  if (cld) {
+    return (
+      <video
+        key={cld.full}
+        src={cld.full}
+        poster={cld.poster}
+        controls
+        autoPlay
+        playsInline
+        className={`bg-black ${playerClass}`}
+      />
+    );
+  }
+
+  // Vimeo: iframe com controles
   if (v) {
     const params = new URLSearchParams({
       autoplay: '1',
@@ -196,6 +249,8 @@ function VideoPlayer({ video, playerClass }) {
       />
     );
   }
+
+  // MP4 local
   return (
     <video
       key={video.src}
