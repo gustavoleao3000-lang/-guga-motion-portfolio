@@ -38,10 +38,21 @@ export default function HeroSection() {
                 <span className="block text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
                   Motion design
                 </span>
-                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-                  <span className="bg-gradient-to-r from-primary via-pink-400 to-primary bg-clip-text text-transparent">
+                <span
+                  className="relative -mt-1 block text-5xl leading-[1] italic sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+                  style={{ fontFamily: "'DM Serif Display', serif", fontWeight: 400 }}
+                >
+                  <span
+                    className="animate-gradient-shimmer bg-gradient-to-r from-primary via-pink-300 via-fuchsia-200 to-primary bg-clip-text text-transparent"
+                    style={{ filter: 'drop-shadow(0 0 28px rgba(255, 0, 255, 0.4))' }}
+                  >
                     que vende.
                   </span>
+                  {/* Acento magenta decorativo */}
+                  <span
+                    aria-hidden
+                    className="absolute -left-3 top-1/2 hidden h-1 w-2 -translate-y-1/2 rounded-full bg-primary md:block"
+                  />
                 </span>
               </h1>
 
