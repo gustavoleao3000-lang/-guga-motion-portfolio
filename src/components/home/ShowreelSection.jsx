@@ -3,6 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, VolumeX } from 'lucide-react';
 import { BLOB_BASE_URL } from '../../data/videos';
 
+// Hook simples pra detectar viewport mobile
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 function parseVimeo(input) {
   if (!input) return null;
   const s = String(input);
@@ -385,8 +398,11 @@ export default function ShowreelSection({
   const [openIndex, setOpenIndex] = useState(null);
   const sectionRef = useRef(null);
   const [sectionVisible, setSectionVisible] = useState(false);
+  const isMobile = useIsMobile();
 
   const cfg = ASPECTS[aspect] || ASPECTS.story;
+  // No mobile: força 1 linha (melhor perf + menos scroll vertical)
+  const effectiveRows = isMobile ? 1 : rows;
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -409,13 +425,13 @@ export default function ShowreelSection({
     [videos.length]
   );
 
-  // Distribui em N faixas
-  const rowsList = distribute(videos, rows);
+  // Distribui em N faixas (1 no mobile)
+  const rowsList = distribute(videos, effectiveRows);
 
   // Duração base (cada faixa fica um pouquinho mais lenta pra ficar orgânico)
   // Tempo de transit por card visível (segundos). Escala linearmente com qtde de cards.
   const perCard = aspect === 'wide' ? 4 : 3;
-  const baseDuration = Math.max(28, Math.ceil(videos.length / rows) * perCard);
+  const baseDuration = Math.max(28, Math.ceil(videos.length / effectiveRows) * perCard);
 
   return (
     <section

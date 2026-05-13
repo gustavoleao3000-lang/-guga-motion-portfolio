@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
   :root {
     --font-display: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;

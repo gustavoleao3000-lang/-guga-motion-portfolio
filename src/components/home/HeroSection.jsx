@@ -60,14 +60,14 @@ export default function HeroSection() {
                 Animações e criativos que prendem atenção, vendem e te deixam com cara de marca grande.
               </p>
 
-              {/* Stats inline */}
-              <div className="mt-5 flex items-center gap-5 md:gap-7">
+              {/* Stats inline — grid no mobile pra nunca quebrar */}
+              <div className="mt-5 grid grid-cols-3 gap-3 sm:flex sm:items-center sm:gap-5 md:gap-7">
                 {QUICK_STATS.map((s) => (
-                  <div key={s.label} className="flex items-baseline gap-1.5">
-                    <span className="font-display text-xl font-black text-primary md:text-2xl">
+                  <div key={s.label} className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-baseline sm:gap-1.5">
+                    <span className="font-display text-lg font-black text-primary sm:text-xl md:text-2xl">
                       {s.value}
                     </span>
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
                       {s.label}
                     </span>
                   </div>
