@@ -58,10 +58,11 @@ function getPoster(video) {
    ASPECT RATIO CONFIG
    ============================================================ */
 
+// Alturas maiores no mobile pra dar protagonismo aos vídeos
 const SECTION_HEIGHTS = {
-  story: 'h-64 sm:h-72 md:h-[22rem] lg:h-[24rem]',
-  wide:  'h-44 sm:h-52 md:h-64 lg:h-72',
-  mixed: 'h-60 sm:h-72 md:h-80 lg:h-[22rem]',
+  story: 'h-72 sm:h-80 md:h-[22rem] lg:h-[24rem]',
+  wide:  'h-48 sm:h-56 md:h-64 lg:h-72',
+  mixed: 'h-64 sm:h-72 md:h-80 lg:h-[22rem]',
 };
 
 const DEFAULT_ASPECT = {
@@ -195,7 +196,7 @@ function ReelCard({ video, active, index, aspectRatio }) {
         <img
           src={poster}
           alt={video.title}
-          loading="lazy"
+          loading={index < 4 ? 'eager' : 'lazy'}
           decoding="async"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
           className="absolute inset-0 h-full w-full object-cover"
@@ -289,7 +290,7 @@ export default function ShowreelSection({
     <section
       id={id}
       ref={sectionRef}
-      className={`${compact ? 'pt-2 pb-8 md:pt-3 md:pb-12' : 'py-10 md:py-14'} ${withTopBorder ? 'border-t border-border/40' : ''}`}
+      className={`${compact ? 'pt-2 pb-6 md:pt-3 md:pb-12' : 'py-8 md:py-14'} ${withTopBorder ? 'border-t border-border/40' : ''}`}
     >
       <div className="mx-auto max-w-7xl px-5 md:px-12">
         <motion.div
