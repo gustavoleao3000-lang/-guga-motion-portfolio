@@ -126,7 +126,7 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
     <button
       ref={cardRef}
       onClick={onOpen}
-      className={`group relative flex-shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-card/50 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,0,255,0.5)] ${aspectClass}`}
+      className={`group relative flex-shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-card/50 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.5)] ${aspectClass}`}
       aria-label={`Abrir ${video.title}`}
     >
       {poster ? (
@@ -156,7 +156,7 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
       </div>
 
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary bg-black/60 backdrop-blur-md shadow-[0_0_24px_rgba(255,0,255,0.45)]">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary bg-black/60 backdrop-blur-md shadow-[0_0_24px_rgba(6,182,212,0.45)]">
           <Play className="h-4 w-4 translate-x-px fill-primary text-primary" />
         </div>
       </div>

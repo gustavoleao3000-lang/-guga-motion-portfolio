@@ -60,8 +60,8 @@ export default function GugaOverlay({ onClose }) {
         className="fixed z-[101] inset-0 md:inset-[22px] md:rounded-[26px] flex flex-col overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, #0a0008 0%, #0d000d 50%, #050010 100%)',
-          border: '1px solid rgba(255,0,255,0.18)',
-          boxShadow: '0 0 80px rgba(255,0,255,0.08), inset 0 0 120px rgba(255,0,255,0.03)',
+          border: '1px solid rgba(6,182,212,0.18)',
+          boxShadow: '0 0 80px rgba(6,182,212,0.08), inset 0 0 120px rgba(6,182,212,0.03)',
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -74,7 +74,7 @@ export default function GugaOverlay({ onClose }) {
             </span>
             <div className="flex items-center gap-4">
               <span className="font-mono text-xs tabular-nums"
-                style={{ color: elapsed >= TOTAL ? '#06b6d4' : '#FF00FF', textShadow: '0 0 12px currentColor' }}>
+                style={{ color: elapsed >= TOTAL ? '#67e8f9' : '#06b6d4', textShadow: '0 0 12px currentColor' }}>
                 {pad(elapsed)}s
               </span>
               <button
@@ -94,8 +94,8 @@ export default function GugaOverlay({ onClose }) {
               className="h-full rounded-full"
               style={{
                 width: `${progress}%`,
-                background: 'linear-gradient(90deg, #FF00FF, #06b6d4)',
-                boxShadow: '0 0 8px rgba(255,0,255,0.5)',
+                background: 'linear-gradient(90deg, #06b6d4, #67e8f9)',
+                boxShadow: '0 0 8px rgba(6,182,212,0.5)',
                 transition: 'width 0.9s linear',
               }}
             />
@@ -108,7 +108,7 @@ export default function GugaOverlay({ onClose }) {
           <div className="mb-8 md:mb-10">
             <h2 className="font-display font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-white">
               Quer saber quem vai dar{' '}
-              <span style={{ color: '#FF00FF', textShadow: '0 0 30px rgba(255,0,255,0.3)' }}>
+              <span style={{ color: '#06b6d4', textShadow: '0 0 30px rgba(6,182,212,0.3)' }}>
                 movimento à sua ideia?
               </span>
             </h2>
@@ -130,7 +130,7 @@ export default function GugaOverlay({ onClose }) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4">
                 <p className="font-display font-bold text-base text-white">Gustavo Leão</p>
-                <p className="font-mono text-xs mt-0.5" style={{ color: '#06b6d4' }}>Motion Designer</p>
+                <p className="font-mono text-xs mt-0.5" style={{ color: '#67e8f9' }}>Motion Designer</p>
               </div>
             </div>
 
@@ -146,7 +146,7 @@ export default function GugaOverlay({ onClose }) {
                   <div
                     key={value}
                     className="flex flex-col items-center text-center p-3 rounded-lg"
-                    style={{ background: 'rgba(255,0,255,0.05)', border: '1px solid rgba(255,0,255,0.12)' }}
+                    style={{ background: 'rgba(6,182,212,0.05)', border: '1px solid rgba(6,182,212,0.12)' }}
                   >
                     <span className="font-display font-black text-xl md:text-2xl text-white">{value}</span>
                     <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-white/40 mt-1 leading-tight">{label}</span>
@@ -160,7 +160,7 @@ export default function GugaOverlay({ onClose }) {
                   <span
                     key={chip}
                     className="font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full"
-                    style={{ border: '1px solid rgba(255,0,255,0.25)', color: 'rgba(255,0,255,0.7)', background: 'rgba(255,0,255,0.05)' }}
+                    style={{ border: '1px solid rgba(6,182,212,0.25)', color: 'rgba(6,182,212,0.7)', background: 'rgba(6,182,212,0.05)' }}
                   >
                     {chip}
                   </span>
@@ -175,7 +175,7 @@ export default function GugaOverlay({ onClose }) {
               href="#showreel"
               onClick={onClose}
               className="flex-1 text-center font-mono text-xs uppercase tracking-widest px-6 py-4 rounded-xl font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #FF00FF, #cc00cc)', boxShadow: '0 0 24px rgba(255,0,255,0.25)' }}
+              style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', boxShadow: '0 0 24px rgba(6,182,212,0.25)' }}
             >
               Ver trabalhos
             </a>

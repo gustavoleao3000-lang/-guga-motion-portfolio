@@ -15,7 +15,7 @@
     --card-foreground: 0 0% 99.2%;
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 99.2%;
-    --primary: 305 100% 50%;
+    --primary: 189 94% 43%;
     --primary-foreground: 0 0% 99.2%;
     --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 99.2%;
@@ -27,7 +27,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14%;
     --input: 0 0% 14%;
-    --ring: 305 100% 50%;
+    --ring: 189 94% 43%;
     --radius: 0.75rem;
   }
 }
@@ -40,7 +40,7 @@
     @apply bg-background text-foreground;
     position: relative;
   }
-  /* Grão de filme + glow magenta sutil ao fundo */
+  /* Grão de filme + glow ciano sutil ao fundo */
   body::before {
     content: '';
     position: fixed;
@@ -48,8 +48,8 @@
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(305 100% 50% / 0.10), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(305 100% 50% / 0.06), transparent 60%);
+      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(189 94% 50% / 0.12), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(189 94% 50% / 0.08), transparent 60%);
   }
   body::after {
     content: '';
@@ -80,12 +80,12 @@
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(305 100% 50%);
+  background: hsl(189 94% 43%);
 }
 
 /* Selection */
 ::selection {
-  background: hsl(305 100% 50% / 0.3);
+  background: hsl(189 94% 43% / 0.3);
   color: hsl(0 0% 99.2%);
 }
 
