@@ -74,24 +74,32 @@ const DEFAULT_ASPECT = {
   mixed: '9/16',
 };
 
-// Layout do player no lightbox baseado no aspectRatio do vídeo
+// Layout do player no lightbox baseado no aspectRatio do vídeo.
+// Suporta qualquer ratio (4/5, 9/10, 3/4, etc.) usando CSS style dinâmico.
 function getLightboxLayout(aspectRatio) {
-  if (aspectRatio === '16/9' || aspectRatio === '16 / 9') {
+  // Tenta parsear o ratio. Se falhar, usa 9/16.
+  const parts = String(aspectRatio).split('/').map((s) => parseFloat(s.trim()));
+  const w = parts[0] || 9;
+  const h = parts[1] || 16;
+  const isWide = w / h >= 1.3; // 16/9 (1.78), 4/3 (1.33) — horizontal
+
+  if (isWide) {
     return {
       container: 'w-full max-w-6xl',
-      player: 'aspect-video w-full',
+      playerStyle: { aspectRatio: `${w}/${h}` },
+      playerClass: 'w-full',
     };
   }
-  if (aspectRatio === '1/1' || aspectRatio === '1 / 1') {
-    return {
-      container: 'flex max-h-[88vh] flex-col items-center',
-      player: 'aspect-square h-[78vh] max-h-[78vh] w-auto max-w-[92vw]',
-    };
-  }
-  // 9/16 padrão
+  // Vertical ou quase-quadrado: centraliza, limita altura
   return {
     container: 'flex max-h-[88vh] flex-col items-center',
-    player: 'aspect-[9/16] h-[82vh] max-h-[82vh] w-auto',
+    playerStyle: {
+      aspectRatio: `${w}/${h}`,
+      height: '82vh',
+      maxHeight: '82vh',
+      maxWidth: '92vw',
+    },
+    playerClass: 'w-auto',
   };
 }
 
@@ -275,13 +283,12 @@ function ReelCard({ video, onOpen, active, index, aspectRatio }) {
    VIDEO PLAYER (no lightbox, com som e controles)
    ============================================================ */
 
-function VideoPlayer({ video, playerClass }) {
+function VideoPlayer({ video, playerClass, playerStyle }) {
   const blob = blobUrls(video.blob);
   const v = parseVimeo(video.vimeo);
 
-  // Decide object-fit: se o vídeo tem aspectRatio explícito,
-  // o container já bate com ele → cover é seguro.
-  // Sem aspectRatio explícito, contain pra preservar conteúdo inteiro.
+  // object-fit: se aspectRatio explícito, container bate com vídeo → cover é seguro.
+  // Sem aspectRatio, contain preserva conteúdo inteiro.
   const fitClass = video.aspectRatio ? 'object-cover' : 'object-contain';
 
   if (blob) {
@@ -294,6 +301,7 @@ function VideoPlayer({ video, playerClass }) {
         autoPlay
         playsInline
         preload="metadata"
+        style={playerStyle}
         className={`bg-black ${fitClass} ${playerClass}`}
       />
     );
@@ -311,6 +319,7 @@ function VideoPlayer({ video, playerClass }) {
     return (
       <iframe
         src={`https://player.vimeo.com/video/${v.id}?${params.toString()}`}
+        style={playerStyle}
         className={`bg-black ${playerClass}`}
         allow="autoplay; fullscreen; picture-in-picture"
         allowFullScreen
@@ -328,6 +337,7 @@ function VideoPlayer({ video, playerClass }) {
       autoPlay
       playsInline
       preload="metadata"
+      style={playerStyle}
       className={`bg-black ${fitClass} ${playerClass}`}
     />
   );
@@ -393,7 +403,11 @@ function Lightbox({ videos, index, onClose, onPrev, onNext, sectionAspect }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-primary/10">
-          <VideoPlayer video={video} playerClass={layout.player} />
+          <VideoPlayer
+            video={video}
+            playerClass={layout.playerClass}
+            playerStyle={layout.playerStyle}
+          />
         </div>
         <div className="mt-4 flex w-full items-center justify-between gap-4 px-1">
           <div className="min-w-0">
