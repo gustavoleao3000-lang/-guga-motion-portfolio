@@ -39,16 +39,15 @@ export default function HeroSection() {
                   Motion design
                 </span>
                 <span
-                  className="relative -mt-1 block text-5xl leading-[1] italic sm:text-6xl md:text-7xl lg:text-[5.5rem]"
-                  style={{ fontFamily: "'DM Serif Display', serif", fontWeight: 400 }}
+                  className="relative -mt-1 block text-5xl leading-[1] italic text-primary sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+                  style={{
+                    fontFamily: "'DM Serif Display', serif",
+                    fontWeight: 400,
+                    filter: 'drop-shadow(0 0 28px rgba(255, 43, 43, 0.5))',
+                  }}
                 >
-                  <span
-                    className="animate-gradient-shimmer bg-gradient-to-r from-primary via-pink-300 via-fuchsia-200 to-primary bg-clip-text text-transparent"
-                    style={{ filter: 'drop-shadow(0 0 28px rgba(255, 0, 255, 0.4))' }}
-                  >
-                    que vende.
-                  </span>
-                  {/* Acento magenta decorativo */}
+                  que vende.
+                  {/* Acento vermelho decorativo */}
                   <span
                     aria-hidden
                     className="absolute -left-3 top-1/2 hidden h-1 w-2 -translate-y-1/2 rounded-full bg-primary md:block"
@@ -84,7 +83,7 @@ export default function HeroSection() {
             >
               <button
                 onClick={() => setOverlayOpen(true)}
-                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-primary/60 bg-black/40 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 hover:shadow-[0_0_20px_rgba(255,0,255,0.25)]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-primary/60 bg-black/40 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 hover:shadow-[0_0_20px_rgba(255,43,43,0.3)]"
               >
                 <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border border-primary/60 transition-colors group-hover:border-primary">
                   <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" className="translate-x-px">

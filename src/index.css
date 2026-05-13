@@ -13,25 +13,26 @@
     --font-display: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    --background: 0 0% 5%;
-    --foreground: 0 0% 99.2%;
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 99.2%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 99.2%;
-    --primary: 305 100% 50%;
-    --primary-foreground: 0 0% 99.2%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 99.2%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 55%;
-    --accent: 225 100% 59%;
-    --accent-foreground: 0 0% 99.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14%;
+    /* Paleta urbana: preto profundo + vermelho energético + ciano detalhe */
+    --background: 0 0% 2%;        /* #050505 */
+    --foreground: 0 0% 96%;       /* #F5F5F5 */
+    --card: 0 0% 7%;              /* #111111 */
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 2%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 0 100% 58%;        /* #FF2B2B vermelho principal */
+    --primary-foreground: 0 0% 96%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 65%; /* #A7A7A7 */
+    --accent: 176 100% 42%;       /* #00D6C9 ciano accent (uso pontual) */
+    --accent-foreground: 0 0% 96%;
+    --destructive: 359 80% 39%;   /* #B31217 vermelho profundo */
+    --destructive-foreground: 0 0% 96%;
+    --border: 0 0% 14%;           /* #242424 */
     --input: 0 0% 14%;
-    --ring: 305 100% 50%;
+    --ring: 0 100% 58%;
     --radius: 0.75rem;
   }
 }
@@ -44,7 +45,7 @@
     @apply bg-background text-foreground;
     position: relative;
   }
-  /* Grão de filme + glow magenta sutil ao fundo */
+  /* Grão de filme + glow vermelho sutil ao fundo */
   body::before {
     content: '';
     position: fixed;
@@ -52,8 +53,8 @@
     pointer-events: none;
     z-index: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(305 100% 50% / 0.10), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(305 100% 50% / 0.06), transparent 60%);
+      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(0 100% 58% / 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(0 100% 58% / 0.05), transparent 60%);
   }
   body::after {
     content: '';
@@ -84,13 +85,13 @@
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(305 100% 50%);
+  background: hsl(0 100% 58%);
 }
 
 /* Selection */
 ::selection {
-  background: hsl(305 100% 50% / 0.3);
-  color: hsl(0 0% 99.2%);
+  background: hsl(0 100% 58% / 0.3);
+  color: hsl(0 0% 96%);
 }
 
 /* Gradient shimmer pro título do hero */
