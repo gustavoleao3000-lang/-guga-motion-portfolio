@@ -6,7 +6,7 @@ import ProcessSection from '../components/home/ProcessSection';
 import PackagesSection from '../components/home/PackagesSection';
 import FAQSection from '../components/home/FAQSection';
 import CTASection from '../components/home/CTASection';
-import { VIDEOS, WIDESCREEN_VIDEOS, MIXED_VIDEOS } from '../data/videos';
+import { VIDEOS, WIDESCREEN_VIDEOS, MIXED_VIDEOS, NOVOS_VIDEOS } from '../data/videos';
 
 export default function Home() {
   return (
@@ -40,15 +40,33 @@ export default function Home() {
         subtitle="Brand films, edições longas e peças horizontais"
       />
 
-      {/* 3ª faixa — só aparece se tiver vídeos na galeria mista */}
+      {/* Faixa NOVA — mesma cara das outras (2 linhas, com título, com borda) */}
+      {NOVOS_VIDEOS.length > 0 && (
+        <ShowreelSection
+          id="novidades"
+          videos={NOVOS_VIDEOS}
+          aspect="mixed"
+          direction="left"
+          eyebrow="Novidades"
+          rows={2}
+          title={
+            <>
+              Trabalhos<br className="hidden md:block" />
+              <span className="text-primary"> recentes.</span>
+            </>
+          }
+          subtitle="Os drops mais novos saindo do forno"
+        />
+      )}
+
       {MIXED_VIDEOS.length > 0 && (
         <ShowreelSection
           id="mix"
           videos={MIXED_VIDEOS}
           aspect="mixed"
-          direction="left"
+          direction="right"
           eyebrow="Mix"
-          rows={1}
+          rows={2}
           title={
             <>
               Mistura de<br className="hidden md:block" />

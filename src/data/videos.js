@@ -19,17 +19,18 @@ export const BLOB_BASE_URL = 'https://pub-c3e36dd02e914afb99967a0962723319.r2.de
 /* ============================================================
    STORIES — formato vertical predominante (9:16)
    ============================================================ */
-// Números dos vídeos MOTION subidos no bucket (arquivos: "MOTION N.mp4")
+// Números dos vídeos MOTION (faixa Stories). Tirei os 15 mais novos pra Novidades.
 const MOTION_NUMBERS = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-  11, 12, 13, 14, 15, 17, 18, 19,
-  20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+  1, 2, 3, 4, 5,
+  11, 12, 13, 14, 15,
+  19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
   30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
   40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-  50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+  50, 51, 52, 53, 54, 55, 56,
+  58, 59,
   60, 61, 62, 63, 64, 65, 66, 67, 68, 69,
-  70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
-  80, 81, 82, 83, 84, 85,
+  70, 71, 72, 73, 74, 76, 77, 78,
+  85,
 ];
 
 export const VIDEOS = MOTION_NUMBERS.map((n) => ({
@@ -50,6 +51,20 @@ export const WIDESCREEN_VIDEOS = ARQUIVO_NUMBERS.map((n) => ({
   category: 'Brand Film',
   aspectRatio: '16/9',
   blob: `Arquivo ${n}`,
+}));
+
+/* ============================================================
+   NOVIDADES — vídeos recém-saídos do forno
+   ============================================================ */
+// Trabalhos mais recentes. Aparece como faixa separada na home (acima do Mix).
+// Pode misturar formatos — cada um respeita seu aspectRatio.
+const NOVOS_NUMBERS = [6, 7, 8, 9, 10, 17, 18, 57, 75, 79, 80, 81, 82, 83, 84];
+
+export const NOVOS_VIDEOS = NOVOS_NUMBERS.map((n) => ({
+  title: `Motion ${n}`,
+  category: 'Novo',
+  aspectRatio: '9/16',
+  blob: `MOTION ${n}`,
 }));
 
 /* ============================================================
