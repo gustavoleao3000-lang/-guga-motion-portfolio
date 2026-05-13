@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, VolumeX } from 'lucide-react';
-import { CLOUDINARY_CLOUD_NAME } from '../../data/videos';
+import { BLOB_BASE_URL } from '../../data/videos';
 
 function parseVimeo(input) {
   if (!input) return null;
@@ -18,22 +18,22 @@ function parseVimeo(input) {
   return { id, hash };
 }
 
-// Constrói URLs do Cloudinary a partir do public ID.
-// Diferentes versões: preview (leve, pro autoplay do card) + full (HD, pro lightbox) + poster (thumbnail).
-function cloudinaryUrls(publicId) {
-  if (!CLOUDINARY_CLOUD_NAME || !publicId) return null;
-  const base = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/video/upload`;
+// Constrói URLs do bucket Blob Storage (R2/S3/etc) a partir do path do arquivo.
+// Espera que .mp4 e .jpg estejam com o mesmo nome no bucket.
+function blobUrls(path) {
+  if (!BLOB_BASE_URL || !path) return null;
+  const base = BLOB_BASE_URL.replace(/\/$/, '');
+  const clean = path.replace(/^\//, '').replace(/\.(mp4|webm|mov|jpg|jpeg|png)$/i, '');
   return {
-    preview: `${base}/q_auto:low,f_auto,w_400,c_limit/${publicId}.mp4`,
-    full:    `${base}/q_auto:good,f_auto/${publicId}.mp4`,
-    poster:  `${base}/so_1,f_jpg,q_auto,w_800/${publicId}.jpg`,
+    video:  `${base}/${clean}.mp4`,
+    poster: `${base}/${clean}.jpg`,
   };
 }
 
 function getPoster(video) {
   if (video.poster) return video.poster;
-  const cld = cloudinaryUrls(video.cloudinary);
-  if (cld) return cld.poster;
+  const blob = blobUrls(video.blob);
+  if (blob) return blob.poster;
   const v = parseVimeo(video.vimeo);
   if (v) return `https://vumbnail.com/${v.id}_large.jpg`;
   return null;
@@ -62,7 +62,7 @@ function distribute(arr, n) {
 }
 
 function CardPreview({ video, active }) {
-  const cld = cloudinaryUrls(video.cloudinary);
+  const blob = blobUrls(video.blob);
   const v = parseVimeo(video.vimeo);
   const videoRef = useRef(null);
 
@@ -79,13 +79,13 @@ function CardPreview({ video, active }) {
 
   if (!active) return null;
 
-  // Cloudinary: preview leve (~400px wide, qualidade auto:low) — economiza banda
-  if (cld) {
+  // Blob Storage (R2/S3): toca o .mp4 do bucket público
+  if (blob) {
     return (
       <video
         ref={videoRef}
-        src={cld.preview}
-        poster={cld.poster}
+        src={blob.video}
+        poster={blob.poster}
         autoPlay
         muted
         loop
@@ -211,16 +211,16 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
 }
 
 function VideoPlayer({ video, playerClass }) {
-  const cld = cloudinaryUrls(video.cloudinary);
+  const blob = blobUrls(video.blob);
   const v = parseVimeo(video.vimeo);
 
-  // Cloudinary: qualidade HD pro lightbox
-  if (cld) {
+  // Blob Storage: vídeo HD direto do bucket
+  if (blob) {
     return (
       <video
-        key={cld.full}
-        src={cld.full}
-        poster={cld.poster}
+        key={blob.video}
+        src={blob.video}
+        poster={blob.poster}
         controls
         autoPlay
         playsInline

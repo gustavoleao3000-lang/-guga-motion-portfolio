@@ -1,22 +1,24 @@
 // Listas de vídeos do showreel.
 //
-// 3 formas de hospedar (pode misturar):
+// 3 formas de hospedar (pode misturar à vontade):
 //
-// 1) CLOUDINARY (recomendado — sem Vimeo, hospedagem própria, CDN rápido)
-//    a) Cadastre grátis em https://cloudinary.com (25GB storage + 25GB banda/mês)
-//    b) Pegue o "Cloud Name" no dashboard e cole abaixo
-//    c) Suba o vídeo pelo dashboard (drag-drop) → copia o "Public ID"
-//       Ex: se subiu como "showreel/motion-2", o public ID é exatamente isso
-//    d) Adiciona uma entrada: { title: 'X', tag: 'Y', cloudinary: 'showreel/motion-2' }
+// 1) BLOB STORAGE — Cloudflare R2 (recomendado: 10GB + banda ilimitada GRÁTIS)
+//    a) Cadastre em https://dash.cloudflare.com (cria conta + ativa R2)
+//    b) Cria um bucket (ex: 'guga-showreel') e libera acesso público
+//    c) Sobe o .mp4 E o .jpg (capa) pro bucket — mesmo nome, ex:
+//       motion-1.mp4 + motion-1.jpg
+//    d) Pega a URL pública do bucket (pub-xxxxxxx.r2.dev) e cola abaixo
+//    e) Usa entrada: { title: 'X', blob: 'motion-1' }
 //
-// 2) VIMEO (atual — funciona, mas tem branding e limite na conta free)
+// 2) VIMEO (funciona, mas tem branding e limites)
 //    { title: 'X', tag: 'Y', vimeo: '123456789' }
 //
-// 3) MP4 LOCAL em /public/videos/
+// 3) MP4 LOCAL em /public/videos/ (não recomendado pra muitos vídeos)
 //    { title: 'X', tag: 'Y', src: '/videos/x.mp4', poster: '/videos/x.jpg' }
 
-// 👇 Cole seu Cloud Name aqui depois de cadastrar (deixe '' enquanto não tiver):
-export const CLOUDINARY_CLOUD_NAME = '';
+// 👇 URL base do seu bucket R2 (sem barra no fim). Deixe vazio se não usar.
+// Ex: 'https://pub-abc123def456.r2.dev'  ou  'https://videos.gugamotion.com'
+export const BLOB_BASE_URL = '';
 
 // ===== STORIES (formato vertical 9:16) =====
 export const VIDEOS = [
@@ -27,8 +29,8 @@ export const VIDEOS = [
   { title: 'Motion 52', tag: 'Motion', vimeo: '1191694192' },
   { title: 'Motion 55', tag: 'Motion', vimeo: '1191694230' },
   { title: 'Motion 85', tag: 'Motion', vimeo: '1191693403' },
-  // Exemplo Cloudinary (descomenta quando tiver subido):
-  // { title: 'Reel novo', tag: 'Motion', cloudinary: 'showreel/reel-novo' },
+  // Exemplo R2 (descomenta quando tiver subido pro bucket):
+  // { title: 'Reel novo', tag: 'Motion', blob: 'showreel/reel-novo' },
 ];
 
 // ===== WIDESCREEN (formato horizontal 16:9) =====
