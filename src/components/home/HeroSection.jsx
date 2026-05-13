@@ -39,10 +39,10 @@ export default function HeroSection() {
                     className="h-11 w-11 rounded-full border-2 border-primary/40 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/70"
                     style={{ objectPosition: 'center 15%' }}
                   />
-                  {/* Indicador online */}
+                  {/* Indicador online — verde = "disponível" universal */}
                   <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60 opacity-75" />
-                    <span className="relative inline-flex h-3 w-3 rounded-full bg-primary ring-2 ring-background" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366]/60 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-[#25D366] ring-2 ring-background" />
                   </span>
                 </div>
                 <div className="text-left">
@@ -52,12 +52,12 @@ export default function HeroSection() {
                       aka Guga
                     </span>
                   </p>
-                  <p className="mt-0.5 flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
-                    Motion designer
+                  <p className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-mono text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
+                    <span>Motion designer</span>
                     <span className="text-border">·</span>
-                    Goiânia, BR
-                    <span className="text-border">·</span>
-                    <span className="text-primary/80">Disponível</span>
+                    <span>Goiânia</span>
+                    <span className="hidden text-border sm:inline">·</span>
+                    <span className="hidden text-primary sm:inline">Disponível</span>
                   </p>
                 </div>
               </button>
