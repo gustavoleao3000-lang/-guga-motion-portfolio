@@ -66,14 +66,14 @@ function PackageCard({ pkg, index }) {
       transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className={`relative flex flex-col rounded-2xl p-6 md:p-8 transition-all duration-300 ${
         isFeatured
-          ? 'border border-primary/60 bg-gradient-to-br from-primary/[0.08] via-card to-card shadow-[0_0_30px_-5px_rgba(6,182,212,0.3)] md:-mt-4 md:pb-10'
+          ? 'border border-primary/60 bg-gradient-to-br from-primary/[0.08] via-card to-card shadow-[0_0_30px_-5px_rgba(255,0,255,0.3)] md:-mt-4 md:pb-10'
           : 'border border-border/50 bg-card/50 hover:border-primary/40 hover:bg-card'
       }`}
     >
       {/* Badge "Mais escolhido" */}
       {isFeatured && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-primary shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-primary shadow-[0_0_20px_rgba(255,0,255,0.4)]">
             <Sparkles className="h-3 w-3 fill-primary" />
             Mais escolhido
           </span>
@@ -133,7 +133,7 @@ function PackageCard({ pkg, index }) {
         rel="noopener noreferrer"
         className={`group/cta inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 ${
           isFeatured
-            ? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(6,182,212,0.5)]'
+            ? 'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(255,0,255,0.5)]'
             : 'border border-primary/40 bg-primary/5 text-primary hover:border-primary hover:bg-primary/15'
         }`}
       >

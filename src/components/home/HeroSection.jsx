@@ -43,8 +43,8 @@ export default function HeroSection() {
                   style={{ fontFamily: "'DM Serif Display', serif", fontWeight: 400 }}
                 >
                   <span
-                    className="animate-gradient-shimmer bg-gradient-to-r from-primary via-cyan-200 via-sky-100 to-primary bg-clip-text text-transparent"
-                    style={{ filter: 'drop-shadow(0 0 28px rgba(6, 182, 212, 0.5))' }}
+                    className="animate-gradient-shimmer bg-gradient-to-r from-primary via-pink-300 via-fuchsia-200 to-primary bg-clip-text text-transparent"
+                    style={{ filter: 'drop-shadow(0 0 28px rgba(255, 0, 255, 0.4))' }}
                   >
                     que vende.
                   </span>
@@ -84,7 +84,7 @@ export default function HeroSection() {
             >
               <button
                 onClick={() => setOverlayOpen(true)}
-                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-primary/60 bg-black/40 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-primary/60 bg-black/40 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 hover:shadow-[0_0_20px_rgba(255,0,255,0.25)]"
               >
                 <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border border-primary/60 transition-colors group-hover:border-primary">
                   <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" className="translate-x-px">
