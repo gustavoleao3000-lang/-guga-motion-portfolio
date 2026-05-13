@@ -216,7 +216,7 @@ function ReelCard({ video, onOpen, active, index, aspectRatio }) {
       ref={cardRef}
       onClick={onOpen}
       style={{ aspectRatio }}
-      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,43,43,0.55)]"
+      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.55)]"
       aria-label={`Abrir ${video.title}`}
     >
       {/* Gradient sempre presente como fallback (caso poster não exista/carregue) */}
@@ -251,7 +251,7 @@ function ReelCard({ video, onOpen, active, index, aspectRatio }) {
 
       {/* Play button (hover desktop / sempre opaco no mobile) */}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-70 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary bg-black/60 backdrop-blur-md shadow-[0_0_24px_rgba(255,43,43,0.55)]">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary bg-black/60 backdrop-blur-md shadow-[0_0_24px_rgba(255,255,255,0.55)]">
           <Play className="h-4 w-4 translate-x-px fill-primary text-primary" />
         </div>
       </div>
@@ -262,7 +262,7 @@ function ReelCard({ video, onOpen, active, index, aspectRatio }) {
           {video.title}
         </p>
         {(video.category || video.tag) && (
-          <p className="mt-0.5 truncate font-mono text-[9px] uppercase tracking-widest text-[#00D6C9]/80">
+          <p className="mt-0.5 truncate font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80">
             {video.category || video.tag}
           </p>
         )}
@@ -401,7 +401,7 @@ function Lightbox({ videos, index, onClose, onPrev, onNext, sectionAspect }) {
               {video.title}
             </p>
             {(video.category || video.tag) && (
-              <p className="font-mono text-[10px] uppercase tracking-widest text-[#00D6C9]/80">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
                 {video.category || video.tag}
               </p>
             )}
@@ -512,7 +512,7 @@ export default function ShowreelSection({
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
               {eyebrow}
             </span>
-            <span className="block h-px flex-1 max-w-[80px] bg-[#00D6C9]/30" />
+            <span className="block h-px flex-1 max-w-[80px] bg-muted-foreground/30" />
           </div>
           {title && (
             <h2

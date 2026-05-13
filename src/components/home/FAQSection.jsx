@@ -128,7 +128,7 @@ export default function FAQSection() {
             href="https://wa.me/5562998744360?text=Oi%20Guga%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20teu%20trabalho."
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary underline-offset-4 transition-colors hover:underline"
+            className="text-[#25D366] underline-offset-4 transition-colors hover:underline"
           >
             Manda no WhatsApp →
           </a>

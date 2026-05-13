@@ -53,10 +53,19 @@ export const WIDESCREEN_VIDEOS = ARQUIVO_NUMBERS.map((n) => ({
 }));
 
 /* ============================================================
-   MIXED — galeria com formatos misturados (1:1, 9:16, 16:9)
+   MIX — galeria com formatos misturados (1:1, 9:16, 16:9)
    ============================================================ */
-// Use essa lista pra um showreel "masonry-style" onde cada vídeo respeita
-// seu próprio formato. Cada entrada deve ter `aspectRatio` explícito.
-// Adicione vídeos quadrados aqui:
-//   { title: 'X', category: 'Y', aspectRatio: '1/1', blob: 'square/x' }
+// A faixa "Mix" só aparece na home se tiver pelo menos 1 vídeo aqui.
+// Cada vídeo DEVE ter `aspectRatio` explícito porque a faixa aceita formatos misturados.
+//
+// Exemplos (descomenta e edita):
+//
+// export const MIXED_VIDEOS = [
+//   // Vídeo quadrado:
+//   { title: 'Logo Animada',  category: 'Branding',  aspectRatio: '1/1',  blob: 'SQ-LOGO-1' },
+//   // Vídeo vertical:
+//   { title: 'Reel Cliente',  category: 'Reels',     aspectRatio: '9/16', blob: 'MIX-REEL-1' },
+//   // Vídeo horizontal:
+//   { title: 'Brand Film X',  category: 'Brand',     aspectRatio: '16/9', blob: 'MIX-WIDE-1' },
+// ];
 export const MIXED_VIDEOS = [];

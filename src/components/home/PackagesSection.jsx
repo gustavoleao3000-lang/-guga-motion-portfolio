@@ -110,14 +110,14 @@ function PackageCard({ pkg, index }) {
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       className={`relative flex flex-col rounded-2xl p-6 transition-all duration-300 md:p-8 ${
         isFeatured
-          ? 'border border-primary/70 bg-gradient-to-b from-primary/[0.07] via-card to-card shadow-[0_0_40px_-12px_rgba(255,43,43,0.45)] md:-mt-3 md:pb-10'
+          ? 'border border-primary/70 bg-gradient-to-b from-primary/[0.07] via-card to-card shadow-[0_0_40px_-12px_rgba(255,255,255,0.45)] md:-mt-3 md:pb-10'
           : 'border border-border bg-card/60 hover:border-primary/40 hover:bg-card'
       }`}
     >
       {/* Badge "Mais escolhido" */}
       {isFeatured && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-primary shadow-[0_0_20px_rgba(255,43,43,0.5)]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-primary shadow-[0_0_20px_rgba(255,255,255,0.5)]">
             <Sparkles className="h-3 w-3 fill-primary" />
             Mais escolhido
           </span>
@@ -128,8 +128,8 @@ function PackageCard({ pkg, index }) {
       <div className="mb-5">
         <p className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest">
           {/* Detalhe ciano sutil */}
-          <span className="inline-block h-1 w-1 rounded-full bg-[#00D6C9]" />
-          <span className={isFeatured ? 'text-primary' : 'text-[#00D6C9]/80'}>
+          <span className="inline-block h-1 w-1 rounded-full bg-muted-foreground" />
+          <span className={isFeatured ? 'text-primary' : 'text-muted-foreground/80'}>
             {pkg.eyebrow}
           </span>
         </p>
@@ -149,11 +149,11 @@ function PackageCard({ pkg, index }) {
           <li key={f} className="flex items-start gap-2.5">
             <span
               className={`mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full ${
-                isFeatured ? 'bg-primary/25' : 'bg-[#00D6C9]/15'
+                isFeatured ? 'bg-primary/25' : 'bg-muted-foreground/15'
               }`}
             >
               <Check
-                className={`h-2.5 w-2.5 ${isFeatured ? 'text-primary' : 'text-[#00D6C9]'}`}
+                className={`h-2.5 w-2.5 ${isFeatured ? 'text-primary' : 'text-muted-foreground'}`}
                 strokeWidth={3}
               />
             </span>
@@ -176,8 +176,8 @@ function PackageCard({ pkg, index }) {
         rel="noopener noreferrer"
         className={`group/cta inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 font-mono text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 ${
           isFeatured
-            ? 'bg-primary text-primary-foreground hover:bg-[#FF5E5E] hover:shadow-[0_0_28px_rgba(255,43,43,0.6)]'
-            : 'border border-border bg-background/40 text-foreground hover:border-primary hover:text-primary'
+            ? 'bg-[#25D366] text-white hover:bg-[#1FB558] hover:shadow-[0_0_28px_rgba(37,211,102,0.5)]'
+            : 'border border-[#25D366]/40 bg-[#25D366]/5 text-[#25D366] hover:border-[#25D366] hover:bg-[#25D366]/15'
         }`}
       >
         {pkg.cta}
@@ -205,7 +205,7 @@ export default function PackagesSection() {
               Packs
             </span>
             {/* Marcador ciano discreto */}
-            <span className="block h-px flex-1 max-w-[60px] bg-[#00D6C9]/30" />
+            <span className="block h-px flex-1 max-w-[60px] bg-muted-foreground/30" />
           </div>
           <h2 className="font-display text-3xl font-black leading-[1.05] tracking-tight md:text-5xl">
             Packs pra colocar sua marca<br className="hidden md:block" />
@@ -235,14 +235,14 @@ export default function PackagesSection() {
             href={`https://wa.me/${WHATSAPP}?text=Oi%20Guga%2C%20quero%20um%20or%C3%A7amento.`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-primary px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#FF5E5E] hover:shadow-[0_0_32px_rgba(255,43,43,0.55)] sm:w-auto"
+            className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1FB558] hover:shadow-[0_0_32px_rgba(37,211,102,0.5)] sm:w-auto"
           >
             Pedir orçamento
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <a
             href="#showreel"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition-all duration-300 hover:border-[#00D6C9]/50 hover:text-[#00D6C9] sm:w-auto"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition-all duration-300 hover:border-foreground/50 hover:bg-card sm:w-auto"
           >
             <Play className="h-3 w-3 fill-current" />
             Ver trabalhos

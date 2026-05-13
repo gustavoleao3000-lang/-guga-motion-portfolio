@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import GugaOverlay from './GugaOverlay';
 
+const FOTO_URL = 'https://media.base44.com/images/public/69c67984fa1d361ff818abe5/fbbd09a48_Imagem1gerada.png';
+
 const QUICK_STATS = [
   { value: '50+', label: 'projetos' },
   { value: '3+', label: 'anos' },
@@ -24,15 +26,41 @@ export default function HeroSection() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="min-w-0 flex-1"
             >
-              <div className="mb-3 flex items-center gap-2.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-primary/80">
-                  Disponível para novos projetos · Goiânia, BR
-                </span>
-              </div>
+              {/* Card pessoal — foto + nome + disponibilidade. Click abre overlay completo */}
+              <button
+                onClick={() => setOverlayOpen(true)}
+                className="group -ml-2 mb-4 inline-flex items-center gap-3 rounded-2xl px-2 py-1.5 transition-all hover:bg-card/40"
+                aria-label="Saber mais sobre o Guga"
+              >
+                <div className="relative flex-shrink-0">
+                  <img
+                    src={FOTO_URL}
+                    alt="Gustavo Leão"
+                    className="h-11 w-11 rounded-full border-2 border-primary/40 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/70"
+                    style={{ objectPosition: 'center 15%' }}
+                  />
+                  {/* Indicador online */}
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/60 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-primary ring-2 ring-background" />
+                  </span>
+                </div>
+                <div className="text-left">
+                  <p className="font-display text-sm font-bold leading-tight tracking-tight text-foreground sm:text-base">
+                    Gustavo Leão
+                    <span className="ml-1.5 font-mono text-[10px] font-normal uppercase tracking-widest text-primary/80">
+                      aka Guga
+                    </span>
+                  </p>
+                  <p className="mt-0.5 flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
+                    Motion designer
+                    <span className="text-border">·</span>
+                    Goiânia, BR
+                    <span className="text-border">·</span>
+                    <span className="text-primary/80">Disponível</span>
+                  </p>
+                </div>
+              </button>
 
               <h1 className="font-display font-black leading-[0.92] tracking-tight">
                 <span className="block text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
@@ -43,7 +71,7 @@ export default function HeroSection() {
                   style={{
                     fontFamily: "'DM Serif Display', serif",
                     fontWeight: 400,
-                    filter: 'drop-shadow(0 0 28px rgba(255, 43, 43, 0.5))',
+                    filter: 'drop-shadow(0 0 28px rgba(255, 255, 255, 0.3))',
                   }}
                 >
                   que vende.
@@ -83,7 +111,7 @@ export default function HeroSection() {
             >
               <button
                 onClick={() => setOverlayOpen(true)}
-                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-primary/60 bg-black/40 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 hover:shadow-[0_0_20px_rgba(255,43,43,0.3)]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-primary/60 bg-black/40 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:bg-primary/15 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
               >
                 <span className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border border-primary/60 transition-colors group-hover:border-primary">
                   <svg width="7" height="8" viewBox="0 0 7 8" fill="currentColor" className="translate-x-px">

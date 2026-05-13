@@ -21,7 +21,7 @@ export default function CTASection() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="relative rounded-3xl overflow-hidden border border-primary/20 px-7 py-14 md:px-14 md:py-18 text-center"
           style={{
-            background: 'linear-gradient(135deg, hsl(0 0% 5%) 0%, hsl(0 50% 8%) 50%, hsl(0 0% 3%) 100%)',
+            background: 'linear-gradient(135deg, hsl(0 0% 5%) 0%, hsl(0 0% 9%) 50%, hsl(0 0% 3%) 100%)',
           }}
         >
           <div
