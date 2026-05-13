@@ -19,14 +19,16 @@ function parseVimeo(input) {
 }
 
 // Constrói URLs do bucket Blob Storage (R2/S3/etc) a partir do path do arquivo.
-// Espera que .mp4 e .jpg estejam com o mesmo nome no bucket.
+// Espera que .mp4 (e opcionalmente .jpg) estejam com o mesmo nome no bucket.
+// Encoda cada segmento do path pra lidar com espaços e caracteres especiais.
 function blobUrls(path) {
   if (!BLOB_BASE_URL || !path) return null;
   const base = BLOB_BASE_URL.replace(/\/$/, '');
   const clean = path.replace(/^\//, '').replace(/\.(mp4|webm|mov|jpg|jpeg|png)$/i, '');
+  const encoded = clean.split('/').map(encodeURIComponent).join('/');
   return {
-    video:  `${base}/${clean}.mp4`,
-    poster: `${base}/${clean}.jpg`,
+    video:  `${base}/${encoded}.mp4`,
+    poster: `${base}/${encoded}.jpg`,
   };
 }
 
@@ -164,16 +166,17 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
       className={`group relative flex-shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-card/50 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,0,255,0.5)] ${aspectClass}`}
       aria-label={`Abrir ${video.title}`}
     >
-      {poster ? (
+      {/* Gradient sempre presente como fallback (caso poster não exista/carregue) */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-card to-black" />
+      {poster && (
         <img
           src={poster}
           alt={video.title}
           loading="lazy"
           decoding="async"
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
           className="absolute inset-0 h-full w-full object-cover"
         />
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-card to-black" />
       )}
 
       <CardPreview video={video} active={active && cardInView} />
@@ -410,8 +413,9 @@ export default function ShowreelSection({
   const rowsList = distribute(videos, rows);
 
   // Duração base (cada faixa fica um pouquinho mais lenta pra ficar orgânico)
-  const baseTime = aspect === 'wide' ? 9 : 7;
-  const baseDuration = Math.max(28, Math.ceil(videos.length / rows) * baseTime * 2);
+  // Tempo de transit por card visível (segundos). Escala linearmente com qtde de cards.
+  const perCard = aspect === 'wide' ? 4 : 3;
+  const baseDuration = Math.max(28, Math.ceil(videos.length / rows) * perCard);
 
   return (
     <section
