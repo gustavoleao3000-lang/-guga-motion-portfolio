@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, X, ChevronLeft, ChevronRight, VolumeX } from 'lucide-react';
 import { BLOB_BASE_URL } from '../../data/videos';
 
+/* ============================================================
+   HELPERS
+   ============================================================ */
+
 // Hook simples pra detectar viewport mobile
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false);
@@ -32,8 +36,6 @@ function parseVimeo(input) {
 }
 
 // Constrói URLs do bucket Blob Storage (R2/S3/etc) a partir do path do arquivo.
-// Espera que .mp4 (e opcionalmente .jpg) estejam com o mesmo nome no bucket.
-// Encoda cada segmento do path pra lidar com espaços e caracteres especiais.
 function blobUrls(path) {
   if (!BLOB_BASE_URL || !path) return null;
   const base = BLOB_BASE_URL.replace(/\/$/, '');
@@ -54,19 +56,49 @@ function getPoster(video) {
   return null;
 }
 
-// Tamanhos de card e player por aspect ratio
-const ASPECTS = {
-  story: {
-    card: 'aspect-[9/16] w-40 sm:w-44 md:w-48 lg:w-52',
+/* ============================================================
+   ASPECT RATIO CONFIG
+   ============================================================ */
+
+// Altura fixa do strip por tipo de seção. Cards têm largura derivada
+// do seu próprio aspectRatio. Permite misturar 9:16, 1:1 e 16:9 na mesma faixa.
+const SECTION_HEIGHTS = {
+  story: 'h-64 sm:h-72 md:h-[22rem] lg:h-[24rem]',
+  wide:  'h-44 sm:h-52 md:h-64 lg:h-72',
+  mixed: 'h-60 sm:h-72 md:h-80 lg:h-[22rem]',
+};
+
+const DEFAULT_ASPECT = {
+  story: '9/16',
+  wide:  '16/9',
+  mixed: '9/16',
+};
+
+// Layout do player no lightbox baseado no aspectRatio do vídeo
+function getLightboxLayout(aspectRatio) {
+  if (aspectRatio === '16/9' || aspectRatio === '16 / 9') {
+    return {
+      container: 'w-full max-w-6xl',
+      player: 'aspect-video w-full',
+    };
+  }
+  if (aspectRatio === '1/1' || aspectRatio === '1 / 1') {
+    return {
+      container: 'flex max-h-[88vh] flex-col items-center',
+      player: 'aspect-square h-[78vh] max-h-[78vh] w-auto max-w-[92vw]',
+    };
+  }
+  // 9/16 padrão
+  return {
     container: 'flex max-h-[88vh] flex-col items-center',
     player: 'aspect-[9/16] h-[82vh] max-h-[82vh] w-auto',
-  },
-  wide: {
-    card: 'aspect-video w-80 sm:w-[24rem] md:w-[30rem] lg:w-[36rem]',
-    container: 'w-full max-w-6xl',
-    player: 'aspect-video w-full',
-  },
-};
+  };
+}
+
+// Resolve o aspectRatio efetivo de um vídeo (meta do vídeo > default da seção)
+function resolveAspect(video, sectionAspect) {
+  return video.aspectRatio || DEFAULT_ASPECT[sectionAspect] || '9/16';
+}
 
 // Distribui os vídeos em N faixas (round-robin pra balancear)
 function distribute(arr, n) {
@@ -75,6 +107,10 @@ function distribute(arr, n) {
   arr.forEach((v, i) => result[i % n].push(v));
   return result.filter((row) => row.length > 0);
 }
+
+/* ============================================================
+   CARD PREVIEW (vídeo mudo em loop quando visível)
+   ============================================================ */
 
 function CardPreview({ video, active }) {
   const blob = blobUrls(video.blob);
@@ -94,7 +130,7 @@ function CardPreview({ video, active }) {
 
   if (!active) return null;
 
-  // Blob Storage (R2/S3): toca o .mp4 do bucket público
+  // Blob Storage: <video> direto
   if (blob) {
     return (
       <video
@@ -149,14 +185,17 @@ function CardPreview({ video, active }) {
   );
 }
 
-function ReelCard({ video, onOpen, active, index, aspectClass }) {
+/* ============================================================
+   REEL CARD (item individual no marquee)
+   ============================================================ */
+
+function ReelCard({ video, onOpen, active, index, aspectRatio }) {
   const poster = getPoster(video);
   const cardRef = useRef(null);
   const [cardInView, setCardInView] = useState(false);
 
   // IO por card: vídeo só carrega quando o card está perto da viewport.
-  // Combinado com `active` (seção visível), reduz drasticamente o número
-  // de iframes do Vimeo carregados ao mesmo tempo.
+  // Combinado com `active` (seção visível), evita carregar 30+ iframes ao mesmo tempo.
   useEffect(() => {
     if (!active) {
       setCardInView(false);
@@ -176,11 +215,12 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
     <button
       ref={cardRef}
       onClick={onOpen}
-      className={`group relative flex-shrink-0 overflow-hidden rounded-2xl border border-border/60 bg-card/50 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,43,43,0.5)] ${aspectClass}`}
+      style={{ aspectRatio }}
+      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60 text-left transition-all duration-300 hover:border-primary/60 hover:shadow-[0_0_30px_-5px_rgba(255,43,43,0.55)]"
       aria-label={`Abrir ${video.title}`}
     >
       {/* Gradient sempre presente como fallback (caso poster não exista/carregue) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-card to-black" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black" />
       {poster && (
         <img
           src={poster}
@@ -194,31 +234,36 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
 
       <CardPreview video={video} active={active && cardInView} />
 
+      {/* Vinheta */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
 
+      {/* Counter top-right */}
       <div className="absolute top-2 right-2 z-10 rounded-full border border-white/15 bg-black/50 px-2 py-0.5 backdrop-blur-md">
         <span className="font-mono text-[9px] tabular-nums text-white/70">
           {String(index + 1).padStart(2, '0')}
         </span>
       </div>
 
+      {/* Mute indicator */}
       <div className="absolute top-2 left-2 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-black/50 backdrop-blur-md">
         <VolumeX className="h-3 w-3 text-white/70" />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary bg-black/60 backdrop-blur-md shadow-[0_0_24px_rgba(255,43,43,0.45)]">
+      {/* Play button (hover desktop / sempre opaco no mobile) */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-70 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-primary bg-black/60 backdrop-blur-md shadow-[0_0_24px_rgba(255,43,43,0.55)]">
           <Play className="h-4 w-4 translate-x-px fill-primary text-primary" />
         </div>
       </div>
 
+      {/* Título no rodapé */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-3">
         <p className="truncate font-display text-xs font-bold tracking-tight text-white">
           {video.title}
         </p>
-        {video.tag && (
-          <p className="truncate font-mono text-[9px] uppercase tracking-widest text-white/55">
-            {video.tag}
+        {(video.category || video.tag) && (
+          <p className="mt-0.5 truncate font-mono text-[9px] uppercase tracking-widest text-[#00D6C9]/80">
+            {video.category || video.tag}
           </p>
         )}
       </div>
@@ -226,11 +271,19 @@ function ReelCard({ video, onOpen, active, index, aspectClass }) {
   );
 }
 
+/* ============================================================
+   VIDEO PLAYER (no lightbox, com som e controles)
+   ============================================================ */
+
 function VideoPlayer({ video, playerClass }) {
   const blob = blobUrls(video.blob);
   const v = parseVimeo(video.vimeo);
 
-  // Blob Storage: vídeo HD direto do bucket
+  // Decide object-fit: se o vídeo tem aspectRatio explícito,
+  // o container já bate com ele → cover é seguro.
+  // Sem aspectRatio explícito, contain pra preservar conteúdo inteiro.
+  const fitClass = video.aspectRatio ? 'object-cover' : 'object-contain';
+
   if (blob) {
     return (
       <video
@@ -240,12 +293,12 @@ function VideoPlayer({ video, playerClass }) {
         controls
         autoPlay
         playsInline
-        className={`bg-black ${playerClass}`}
+        preload="metadata"
+        className={`bg-black ${fitClass} ${playerClass}`}
       />
     );
   }
 
-  // Vimeo: iframe com controles
   if (v) {
     const params = new URLSearchParams({
       autoplay: '1',
@@ -266,7 +319,6 @@ function VideoPlayer({ video, playerClass }) {
     );
   }
 
-  // MP4 local
   return (
     <video
       key={video.src}
@@ -275,14 +327,20 @@ function VideoPlayer({ video, playerClass }) {
       controls
       autoPlay
       playsInline
-      className={`bg-black ${playerClass}`}
+      preload="metadata"
+      className={`bg-black ${fitClass} ${playerClass}`}
     />
   );
 }
 
-function Lightbox({ videos, index, onClose, onPrev, onNext, aspect }) {
+/* ============================================================
+   LIGHTBOX
+   ============================================================ */
+
+function Lightbox({ videos, index, onClose, onPrev, onNext, sectionAspect }) {
   const video = videos[index];
-  const cfg = ASPECTS[aspect];
+  const aspectRatio = resolveAspect(video, sectionAspect);
+  const layout = getLightboxLayout(aspectRatio);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -331,20 +389,20 @@ function Lightbox({ videos, index, onClose, onPrev, onNext, aspect }) {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.96 }}
         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className={`relative ${cfg.container}`}
+        className={`relative ${layout.container}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl shadow-primary/10">
-          <VideoPlayer video={video} playerClass={cfg.player} />
+          <VideoPlayer video={video} playerClass={layout.player} />
         </div>
         <div className="mt-4 flex w-full items-center justify-between gap-4 px-1">
           <div className="min-w-0">
             <p className="truncate font-display text-base font-bold tracking-tight text-white">
               {video.title}
             </p>
-            {video.tag && (
-              <p className="font-mono text-[10px] uppercase tracking-widest text-white/50">
-                {video.tag}
+            {(video.category || video.tag) && (
+              <p className="font-mono text-[10px] uppercase tracking-widest text-[#00D6C9]/80">
+                {video.category || video.tag}
               </p>
             )}
           </div>
@@ -383,10 +441,14 @@ function EmptyState() {
   );
 }
 
+/* ============================================================
+   SHOWREEL SECTION (componente principal)
+   ============================================================ */
+
 export default function ShowreelSection({
   id,
   videos,
-  aspect = 'story',
+  aspect = 'story',         // 'story' | 'wide' | 'mixed'
   eyebrow = 'Showreel',
   title,
   subtitle,
@@ -400,10 +462,10 @@ export default function ShowreelSection({
   const [sectionVisible, setSectionVisible] = useState(false);
   const isMobile = useIsMobile();
 
-  const cfg = ASPECTS[aspect] || ASPECTS.story;
-  // No mobile: força 1 linha (melhor perf + menos scroll vertical)
+  const heightClass = SECTION_HEIGHTS[aspect] || SECTION_HEIGHTS.story;
   const effectiveRows = isMobile ? 1 : rows;
 
+  // Toca previews só quando a seção está visível
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -425,11 +487,9 @@ export default function ShowreelSection({
     [videos.length]
   );
 
-  // Distribui em N faixas (1 no mobile)
   const rowsList = distribute(videos, effectiveRows);
 
-  // Duração base (cada faixa fica um pouquinho mais lenta pra ficar orgânico)
-  // Tempo de transit por card visível (segundos). Escala linearmente com qtde de cards.
+  // Duração base do marquee (escala com qtde, mas cap pra evitar lentidão exagerada)
   const perCard = aspect === 'wide' ? 4 : 3;
   const baseDuration = Math.max(28, Math.ceil(videos.length / effectiveRows) * perCard);
 
@@ -437,7 +497,7 @@ export default function ShowreelSection({
     <section
       id={id}
       ref={sectionRef}
-      className={`${compact ? 'pt-2 pb-8 md:pt-3 md:pb-12' : 'py-10 md:py-14'} ${withTopBorder ? 'border-t border-border/30' : ''}`}
+      className={`${compact ? 'pt-2 pb-8 md:pt-3 md:pb-12' : 'py-10 md:py-14'} ${withTopBorder ? 'border-t border-border/40' : ''}`}
     >
       <div className="mx-auto max-w-7xl px-5 md:px-12">
         <motion.div
@@ -452,6 +512,7 @@ export default function ShowreelSection({
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
               {eyebrow}
             </span>
+            <span className="block h-px flex-1 max-w-[80px] bg-[#00D6C9]/30" />
           </div>
           {title && (
             <h2
@@ -479,36 +540,37 @@ export default function ShowreelSection({
       ) : (
         <div className="space-y-3 md:space-y-4">
           {rowsList.map((rowVideos, rowIdx) => {
-            // Alterna direção: row par segue direction, ímpar inverte
             const rowDir =
               rowIdx % 2 === 0
                 ? direction
                 : direction === 'left'
                 ? 'right'
                 : 'left';
-            // Cada faixa um pouquinho mais lenta — parallax orgânico
             const rowDuration = baseDuration + rowIdx * 6;
             const loopList = [...rowVideos, ...rowVideos];
             return (
               <div
                 key={rowIdx}
-                className="group/marquee marquee-mask relative overflow-hidden"
+                className={`group/marquee marquee-mask relative overflow-hidden ${heightClass}`}
               >
                 <div
-                  className={`flex w-max gap-3 sm:gap-4 animate-marquee group-hover/marquee:[animation-play-state:paused] ${
+                  className={`flex h-full w-max gap-3 sm:gap-4 animate-marquee group-hover/marquee:[animation-play-state:paused] ${
                     rowDir === 'right' ? '[animation-direction:reverse]' : ''
                   }`}
                   style={{ animationDuration: `${rowDuration}s` }}
                 >
                   {loopList.map((v, i) => {
                     const originalIndex = videos.indexOf(v);
+                    const cardAspect = resolveAspect(v, aspect);
+                    // Cards param quando o lightbox abre (só 1 vídeo tocando por vez)
+                    const isActive = sectionVisible && openIndex === null;
                     return (
                       <ReelCard
-                        key={`${v.vimeo || v.src}-${rowIdx}-${i}`}
+                        key={`${v.blob || v.vimeo || v.src}-${rowIdx}-${i}`}
                         video={v}
                         index={originalIndex}
-                        active={sectionVisible}
-                        aspectClass={cfg.card}
+                        active={isActive}
+                        aspectRatio={cardAspect}
                         onOpen={() => setOpenIndex(originalIndex)}
                       />
                     );
@@ -528,7 +590,7 @@ export default function ShowreelSection({
             onClose={close}
             onPrev={prev}
             onNext={next}
-            aspect={aspect}
+            sectionAspect={aspect}
           />
         )}
       </AnimatePresence>
