@@ -36,13 +36,13 @@ export default function HeroSection() {
                   <img
                     src={FOTO_URL}
                     alt="Gustavo Leão"
-                    className="h-11 w-11 rounded-full border-2 border-primary/40 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/70"
+                    className="h-14 w-14 rounded-full border-2 border-primary/40 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/70 sm:h-16 sm:w-16"
                     style={{ objectPosition: 'center 15%' }}
                   />
                   {/* Indicador online — verde = "disponível" universal */}
-                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 sm:h-4 sm:w-4">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366]/60 opacity-75" />
-                    <span className="relative inline-flex h-3 w-3 rounded-full bg-[#25D366] ring-2 ring-background" />
+                    <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-[#25D366] ring-2 ring-background sm:h-4 sm:w-4" />
                   </span>
                 </div>
                 <div className="text-left">
