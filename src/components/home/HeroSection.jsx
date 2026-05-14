@@ -33,20 +33,20 @@ export default function HeroSection() {
                 className="group -ml-2 mb-4 inline-flex items-center gap-3 rounded-2xl px-2 py-1.5 transition-all hover:bg-card/40"
                 aria-label="Saber mais sobre o Guga"
               >
-                <div className="relative flex-shrink-0">
+                <div className="relative z-10 flex-shrink-0">
                   <img
                     src={FOTO_URL}
                     alt="Gustavo Leão"
-                    className="h-14 w-14 rounded-full border-2 border-primary/40 object-cover transition-transform duration-300 group-hover:scale-105 group-hover:border-primary/70 sm:h-16 sm:w-16"
+                    className="relative z-10 h-14 w-14 rounded-full border-2 border-primary/40 object-cover transition-all duration-500 ease-out will-change-transform group-hover:z-20 group-hover:scale-[1.8] group-hover:border-primary group-hover:shadow-[0_0_40px_rgba(255,255,255,0.45)] sm:h-16 sm:w-16"
                     style={{ objectPosition: 'center 15%' }}
                   />
                   {/* Indicador online — verde = "disponível" universal */}
-                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 sm:h-4 sm:w-4">
+                  <span className="absolute -bottom-0.5 -right-0.5 z-20 flex h-3.5 w-3.5 transition-transform duration-500 ease-out group-hover:scale-[1.8] sm:h-4 sm:w-4">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366]/60 opacity-75" />
                     <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-[#25D366] ring-2 ring-background sm:h-4 sm:w-4" />
                   </span>
                 </div>
-                <div className="text-left">
+                <div className="text-left transition-transform duration-300 ease-out group-hover:scale-[1.05]" style={{ transformOrigin: 'left center' }}>
                   <p className="font-display text-sm font-bold leading-tight tracking-tight text-foreground sm:text-base">
                     Gustavo Leão
                     <span className="ml-1.5 font-mono text-[10px] font-normal uppercase tracking-widest text-primary/80">
@@ -64,15 +64,19 @@ export default function HeroSection() {
               </button>
 
               <h1 className="font-display font-black leading-[0.92] tracking-tight">
-                <span className="block text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+                <span
+                  className="block text-4xl text-foreground transition-transform duration-300 ease-out hover:scale-[1.04] sm:text-5xl md:text-6xl lg:text-7xl"
+                  style={{ transformOrigin: 'left center' }}
+                >
                   {t('hero_title_1')}
                 </span>
                 <span
-                  className="relative -mt-1 block text-5xl leading-[1] italic text-primary sm:text-6xl md:text-7xl lg:text-[5.5rem]"
+                  className="relative -mt-1 block text-5xl leading-[1] italic text-primary transition-all duration-300 ease-out hover:scale-[1.04] sm:text-6xl md:text-7xl lg:text-[5.5rem]"
                   style={{
                     fontFamily: "'DM Serif Display', serif",
                     fontWeight: 400,
                     filter: 'drop-shadow(0 0 28px rgba(255, 255, 255, 0.3))',
+                    transformOrigin: 'left center',
                   }}
                 >
                   {t('hero_title_2')}
