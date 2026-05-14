@@ -10,7 +10,7 @@ export default function HeroSection() {
   const [overlayOpen, setOverlayOpen] = useState(false);
   const { t } = useLanguage();
   const QUICK_STATS = [
-    { value: '50+', label: t('hero_stat_projects') },
+    { value: '400+', label: t('hero_stat_projects') },
     { value: '3+',  label: t('hero_stat_years') },
     { value: '24h', label: t('hero_stat_response') },
   ];

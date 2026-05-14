@@ -15,7 +15,7 @@ export default function CTASection() {
 
   const STATS = [
     { value: '3+',   label: t('cta_stat_1_label') },
-    { value: '50+',  label: t('cta_stat_2_label') },
+    { value: '400+',  label: t('cta_stat_2_label') },
     { value: '100%', label: t('cta_stat_3_label') },
   ];
 

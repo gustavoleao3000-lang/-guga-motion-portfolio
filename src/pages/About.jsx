@@ -20,7 +20,7 @@ export default function About() {
 
   const STATS = [
     { value: '3+',   label: t('about_stat_1_label') },
-    { value: '50+',  label: t('about_stat_2_label') },
+    { value: '400+',  label: t('about_stat_2_label') },
     { value: '24h',  label: t('about_stat_3_label') },
     { value: '100%', label: t('about_stat_4_label') },
   ];

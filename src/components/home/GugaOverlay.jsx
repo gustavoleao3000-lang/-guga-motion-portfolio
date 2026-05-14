@@ -6,7 +6,7 @@ const TOTAL = 20;
 
 const STATS = [
   { value: '3+', label: 'anos de experiência' },
-  { value: '50+', label: 'projetos entregues' },
+  { value: '400+', label: 'projetos entregues' },
   { value: '100%', label: 'dedicação' },
 ];
 
