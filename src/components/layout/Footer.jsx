@@ -65,7 +65,7 @@ export default function Footer() {
           <div className="md:col-span-3 md:col-start-7">
             <h4 className="font-mono text-xs uppercase tracking-widest text-muted-foreground/60 mb-4">{t('navigation')}</h4>
             <div className="flex flex-col gap-2.5">
-              <Link to="/" className="font-mono text-sm text-foreground/70 hover:text-primary transition-colors">Trabalho</Link>
+              <Link to="/trabalhos" className="font-mono text-sm text-foreground/70 hover:text-primary transition-colors">Trabalho</Link>
               <Link to="/about" className="font-mono text-sm text-foreground/70 hover:text-primary transition-colors">Sobre</Link>
               <Link to="/contact" className="font-mono text-sm text-foreground/70 hover:text-primary transition-colors">Contato</Link>
             </div>

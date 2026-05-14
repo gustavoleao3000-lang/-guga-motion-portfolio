@@ -172,7 +172,7 @@ export default function GugaOverlay({ onClose }) {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href="#showreel"
+              href="/trabalhos"
               onClick={onClose}
               className="flex-1 text-center font-mono text-xs uppercase tracking-widest px-6 py-4 rounded-xl font-bold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
               style={{ background: 'linear-gradient(135deg, #FFFFFF, #666666)', boxShadow: '0 0 24px rgba(255,255,255,0.25)' }}

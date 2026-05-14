@@ -5,7 +5,7 @@ import { X, Menu } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const NAV_LINKS = [
-  { label: 'Trabalho', path: '/' },
+  { label: 'Trabalho', path: '/trabalhos' },
   { label: 'Sobre', path: '/about' },
   { label: 'Contato', path: '/contact' }
 ];

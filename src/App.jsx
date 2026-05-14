@@ -5,6 +5,7 @@ import PortfolioLayout from './components/layout/PortfolioLayout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Trabalhos from './pages/Trabalhos';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route element={<PortfolioLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/trabalhos" element={<Trabalhos />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
           </Route>

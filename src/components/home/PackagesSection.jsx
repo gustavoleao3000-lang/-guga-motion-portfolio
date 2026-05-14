@@ -241,7 +241,7 @@ export default function PackagesSection() {
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <a
-            href="#showreel"
+            href="/trabalhos"
             className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition-all duration-300 hover:border-foreground/50 hover:bg-card sm:w-auto"
           >
             <Play className="h-3 w-3 fill-current" />

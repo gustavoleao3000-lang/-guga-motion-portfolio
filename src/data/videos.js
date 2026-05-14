@@ -48,7 +48,7 @@ const ARQUIVO_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
 export const WIDESCREEN_VIDEOS = ARQUIVO_NUMBERS.map((n) => ({
   title: `Arquivo ${n}`,
-  category: 'Brand Film',
+  category: 'Widescreen',
   aspectRatio: '16/9',
   blob: `Arquivo ${n}`,
 }));
@@ -56,18 +56,17 @@ export const WIDESCREEN_VIDEOS = ARQUIVO_NUMBERS.map((n) => ({
 /* ============================================================
    NOVIDADES — vídeos recém-saídos do forno
    ============================================================ */
-// Trabalhos mais recentes. Aparece como faixa separada na home.
-// Aspect ratio detectado do arquivo real (cada um respeita seu formato):
-//   16/9 = widescreen | 1/1 = quadrado | 9/16 = vertical | 9/10 = portrait IG
+// Trabalhos mais recentes. Categorias UNIFICADAS por formato:
+//   Reels = vertical (9/16 e 9/10) | Quadrado = 1/1 | Widescreen = 16/9
 export const NOVOS_VIDEOS = [
   { title: 'Motion 6',  category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 6' },
   { title: 'Motion 7',  category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 7' },
   { title: 'Motion 8',  category: 'Quadrado',   aspectRatio: '1/1',  blob: 'MOTION 8' },
-  { title: 'Motion 9',  category: 'Vertical',   aspectRatio: '9/16', blob: 'MOTION 9' },  // ⚠️ arquivo local corrompido (48 bytes) — re-subir
+  { title: 'Motion 9',  category: 'Reels',      aspectRatio: '9/16', blob: 'MOTION 9' },  // ⚠️ arquivo local corrompido (48 bytes) — re-subir
   { title: 'Motion 10', category: 'Quadrado',   aspectRatio: '1/1',  blob: 'MOTION 10' },
   { title: 'Motion 17', category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 17' },
   { title: 'Motion 18', category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 18' },
-  { title: 'Motion 57', category: 'Portrait',   aspectRatio: '9/10', blob: 'MOTION 57' },  // 1080x1200
+  { title: 'Motion 57', category: 'Reels',      aspectRatio: '9/10', blob: 'MOTION 57' },  // 1080x1200 portrait
   { title: 'Motion 75', category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 75' },
   { title: 'Motion 79', category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 79' },
   { title: 'Motion 80', category: 'Widescreen', aspectRatio: '16/9', blob: 'MOTION 80' },
