@@ -21,7 +21,7 @@ export default function Home() {
         aspect="story"
         direction="left"
         eyebrow={t('showreel_stories_eyebrow')}
-        rows={3}
+        rows={4}
         compact
         withTopBorder={false}
       />
