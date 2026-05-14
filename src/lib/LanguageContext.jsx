@@ -203,6 +203,75 @@ export const translations = {
     contact_footer_response: 'Resposta em até 24h',
     contact_footer_remote: '100% remoto',
     contact_footer_quote: 'Sem compromisso',
+    contact_briefing_cta: 'Fazer pré-briefing',
+    contact_briefing_subtitle: 'Responda 10 perguntas rápidas e receba orçamento personalizado',
+
+    /* ===== BRIEFING ===== */
+    briefing_welcome_title: 'Obrigado pelo seu contato!',
+    briefing_welcome_subtitle: 'Pronto pra mudar o futuro da sua marca?',
+    briefing_start: 'Iniciar',
+    briefing_back: 'Retroceder',
+    briefing_next: 'Próximo',
+    briefing_progress: 'respondida',
+    briefing_required: 'Esse campo é obrigatório',
+
+    briefing_q1: 'Qual seu nome?',
+    briefing_q1_hint: 'Não se preocupe, manteremos seus dados em sigilo.',
+    briefing_q1_placeholder: 'Seu nome completo',
+
+    briefing_q2: 'Qual seu WhatsApp?',
+    briefing_q2_hint: 'Não esqueça do DDD. Se for cliente fora do Brasil coloque o DDI também.',
+    briefing_q2_placeholder: '(62) 99999-9999',
+
+    briefing_q3: 'Informe seu melhor e-mail',
+    briefing_q3_hint: 'Precisa ser um e-mail que você usa com regularidade — enviarei o orçamento por lá.',
+    briefing_q3_placeholder: 'voce@email.com',
+
+    briefing_q4: 'Quais dessas opções você melhor se identifica?',
+    briefing_q4_o1: 'Trabalho numa empresa que tem uma demanda de motion design',
+    briefing_q4_o2: 'Sou empresário(a) e tenho uma demanda de motion design',
+    briefing_q4_o3: 'Estou planejando meu projeto e buscando orçamentos',
+
+    briefing_q5: 'Qual o site ou Instagram da sua empresa?',
+    briefing_q5_hint: 'Compartilhe aqui as redes sociais do seu negócio.',
+    briefing_q5_placeholder: '@suamarca ou link',
+
+    briefing_q6: 'Explique melhor o seu desafio',
+    briefing_q6_hint: 'Me explica sua necessidade atual que motion design poderia resolver.',
+    briefing_q6_placeholder: 'Conta um pouco mais sobre o projeto, contexto e o que quer alcançar.',
+
+    briefing_q7: 'Quais itens você acredita que são necessários pro seu projeto?',
+    briefing_q7_hint: 'Pode marcar mais de um.',
+    briefing_q7_o1: 'Reels / Stories animados',
+    briefing_q7_o2: 'Vídeo institucional / Brand film',
+    briefing_q7_o3: 'Vinheta / Abertura',
+    briefing_q7_o4: 'Logo animada',
+    briefing_q7_o5: 'Campanha completa',
+    briefing_q7_o6: 'Outros',
+
+    briefing_q8: 'Qual a sua estimativa de investimento pro projeto?',
+    briefing_q8_o1: 'Solução mais básica pro meu negócio (R$ 450 – R$ 800)',
+    briefing_q8_o2: 'Investimento estratégico pra alavancar (R$ 1.500 – R$ 2.800)',
+    briefing_q8_o3: 'Experiência completa personalizada (a partir de R$ 3.500)',
+    briefing_q8_o4: 'Quero conversar e entender o melhor pra mim',
+
+    briefing_q9: 'Por onde você me encontrou?',
+    briefing_q9_o1: 'Instagram',
+    briefing_q9_o2: 'Behance',
+    briefing_q9_o3: 'Indicação',
+    briefing_q9_o4: 'Google',
+    briefing_q9_o5: 'Outro',
+
+    briefing_q10: 'Pra quando você precisa desse projeto?',
+    briefing_q10_o1: 'Pra daqui 1 mês',
+    briefing_q10_o2: 'Pra 2-3 meses',
+    briefing_q10_o3: 'Pra 6 meses',
+    briefing_q10_o4: 'Sem prazo definido',
+
+    briefing_thanks_title: 'Obrigado por responder!',
+    briefing_thanks_subtitle: 'Em breve retornaremos seu contato. Abraços!',
+    briefing_thanks_send: 'Enviar pelo WhatsApp agora',
+    briefing_thanks_back: 'Voltar pra home',
 
     /* ===== FOOTER ===== */
     footer_desc: 'Motion design que vende. Animações e vídeos para marcas que querem se destacar.',
@@ -412,6 +481,75 @@ export const translations = {
     contact_footer_response: 'Reply within 24h',
     contact_footer_remote: '100% remote',
     contact_footer_quote: 'No obligation',
+    contact_briefing_cta: 'Take the pre-briefing',
+    contact_briefing_subtitle: 'Answer 10 quick questions and get a personalized quote',
+
+    /* ===== BRIEFING ===== */
+    briefing_welcome_title: 'Thanks for reaching out!',
+    briefing_welcome_subtitle: 'Ready to change the future of your brand?',
+    briefing_start: 'Start',
+    briefing_back: 'Back',
+    briefing_next: 'Next',
+    briefing_progress: 'answered',
+    briefing_required: 'This field is required',
+
+    briefing_q1: 'What\'s your name?',
+    briefing_q1_hint: 'Don\'t worry, we\'ll keep your data confidential.',
+    briefing_q1_placeholder: 'Your full name',
+
+    briefing_q2: 'What\'s your WhatsApp?',
+    briefing_q2_hint: 'Don\'t forget the area code. If outside Brazil, include country code too.',
+    briefing_q2_placeholder: '+55 62 99999-9999',
+
+    briefing_q3: 'Enter your best email',
+    briefing_q3_hint: 'Use an email you check often — I\'ll send the quote there.',
+    briefing_q3_placeholder: 'you@email.com',
+
+    briefing_q4: 'Which option best describes you?',
+    briefing_q4_o1: 'I work at a company with a motion design demand',
+    briefing_q4_o2: 'I\'m a business owner and need motion design',
+    briefing_q4_o3: 'I\'m planning my project and looking for quotes',
+
+    briefing_q5: 'What\'s your company\'s website or Instagram?',
+    briefing_q5_hint: 'Share your business social media here.',
+    briefing_q5_placeholder: '@yourbrand or link',
+
+    briefing_q6: 'Tell me more about your challenge',
+    briefing_q6_hint: 'Describe the current need that motion design could solve.',
+    briefing_q6_placeholder: 'Tell me more about the project, context, and what you want to achieve.',
+
+    briefing_q7: 'What items do you think your project needs?',
+    briefing_q7_hint: 'You can pick more than one.',
+    briefing_q7_o1: 'Animated Reels / Stories',
+    briefing_q7_o2: 'Brand film / Institutional video',
+    briefing_q7_o3: 'Vignette / Opener',
+    briefing_q7_o4: 'Animated logo',
+    briefing_q7_o5: 'Full campaign',
+    briefing_q7_o6: 'Other',
+
+    briefing_q8: 'What\'s your budget estimate for this project?',
+    briefing_q8_o1: 'Basic solution for my business (R$ 450 – R$ 800)',
+    briefing_q8_o2: 'Strategic investment to grow (R$ 1,500 – R$ 2,800)',
+    briefing_q8_o3: 'Full custom experience (starting at R$ 3,500)',
+    briefing_q8_o4: 'I want to chat and figure out the best fit',
+
+    briefing_q9: 'How did you find me?',
+    briefing_q9_o1: 'Instagram',
+    briefing_q9_o2: 'Behance',
+    briefing_q9_o3: 'Referral',
+    briefing_q9_o4: 'Google',
+    briefing_q9_o5: 'Other',
+
+    briefing_q10: 'When do you need this project?',
+    briefing_q10_o1: 'In 1 month',
+    briefing_q10_o2: 'In 2-3 months',
+    briefing_q10_o3: 'In 6 months',
+    briefing_q10_o4: 'No deadline set',
+
+    briefing_thanks_title: 'Thanks for answering!',
+    briefing_thanks_subtitle: 'I\'ll get back to you soon. Cheers!',
+    briefing_thanks_send: 'Send to WhatsApp now',
+    briefing_thanks_back: 'Back to home',
 
     /* ===== FOOTER ===== */
     footer_desc: 'Motion design that sells. Animations and videos for brands that want to stand out.',

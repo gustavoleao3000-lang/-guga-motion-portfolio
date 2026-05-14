@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, ArrowRight, Clock, Globe, FileCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CheckCircle, ArrowRight, Clock, Globe, FileCheck, ClipboardList } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const FOTO_URL = 'https://media.base44.com/images/public/69c67984fa1d361ff818abe5/fbbd09a48_Imagem1gerada.png';
@@ -125,6 +126,32 @@ export default function Contact() {
                 </div>
                 <ArrowRight className="h-5 w-5 flex-shrink-0 text-[#25D366] transition-transform duration-300 group-hover:translate-x-0.5 sm:hidden" />
               </motion.a>
+
+              {/* Pré-briefing CTA (caminho qualificado) */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="mb-8"
+              >
+                <Link
+                  to="/briefing"
+                  className="group flex items-center gap-4 rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/[0.06] via-card to-card p-4 transition-all duration-300 hover:border-primary/70 hover:shadow-[0_0_40px_-12px_rgba(255,255,255,0.4)] md:gap-5 md:p-6"
+                >
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary/15 transition-colors group-hover:bg-primary/25 md:h-14 md:w-14">
+                    <ClipboardList className="h-5 w-5 text-primary md:h-6 md:w-6" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-display text-base font-bold tracking-tight text-foreground md:text-lg">
+                      {t('contact_briefing_cta')}
+                    </p>
+                    <p className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:text-xs">
+                      {t('contact_briefing_subtitle')}
+                    </p>
+                  </div>
+                  <ArrowRight className="h-5 w-5 flex-shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-0.5" />
+                </Link>
+              </motion.div>
 
               {/* Divider */}
               <div className="my-8 flex items-center gap-4 md:my-10">
