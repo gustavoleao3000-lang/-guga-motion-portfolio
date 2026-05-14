@@ -6,9 +6,11 @@ import ProcessSection from '../components/home/ProcessSection';
 import PackagesSection from '../components/home/PackagesSection';
 import FAQSection from '../components/home/FAQSection';
 import CTASection from '../components/home/CTASection';
+import { useLanguage } from '@/lib/LanguageContext';
 import { VIDEOS, WIDESCREEN_VIDEOS, MIXED_VIDEOS, NOVOS_VIDEOS } from '../data/videos';
 
 export default function Home() {
+  const { t } = useLanguage();
   return (
     <div>
       <HeroSection />
@@ -18,7 +20,7 @@ export default function Home() {
         videos={VIDEOS}
         aspect="story"
         direction="left"
-        eyebrow="Showreel · Stories"
+        eyebrow={t('showreel_stories_eyebrow')}
         rows={2}
         compact
         withTopBorder={false}
@@ -29,33 +31,32 @@ export default function Home() {
         videos={WIDESCREEN_VIDEOS}
         aspect="wide"
         direction="right"
-        eyebrow="Widescreen"
+        eyebrow={t('showreel_wide_eyebrow')}
         rows={2}
         title={
           <>
-            Em formato<br className="hidden md:block" />
-            <span className="text-primary"> cinematográfico.</span>
+            {t('showreel_wide_title_1')}<br className="hidden md:block" />
+            <span className="text-primary"> {t('showreel_wide_title_2')}</span>
           </>
         }
-        subtitle="Brand films, edições longas e peças horizontais"
+        subtitle={t('showreel_wide_subtitle')}
       />
 
-      {/* Faixa NOVA — mesma cara das outras (2 linhas, com título, com borda) */}
       {NOVOS_VIDEOS.length > 0 && (
         <ShowreelSection
           id="novidades"
           videos={NOVOS_VIDEOS}
           aspect="mixed"
           direction="left"
-          eyebrow="Novidades"
+          eyebrow={t('showreel_novos_eyebrow')}
           rows={2}
           title={
             <>
-              Trabalhos<br className="hidden md:block" />
-              <span className="text-primary"> recentes.</span>
+              {t('showreel_novos_title_1')}<br className="hidden md:block" />
+              <span className="text-primary"> {t('showreel_novos_title_2')}</span>
             </>
           }
-          subtitle="Os drops mais novos saindo do forno"
+          subtitle={t('showreel_novos_subtitle')}
         />
       )}
 
@@ -65,15 +66,15 @@ export default function Home() {
           videos={MIXED_VIDEOS}
           aspect="mixed"
           direction="right"
-          eyebrow="Mix"
+          eyebrow={t('showreel_mix_eyebrow')}
           rows={2}
           title={
             <>
-              Mistura de<br className="hidden md:block" />
-              <span className="text-primary"> formatos.</span>
+              {t('showreel_mix_title_1')}<br className="hidden md:block" />
+              <span className="text-primary"> {t('showreel_mix_title_2')}</span>
             </>
           }
-          subtitle="Verticais, quadrados e horizontais lado a lado"
+          subtitle={t('showreel_mix_subtitle')}
         />
       )}
 

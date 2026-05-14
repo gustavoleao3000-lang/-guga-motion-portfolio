@@ -1,91 +1,30 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, Sparkles, ArrowRight, Play } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 const WHATSAPP = '5562998744360';
 
-const PACKAGES = [
-  {
-    id: 'start',
-    name: 'Start',
-    eyebrow: 'Pra começar com motion',
-    priceFrom: 'R$ 450',
-    priceTo: 'R$ 800',
-    priceFootnote: null,
-    features: [
-      '1 reel até 15s',
-      '1 rodada de revisão',
-      'Cortes, ritmo e legendas',
-      'Acabamento visual profissional',
-      'Entrega rápida (até 5 dias)',
-    ],
-    note: 'Ideal pra negócios que querem testar conteúdo profissional',
-    cta: 'Quero o Start',
-    whatsappMsg: 'Oi%20Guga%2C%20quero%20o%20Pack%20Start.%20Pode%20me%20mandar%20detalhes%3F',
-    featured: false,
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    eyebrow: 'Mais escolhido',
-    priceFrom: 'R$ 1.500',
-    priceTo: 'R$ 2.800',
-    priceFootnote: null,
-    features: [
-      '3 a 5 reels curtos',
-      'Motion design leve/moderado',
-      'Identidade visual aplicada',
-      'Até 2 rodadas de revisão',
-      'Trilha sonora licenciada',
-      'Entrega em 7-10 dias',
-    ],
-    note: 'Pra marcas que querem consistência e aparência profissional',
-    cta: 'Quero o Pro',
-    whatsappMsg: 'Oi%20Guga%2C%20quero%20o%20Pack%20Pro.%20Pode%20me%20mandar%20detalhes%3F',
-    featured: true,
-  },
-  {
-    id: 'premium',
-    name: 'Premium',
-    eyebrow: 'Projetos grandes',
-    priceFrom: 'Sob consulta',
-    priceTo: null,
-    priceFootnote: 'a partir de R$ 3.500',
-    features: [
-      'Pacote completo de vídeos',
-      'Direção visual',
-      'Motion design avançado',
-      'Campanha, lançamento ou recorrente',
-      'Prazo e escopo customizados',
-    ],
-    note: 'Pra empresas que querem presença forte nas redes',
-    cta: 'Pedir orçamento',
-    whatsappMsg: 'Oi%20Guga%2C%20tenho%20um%20projeto%20Premium%20pra%20conversar.',
-    featured: false,
-  },
-];
-
-function PriceDisplay({ pkg }) {
+function PriceDisplay({ pkg, t }) {
   if (pkg.priceTo) {
     return (
       <div>
         <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
-          A partir de
+          {t('pkg_price_from')}
         </p>
         <p className="mt-1 font-display text-3xl font-black tracking-tight text-foreground md:text-4xl">
           {pkg.priceFrom}
         </p>
         <p className="mt-1 font-mono text-xs text-muted-foreground">
-          até <span className="text-foreground/85">{pkg.priceTo}</span>
+          {t('pkg_price_until')} <span className="text-foreground/85">{pkg.priceTo}</span>
         </p>
       </div>
     );
   }
-  // Premium
   return (
     <div>
       <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
-        Investimento
+        {t('pkg_price_investment')}
       </p>
       <p className="mt-1 font-display text-2xl font-black tracking-tight text-foreground md:text-3xl">
         {pkg.priceFrom}
@@ -99,7 +38,7 @@ function PriceDisplay({ pkg }) {
   );
 }
 
-function PackageCard({ pkg, index }) {
+function PackageCard({ pkg, index, t }) {
   const isFeatured = pkg.featured;
 
   return (
@@ -114,36 +53,32 @@ function PackageCard({ pkg, index }) {
           : 'border border-border bg-card/60 hover:border-primary/40 hover:bg-card'
       }`}
     >
-      {/* Badge "Mais escolhido" */}
       {isFeatured && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-primary bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-primary shadow-[0_0_20px_rgba(255,255,255,0.5)]">
             <Sparkles className="h-3 w-3 fill-primary" />
-            Mais escolhido
+            {t('pkg_badge_featured')}
           </span>
         </div>
       )}
 
-      {/* Cabeçalho */}
       <div className="mb-5">
         <p className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest">
-          {/* Detalhe ciano sutil */}
           <span className="inline-block h-1 w-1 rounded-full bg-muted-foreground" />
           <span className={isFeatured ? 'text-primary' : 'text-muted-foreground/80'}>
             {pkg.eyebrow}
           </span>
         </p>
         <h3 className="mt-2 font-display text-2xl font-black tracking-tight md:text-3xl">
-          Pack <span className={isFeatured ? 'text-primary' : 'text-foreground'}>{pkg.name}</span>
+          {t('pkg_pack_label')}{' '}
+          <span className={isFeatured ? 'text-primary' : 'text-foreground'}>{pkg.name}</span>
         </h3>
       </div>
 
-      {/* Preço */}
       <div className="mb-6 border-b border-border pb-6">
-        <PriceDisplay pkg={pkg} />
+        <PriceDisplay pkg={pkg} t={t} />
       </div>
 
-      {/* Features */}
       <ul className="mb-6 flex flex-1 flex-col gap-2.5">
         {pkg.features.map((f) => (
           <li key={f} className="flex items-start gap-2.5">
@@ -164,12 +99,10 @@ function PackageCard({ pkg, index }) {
         ))}
       </ul>
 
-      {/* Nota */}
       <p className="mb-6 font-mono text-[11px] leading-relaxed text-muted-foreground">
         {pkg.note}
       </p>
 
-      {/* CTA */}
       <a
         href={`https://wa.me/${WHATSAPP}?text=${pkg.whatsappMsg}`}
         target="_blank"
@@ -188,10 +121,72 @@ function PackageCard({ pkg, index }) {
 }
 
 export default function PackagesSection() {
+  const { t } = useLanguage();
+
+  const PACKAGES = [
+    {
+      id: 'start',
+      name: 'Start',
+      eyebrow: t('pkg_start_eyebrow'),
+      priceFrom: 'R$ 450',
+      priceTo: 'R$ 800',
+      priceFootnote: null,
+      features: [
+        t('pkg_start_f1'),
+        t('pkg_start_f2'),
+        t('pkg_start_f3'),
+        t('pkg_start_f4'),
+        t('pkg_start_f5'),
+      ],
+      note: t('pkg_start_note'),
+      cta: t('pkg_start_cta'),
+      whatsappMsg: 'Oi%20Guga%2C%20quero%20o%20Pack%20Start.%20Pode%20me%20mandar%20detalhes%3F',
+      featured: false,
+    },
+    {
+      id: 'pro',
+      name: 'Pro',
+      eyebrow: t('pkg_pro_eyebrow'),
+      priceFrom: 'R$ 1.500',
+      priceTo: 'R$ 2.800',
+      priceFootnote: null,
+      features: [
+        t('pkg_pro_f1'),
+        t('pkg_pro_f2'),
+        t('pkg_pro_f3'),
+        t('pkg_pro_f4'),
+        t('pkg_pro_f5'),
+        t('pkg_pro_f6'),
+      ],
+      note: t('pkg_pro_note'),
+      cta: t('pkg_pro_cta'),
+      whatsappMsg: 'Oi%20Guga%2C%20quero%20o%20Pack%20Pro.%20Pode%20me%20mandar%20detalhes%3F',
+      featured: true,
+    },
+    {
+      id: 'premium',
+      name: 'Premium',
+      eyebrow: t('pkg_premium_eyebrow'),
+      priceFrom: t('pkg_premium_price'),
+      priceTo: null,
+      priceFootnote: t('pkg_premium_footnote'),
+      features: [
+        t('pkg_premium_f1'),
+        t('pkg_premium_f2'),
+        t('pkg_premium_f3'),
+        t('pkg_premium_f4'),
+        t('pkg_premium_f5'),
+      ],
+      note: t('pkg_premium_note'),
+      cta: t('pkg_premium_cta'),
+      whatsappMsg: 'Oi%20Guga%2C%20tenho%20um%20projeto%20Premium%20pra%20conversar.',
+      featured: false,
+    },
+  ];
+
   return (
     <section id="pacotes" className="border-t border-border/40 px-5 py-10 md:px-12 md:py-16">
       <div className="mx-auto max-w-7xl">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -202,28 +197,25 @@ export default function PackagesSection() {
           <div className="mb-4 flex items-center gap-3">
             <span className="block h-px w-6 bg-primary" />
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
-              Packs
+              {t('pkg_eyebrow')}
             </span>
-            {/* Marcador ciano discreto */}
             <span className="block h-px flex-1 max-w-[60px] bg-muted-foreground/30" />
           </div>
           <h2 className="font-display text-3xl font-black leading-[1.05] tracking-tight md:text-5xl">
-            Packs pra colocar sua marca<br className="hidden md:block" />
-            <span className="text-primary"> em movimento.</span>
+            {t('pkg_title_1')}<br className="hidden md:block" />
+            <span className="text-primary"> {t('pkg_title_2')}</span>
           </h2>
           <p className="mt-4 max-w-lg font-mono text-sm leading-relaxed text-muted-foreground">
-            Vídeos curtos, diretos e com visual profissional pra destacar seu negócio nas redes.
+            {t('pkg_subtitle')}
           </p>
         </motion.div>
 
-        {/* Cards */}
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
           {PACKAGES.map((pkg, i) => (
-            <PackageCard key={pkg.id} pkg={pkg} index={i} />
+            <PackageCard key={pkg.id} pkg={pkg} index={i} t={t} />
           ))}
         </div>
 
-        {/* CTAs principais embaixo */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -237,7 +229,7 @@ export default function PackagesSection() {
             rel="noopener noreferrer"
             className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1FB558] hover:shadow-[0_0_32px_rgba(37,211,102,0.5)] sm:w-auto"
           >
-            Pedir orçamento
+            {t('pkg_cta_main')}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <a
@@ -245,12 +237,12 @@ export default function PackagesSection() {
             className="group inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card/40 px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-foreground transition-all duration-300 hover:border-foreground/50 hover:bg-card sm:w-auto"
           >
             <Play className="h-3 w-3 fill-current" />
-            Ver trabalhos
+            {t('pkg_cta_secondary')}
           </a>
         </motion.div>
 
         <p className="mt-6 text-center font-mono text-[11px] text-muted-foreground/60">
-          Pagamento em PIX, transferência ou Stripe · Nota fiscal disponível
+          {t('pkg_footnote')}
         </p>
       </div>
     </section>

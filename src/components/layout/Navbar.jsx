@@ -5,9 +5,10 @@ import { X, Menu } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const NAV_LINKS = [
-  { label: 'Trabalho', path: '/trabalhos' },
-  { label: 'Sobre', path: '/about' },
-  { label: 'Contato', path: '/contact' }
+  { key: 'nav_home', path: '/' },
+  { key: 'nav_work', path: '/trabalhos' },
+  { key: 'nav_about', path: '/about' },
+  { key: 'nav_contact', path: '/contact' }
 ];
 
 // SVG icons for socials
@@ -41,7 +42,7 @@ const SOCIALS = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { lang, setLang } = useLanguage();
+  const { lang, setLang, t } = useLanguage();
 
   const isActive = (path) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
@@ -60,7 +61,7 @@ export default function Navbar() {
                   isActive(link.path) ? 'text-primary font-bold' : 'text-foreground/70 font-normal'
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>
@@ -175,10 +176,39 @@ export default function Navbar() {
                       className={`block font-display font-black text-5xl tracking-tight leading-tight transition-colors duration-300 ${
                         isActive(link.path) ? 'text-primary' : 'text-foreground hover:text-primary'
                       }`}>
-                      {link.label}
+                      {t(link.key)}
                     </Link>
                   </motion.div>
                 ))}
+
+                {/* Toggle PT/EN no mobile */}
+                <motion.div
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-4 flex items-center gap-3"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    Idioma:
+                  </span>
+                  <div className="flex items-center gap-2 rounded-full border border-border bg-card/50 px-3 py-1.5">
+                    <button
+                      onClick={() => setLang('pt')}
+                      className={`font-mono text-xs uppercase tracking-widest transition-colors ${
+                        lang === 'pt' ? 'text-primary font-bold' : 'text-muted-foreground hover:text-foreground'
+                      }`}>
+                      PT
+                    </button>
+                    <span className="text-border/60">|</span>
+                    <button
+                      onClick={() => setLang('en')}
+                      className={`font-mono text-xs uppercase tracking-widest transition-colors ${
+                        lang === 'en' ? 'text-primary font-bold' : 'text-muted-foreground hover:text-foreground'
+                      }`}>
+                      EN
+                    </button>
+                  </div>
+                </motion.div>
               </div>
 
               <div className="px-12 pb-12 border-t border-border pt-6 flex flex-col gap-4">

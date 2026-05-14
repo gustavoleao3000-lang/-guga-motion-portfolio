@@ -1,30 +1,32 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Eye, Zap } from 'lucide-react';
-
-// TODO: trocar as fontes/citações por links reais quando publicar
-const STATS = [
-  {
-    icon: TrendingUp,
-    value: '2.6×',
-    label: 'mais engajamento',
-    source: 'em posts com motion (Wyzowl, 2024)',
-  },
-  {
-    icon: Eye,
-    value: '85%',
-    label: 'compram após vídeo',
-    source: 'dos consumidores convertem com vídeo de marca (HubSpot)',
-  },
-  {
-    icon: Zap,
-    value: '1.8s',
-    label: 'pra prender atenção',
-    source: 'tempo médio que um vídeo tem no feed',
-  },
-];
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function StatsBanner() {
+  const { t } = useLanguage();
+
+  const STATS = [
+    {
+      icon: TrendingUp,
+      value: '2.6×',
+      labelKey: 'stats_1_label',
+      sourceKey: 'stats_1_source',
+    },
+    {
+      icon: Eye,
+      value: '85%',
+      labelKey: 'stats_2_label',
+      sourceKey: 'stats_2_source',
+    },
+    {
+      icon: Zap,
+      value: '1.8s',
+      labelKey: 'stats_3_label',
+      sourceKey: 'stats_3_source',
+    },
+  ];
+
   return (
     <section className="border-t border-border/30 px-5 py-10 md:px-12 md:py-14">
       <div className="mx-auto max-w-7xl">
@@ -38,12 +40,12 @@ export default function StatsBanner() {
           <div className="mb-4 flex items-center gap-3">
             <span className="block h-px w-6 bg-primary" />
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
-              Por que motion?
+              {t('stats_eyebrow')}
             </span>
           </div>
           <h2 className="font-display text-3xl font-black leading-tight tracking-tight md:text-5xl">
-            Vídeo não é luxo,<br className="hidden md:block" />
-            <span className="text-primary"> é matemática.</span>
+            {t('stats_title_1')}<br className="hidden md:block" />
+            <span className="text-primary"> {t('stats_title_2')}</span>
           </h2>
         </motion.div>
 
@@ -52,7 +54,7 @@ export default function StatsBanner() {
             const Icon = s.icon;
             return (
               <motion.div
-                key={s.label}
+                key={s.labelKey}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -66,10 +68,10 @@ export default function StatsBanner() {
                   {s.value}
                 </p>
                 <p className="mt-1 font-display text-sm font-bold tracking-tight text-foreground md:text-base">
-                  {s.label}
+                  {t(s.labelKey)}
                 </p>
                 <p className="mt-3 font-mono text-[11px] leading-relaxed text-muted-foreground/70">
-                  {s.source}
+                  {t(s.sourceKey)}
                 </p>
               </motion.div>
             );

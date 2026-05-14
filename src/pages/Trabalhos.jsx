@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X } from 'lucide-react';
 import { CardPreview, getPoster } from '../lib/videoUtils';
+import { useLanguage } from '@/lib/LanguageContext';
 import {
   VIDEOS,
   WIDESCREEN_VIDEOS,
@@ -110,6 +111,7 @@ function FilterChip({ label, count, active, onClick }) {
 }
 
 export default function Trabalhos() {
+  const { t } = useLanguage();
   const [filter, setFilter] = useState(FILTER_ALL);
 
   // Lista de categorias únicas + contagem
@@ -159,16 +161,16 @@ export default function Trabalhos() {
           <div className="mb-4 flex items-center gap-3">
             <span className="block h-px w-6 bg-primary" />
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
-              Portfólio
+              {t('works_eyebrow')}
             </span>
             <span className="block h-px flex-1 max-w-[120px] bg-muted-foreground/30" />
           </div>
           <h1 className="font-display text-4xl font-black leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
-            Todos os<br className="hidden md:block" />
-            <span className="text-primary"> trabalhos.</span>
+            {t('works_title_1')}<br className="hidden md:block" />
+            <span className="text-primary"> {t('works_title_2')}</span>
           </h1>
           <p className="mt-4 max-w-lg font-mono text-sm leading-relaxed text-muted-foreground">
-            {ALL_VIDEOS.length} vídeos · clica nos filtros pra ver por categoria
+            {ALL_VIDEOS.length} {t('works_subtitle')}
           </p>
         </motion.div>
 
@@ -181,7 +183,7 @@ export default function Trabalhos() {
         >
           <div className="flex flex-wrap items-center gap-2">
             <FilterChip
-              label="Todos"
+              label={t('works_filter_all')}
               count={ALL_VIDEOS.length}
               active={filter === FILTER_ALL}
               onClick={() => handleFilter(FILTER_ALL)}
@@ -199,10 +201,10 @@ export default function Trabalhos() {
               <button
                 onClick={() => handleFilter(FILTER_ALL)}
                 className="ml-auto inline-flex items-center gap-1 rounded-full border border-border bg-card/50 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
-                aria-label="Limpar filtro"
+                aria-label={t('works_filter_clear')}
               >
                 <X className="h-3 w-3" />
-                Limpar
+                {t('works_filter_clear')}
               </button>
             )}
           </div>
@@ -213,10 +215,10 @@ export default function Trabalhos() {
           {filtered.length === 0 ? (
             <div className="mx-auto max-w-md rounded-2xl border border-dashed border-border bg-card/30 px-6 py-12 text-center">
               <p className="font-display text-lg font-bold tracking-tight text-foreground">
-                Nenhum vídeo dessa categoria
+                {t('works_empty_title')}
               </p>
               <p className="mt-2 font-mono text-xs text-muted-foreground">
-                Tenta outro filtro acima
+                {t('works_empty_subtitle')}
               </p>
             </div>
           ) : (
@@ -242,10 +244,10 @@ export default function Trabalhos() {
           className="mx-auto mt-16 max-w-2xl rounded-2xl border border-border bg-card/40 p-6 text-center md:mt-24 md:p-10"
         >
           <p className="font-display text-2xl font-black tracking-tight md:text-3xl">
-            Gostou do trabalho?
+            {t('works_cta_title')}
           </p>
           <p className="mt-3 max-w-md mx-auto font-mono text-xs text-muted-foreground md:text-sm">
-            Vamos transformar sua ideia em motion. Manda no WhatsApp e a gente conversa.
+            {t('works_cta_subtitle')}
           </p>
           <a
             href="https://wa.me/5562998744360?text=Oi%20Guga%2C%20vi%20teu%20portf%C3%B3lio%20e%20quero%20conversar."
@@ -253,7 +255,7 @@ export default function Trabalhos() {
             rel="noopener noreferrer"
             className="group mt-6 inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#25D366] px-7 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1FB558] hover:shadow-[0_0_32px_rgba(37,211,102,0.5)]"
           >
-            Falar no WhatsApp
+            {t('works_cta_button')}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
         </motion.div>

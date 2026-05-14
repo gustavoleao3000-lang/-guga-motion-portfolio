@@ -1,31 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
-const FAQS = [
-  {
-    q: 'Quanto tempo demora pra entregar?',
-    a: 'Pacote Essencial: 3-5 dias úteis. Pacote Pro: 7-10 dias. Brand films e projetos sob medida: 2-3 semanas, dependendo do escopo. Combinamos prazo certo no briefing.',
-  },
-  {
-    q: 'Quantas revisões estão inclusas?',
-    a: 'Essencial: 1 rodada de revisão. Pro: até 2 rodadas. Revisões extras são cobradas à parte (combinadas antes de começar). 90% dos projetos fecham dentro das revisões inclusas.',
-  },
-  {
-    q: 'Atende fora de Goiânia?',
-    a: 'Sim — 100% remoto. Tudo via WhatsApp, e-mail e chamada quando precisar. Já entreguei projetos pra clientes em SP, RJ, BH, Floripa e Lisboa.',
-  },
-  {
-    q: 'Em quais formatos é entregue?',
-    a: 'MP4 (H.264) nos formatos que você pedir — 16:9 (YouTube/site), 9:16 (Reels/TikTok/Stories), 1:1 (feed Instagram). O projeto fonte (.aep do After Effects) vem incluso no Pacote Pro.',
-  },
-  {
-    q: 'Como funciona o pagamento?',
-    a: '50% na aprovação do briefing + 50% na entrega final. Aceito PIX, transferência ou Stripe (pra clientes do exterior). Nota fiscal disponível mediante solicitação.',
-  },
-];
-
-function FAQItem({ item, isOpen, onToggle, index }) {
+function FAQItem({ q, a, isOpen, onToggle, index }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -42,7 +20,7 @@ function FAQItem({ item, isOpen, onToggle, index }) {
         aria-expanded={isOpen}
       >
         <span className="font-display text-sm font-bold tracking-tight text-foreground md:text-base">
-          {item.q}
+          {q}
         </span>
         <motion.span
           animate={{ rotate: isOpen ? 45 : 0 }}
@@ -67,7 +45,7 @@ function FAQItem({ item, isOpen, onToggle, index }) {
             className="overflow-hidden"
           >
             <p className="px-5 pb-5 font-mono text-xs leading-relaxed text-muted-foreground md:px-6 md:pb-6 md:text-sm">
-              {item.a}
+              {a}
             </p>
           </motion.div>
         )}
@@ -77,7 +55,16 @@ function FAQItem({ item, isOpen, onToggle, index }) {
 }
 
 export default function FAQSection() {
+  const { t } = useLanguage();
   const [openSet, setOpenSet] = useState(() => new Set());
+
+  const FAQS = [
+    { q: t('faq_1_q'), a: t('faq_1_a') },
+    { q: t('faq_2_q'), a: t('faq_2_a') },
+    { q: t('faq_3_q'), a: t('faq_3_a') },
+    { q: t('faq_4_q'), a: t('faq_4_a') },
+    { q: t('faq_5_q'), a: t('faq_5_a') },
+  ];
 
   const toggle = (idx) => {
     setOpenSet((prev) => {
@@ -101,20 +88,21 @@ export default function FAQSection() {
           <div className="mb-4 flex items-center gap-3">
             <span className="block h-px w-6 bg-primary" />
             <span className="font-mono text-xs uppercase tracking-widest text-primary">
-              FAQ
+              {t('faq_eyebrow')}
             </span>
           </div>
           <h2 className="font-display text-3xl font-black leading-tight tracking-tight md:text-5xl">
-            Perguntas que<br className="hidden md:block" />
-            <span className="text-primary"> todo mundo faz.</span>
+            {t('faq_title_1')}<br className="hidden md:block" />
+            <span className="text-primary"> {t('faq_title_2')}</span>
           </h2>
         </motion.div>
 
         <div className="flex flex-col gap-3">
           {FAQS.map((item, i) => (
             <FAQItem
-              key={item.q}
-              item={item}
+              key={i}
+              q={item.q}
+              a={item.a}
               index={i}
               isOpen={openSet.has(i)}
               onToggle={() => toggle(i)}
@@ -123,14 +111,14 @@ export default function FAQSection() {
         </div>
 
         <p className="mt-8 text-center font-mono text-xs text-muted-foreground">
-          Ficou alguma dúvida?{' '}
+          {t('faq_help')}{' '}
           <a
             href="https://wa.me/5562998744360?text=Oi%20Guga%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20teu%20trabalho."
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#25D366] underline-offset-4 transition-colors hover:underline"
           >
-            Manda no WhatsApp →
+            {t('faq_link')}
           </a>
         </p>
       </div>

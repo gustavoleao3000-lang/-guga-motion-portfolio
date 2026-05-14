@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/lib/LanguageContext';
 
 function WhatsAppIcon() {
   return (
@@ -10,6 +11,14 @@ function WhatsAppIcon() {
 }
 
 export default function CTASection() {
+  const { t } = useLanguage();
+
+  const STATS = [
+    { value: '3+',   label: t('cta_stat_1_label') },
+    { value: '50+',  label: t('cta_stat_2_label') },
+    { value: '100%', label: t('cta_stat_3_label') },
+  ];
+
   return (
     <section className="px-5 md:px-12 py-8 md:py-10">
       <div className="max-w-7xl mx-auto">
@@ -31,26 +40,21 @@ export default function CTASection() {
 
           <div className="relative flex items-center justify-center gap-3 mb-5">
             <span className="block w-8 h-px bg-primary/50" />
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary/80">Vamos trabalhar juntos</span>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary/80">{t('cta_eyebrow')}</span>
             <span className="block w-8 h-px bg-primary/50" />
           </div>
 
           <h2 className="relative font-display font-black text-3xl md:text-5xl tracking-tight leading-tight text-white mb-4">
-            Curtiu o trabalho?{' '}
-            <span className="text-primary">Bora tirar sua ideia do papel.</span>
+            {t('cta_title_1')}{' '}
+            <span className="text-primary">{t('cta_title_2')}</span>
           </h2>
 
           <p className="relative font-mono text-sm text-muted-foreground leading-relaxed max-w-lg mx-auto mb-10">
-            Me chama no WhatsApp — te ajudo com motion design, animações e criativos que realmente chamam atenção e geram resultado.
+            {t('cta_subtitle')}
           </p>
 
-          {/* Stats de confiança */}
           <div className="relative flex flex-wrap justify-center gap-8 md:gap-12 mb-10">
-            {[
-              { value: '3+', label: 'anos de experiência' },
-              { value: '50+', label: 'projetos entregues' },
-              { value: '100%', label: 'dedicação' },
-            ].map((s) => (
+            {STATS.map((s) => (
               <div key={s.label} className="text-center">
                 <p className="font-display font-black text-2xl md:text-3xl text-primary">{s.value}</p>
                 <p className="font-mono text-xs text-muted-foreground mt-1">{s.label}</p>
@@ -65,11 +69,11 @@ export default function CTASection() {
             className="relative inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1fb558] text-white font-display font-bold text-base md:text-lg tracking-tight px-10 py-5 rounded-2xl transition-all duration-200 hover:scale-105 active:scale-95 shadow-xl shadow-[#25D366]/25"
           >
             <WhatsAppIcon />
-            Pedir orçamento no WhatsApp
+            {t('cta_button')}
           </a>
 
           <p className="relative font-mono text-xs text-muted-foreground/50 mt-5">
-            Resposta em até 24h · Orçamento sem compromisso
+            {t('cta_footnote')}
           </p>
         </motion.div>
       </div>

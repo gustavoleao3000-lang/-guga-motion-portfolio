@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import GugaOverlay from './GugaOverlay';
+import { useLanguage } from '@/lib/LanguageContext';
 
 const FOTO_URL = 'https://media.base44.com/images/public/69c67984fa1d361ff818abe5/fbbd09a48_Imagem1gerada.png';
 
-const QUICK_STATS = [
-  { value: '50+', label: 'projetos' },
-  { value: '3+', label: 'anos' },
-  { value: '24h', label: 'resposta' },
-];
-
 export default function HeroSection() {
   const [overlayOpen, setOverlayOpen] = useState(false);
+  const { t } = useLanguage();
+  const QUICK_STATS = [
+    { value: '50+', label: t('hero_stat_projects') },
+    { value: '3+',  label: t('hero_stat_years') },
+    { value: '24h', label: t('hero_stat_response') },
+  ];
 
   return (
     <>
@@ -49,22 +50,22 @@ export default function HeroSection() {
                   <p className="font-display text-sm font-bold leading-tight tracking-tight text-foreground sm:text-base">
                     Gustavo Leão
                     <span className="ml-1.5 font-mono text-[10px] font-normal uppercase tracking-widest text-primary/80">
-                      aka Guga
+                      {t('hero_aka')}
                     </span>
                   </p>
                   <p className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-mono text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
-                    <span>Motion designer</span>
+                    <span>{t('hero_role')}</span>
                     <span className="text-border">·</span>
-                    <span>Goiânia</span>
+                    <span>{t('hero_location')}</span>
                     <span className="hidden text-border sm:inline">·</span>
-                    <span className="hidden text-primary sm:inline">Disponível</span>
+                    <span className="hidden text-primary sm:inline">{t('hero_available')}</span>
                   </p>
                 </div>
               </button>
 
               <h1 className="font-display font-black leading-[0.92] tracking-tight">
                 <span className="block text-4xl text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-                  Motion design
+                  {t('hero_title_1')}
                 </span>
                 <span
                   className="relative -mt-1 block text-5xl leading-[1] italic text-primary sm:text-6xl md:text-7xl lg:text-[5.5rem]"
@@ -74,8 +75,8 @@ export default function HeroSection() {
                     filter: 'drop-shadow(0 0 28px rgba(255, 255, 255, 0.3))',
                   }}
                 >
-                  que vende.
-                  {/* Acento vermelho decorativo */}
+                  {t('hero_title_2')}
+                  {/* Acento decorativo */}
                   <span
                     aria-hidden
                     className="absolute -left-3 top-1/2 hidden h-1 w-2 -translate-y-1/2 rounded-full bg-primary md:block"
@@ -84,7 +85,7 @@ export default function HeroSection() {
               </h1>
 
               <p className="mt-3 max-w-md font-mono text-xs text-muted-foreground md:text-sm">
-                Animações e criativos que prendem atenção, vendem e te deixam com cara de marca grande.
+                {t('hero_subtitle')}
               </p>
 
               {/* Stats inline — grid no mobile pra nunca quebrar */}
@@ -118,7 +119,7 @@ export default function HeroSection() {
                     <path d="M0 0l7 4-7 4V0z" />
                   </svg>
                 </span>
-                Quer me conhecer?
+                {t('hero_cta_meet')}
               </button>
               <a
                 href="https://wa.me/5562998744360?text=Oi%20Guga%2C%20vi%20seu%20portf%C3%B3lio%20e%20quero%20fazer%20um%20projeto."
@@ -126,7 +127,7 @@ export default function HeroSection() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25D366]/50 bg-[#25D366]/10 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-[#25D366] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#25D366] hover:bg-[#25D366]/20"
               >
-                Falar no WhatsApp →
+                {t('hero_cta_whatsapp')}
               </a>
             </motion.div>
           </div>
@@ -145,7 +146,7 @@ export default function HeroSection() {
               <ArrowDown className="h-3 w-3" />
             </motion.div>
             <span className="font-mono text-[10px] uppercase tracking-widest">
-              Showreel rolando ali embaixo
+              {t('hero_scroll')}
             </span>
           </motion.div>
         </div>
