@@ -15,15 +15,18 @@ export const BLOB_BASE_URL = 'https://pub-c3e36dd02e914afb99967a0962723319.r2.de
 
 /* ============================================================
    REELS — verticais 9:16 (69 vídeos)
+   Subidos em 2 batches no R2: reels-A (01-35) e reels-B (36-69)
    ============================================================ */
 const REELS_COUNT = 69;
 export const VIDEOS = Array.from({ length: REELS_COUNT }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
+  const num = i + 1;
+  const n = String(num).padStart(2, '0');
+  const folder = num <= 35 ? 'reels-A' : 'reels-B';
   return {
     title: `Reel ${n}`,
     category: 'Reels',
     aspectRatio: '9/16',
-    blob: `reels/${n}`,
+    blob: `${folder}/${n}`,
   };
 });
 
