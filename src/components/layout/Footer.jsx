@@ -20,11 +20,9 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-// Adicione URLs reais aqui pra os ícones aparecerem. Links vazios ficam ocultos.
 const SOCIALS = [
-  { name: 'Behance', Icon: BehanceIcon, url: '' },
-  { name: 'Instagram', Icon: InstagramIcon, url: '' },
-  { name: 'LinkedIn', Icon: LinkedInIcon, url: '' },
+  { name: 'Instagram', Icon: InstagramIcon, url: 'https://www.instagram.com/guga.motion/' },
+  { name: 'Behance',   Icon: BehanceIcon,   url: 'https://www.behance.net/gugamotion' },
 ].filter((s) => s.url && s.url !== '#');
 
 export default function Footer() {

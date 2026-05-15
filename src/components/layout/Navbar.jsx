@@ -30,13 +30,9 @@ const LinkedInIcon = () => (
   </svg>
 );
 
-// Pra adicionar seus links de social: troque os '' por URLs reais.
-// Links vazios ficam OCULTOS automaticamente (não viram <a href="#"> morto).
-// Ex: { name: 'Instagram', Icon: InstagramIcon, url: 'https://instagram.com/seu_user' }
 const SOCIALS = [
-  { name: 'Behance', Icon: BehanceIcon, url: '' },
-  { name: 'Instagram', Icon: InstagramIcon, url: '' },
-  { name: 'LinkedIn', Icon: LinkedInIcon, url: '' },
+  { name: 'Instagram', Icon: InstagramIcon, url: 'https://www.instagram.com/guga.motion/' },
+  { name: 'Behance',   Icon: BehanceIcon,   url: 'https://www.behance.net/gugamotion' },
 ].filter((s) => s.url && s.url !== '#');
 
 export default function Navbar() {

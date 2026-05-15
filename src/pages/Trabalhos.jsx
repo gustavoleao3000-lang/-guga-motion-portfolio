@@ -18,11 +18,19 @@ const ALL_VIDEOS = [
 
 const FILTER_ALL = 'todos';
 
-function FeedItem({ video, index, total }) {
+function FeedItem({ video, index }) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
   const poster = getPoster(video);
-  const aspectRatio = video.aspectRatio || '9/16';
+  const aspect = video.aspectRatio || '9/16';
+
+  // Define span no grid baseado no formato (mosaico tipo Pinterest)
+  // Reel (9/16): ocupa 1 col × 2 rows (alto e estreito)
+  // Widescreen (16/9): ocupa 2 cols × 1 row (largo e baixo)
+  // Quadrado (1/1): ocupa 1 col × 1 row (padrão)
+  let spanClass = '';
+  if (aspect === '9/16' || aspect === '9/10') spanClass = 'row-span-2';
+  else if (aspect === '16/9') spanClass = 'col-span-2';
 
   useEffect(() => {
     const el = ref.current;
@@ -38,48 +46,43 @@ function FeedItem({ video, index, total }) {
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-      className="mb-3 break-inside-avoid md:mb-4"
+      className={`group relative overflow-hidden rounded-2xl border border-border bg-card/60 ${spanClass}`}
     >
-      <div
-        style={{ aspectRatio }}
-        className="relative w-full overflow-hidden rounded-2xl border border-border bg-card/60"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black" />
 
-        {poster && (
-          <img
-            src={poster}
-            alt={video.title}
-            loading={index < 6 ? 'eager' : 'lazy'}
-            decoding="async"
-            onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        )}
+      {poster && (
+        <img
+          src={poster}
+          alt={video.title}
+          loading={index < 6 ? 'eager' : 'lazy'}
+          decoding="async"
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
 
-        <CardPreview video={video} active={inView} />
+      <CardPreview video={video} active={inView} />
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/10" />
 
-        <div className="absolute top-2 right-2 z-10 rounded-full border border-white/15 bg-black/50 px-2 py-0.5 backdrop-blur-md">
-          <span className="font-mono text-[9px] tabular-nums text-white/70">
-            {String(index + 1).padStart(2, '0')}
-          </span>
-        </div>
+      <div className="absolute top-2 right-2 z-10 rounded-full border border-white/15 bg-black/50 px-2 py-0.5 backdrop-blur-md">
+        <span className="font-mono text-[9px] tabular-nums text-white/70">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 p-3">
-          <p className="truncate font-display text-xs font-bold tracking-tight text-white md:text-sm">
-            {video.title}
+      <div className="absolute inset-x-0 bottom-0 z-10 p-3">
+        <p className="truncate font-display text-xs font-bold tracking-tight text-white md:text-sm">
+          {video.title}
+        </p>
+        {(video.category || video.tag) && (
+          <p className="mt-0.5 truncate font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+            {video.category || video.tag}
           </p>
-          {(video.category || video.tag) && (
-            <p className="mt-0.5 truncate font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
-              {video.category || video.tag}
-            </p>
-          )}
-        </div>
+        )}
       </div>
     </motion.article>
   );
@@ -219,13 +222,12 @@ export default function Trabalhos() {
               </p>
             </div>
           ) : (
-            <div className="columns-2 gap-3 sm:columns-3 md:columns-4 md:gap-4 lg:columns-5">
+            <div className="grid grid-cols-2 gap-3 [grid-auto-flow:dense] [grid-auto-rows:140px] sm:grid-cols-3 sm:[grid-auto-rows:150px] md:grid-cols-4 md:gap-4 md:[grid-auto-rows:160px] lg:grid-cols-6 lg:[grid-auto-rows:175px]">
               {filtered.map((v, i) => (
                 <FeedItem
                   key={`${v.blob || v.vimeo || v.src}`}
                   video={v}
                   index={i}
-                  total={filtered.length}
                 />
               ))}
             </div>
