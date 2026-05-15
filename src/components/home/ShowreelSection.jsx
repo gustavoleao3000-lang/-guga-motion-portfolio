@@ -370,9 +370,10 @@ export default function ShowreelSection({
                   {loopList.map((v, i) => {
                     const originalIndex = videos.indexOf(v);
                     const cardAspect = resolveAspect(v, aspect);
-                    // No mosaico: reels (9/16 ou 9/10) ocupam 2 linhas, destacando
+                    // No mosaico 3-linhas: reels ocupam coluna inteira (3 linhas).
+                    // Widescreens/quadrados ficam empilhados (3 por coluna) — sem buracos.
                     const isReel = ['9/16', '9/10'].includes(cardAspect);
-                    const extraClass = isMosaic && isReel ? 'row-span-2' : '';
+                    const extraClass = isMosaic && isReel ? 'row-span-3' : '';
                     return (
                       <ReelCard
                         key={`${v.blob || v.vimeo || v.src}-${rowIdx}-${i}`}
