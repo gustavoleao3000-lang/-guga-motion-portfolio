@@ -76,7 +76,7 @@ function CarouselRow({ videos, direction, active, aspect, height, withArrows }) 
     if (!el || paused || !active || videos.length === 0) return;
 
     let raf;
-    const speed = 0.6;
+    const speed = 1.5; // px por frame (~90px/s — mais rápido)
     const tick = () => {
       const half = el.scrollWidth / 2;
       if (direction === 'right') {
@@ -153,8 +153,6 @@ function CarouselRow({ videos, direction, active, aspect, height, withArrows }) 
 
       <div
         ref={scrollRef}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
         className={`marquee-mask flex gap-3 overflow-x-auto sm:gap-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${height}`}
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
