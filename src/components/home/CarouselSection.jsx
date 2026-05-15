@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, VolumeX } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CardPreview, getPoster } from '../../lib/videoUtils';
 
-// Configurações por formato
+// Configurações por formato (altura POR LINHA, vai ter 2 linhas)
 const FORMAT_CONFIG = {
   reels: {
     aspect: '9/16',
-    height: 'h-72 sm:h-80 md:h-[24rem] lg:h-[28rem]',
+    height: 'h-56 sm:h-64 md:h-72 lg:h-80',
   },
   widescreen: {
     aspect: '16/9',
-    height: 'h-44 sm:h-56 md:h-72 lg:h-80',
+    height: 'h-32 sm:h-40 md:h-52 lg:h-60',
   },
 };
 
@@ -20,7 +20,6 @@ function CarouselCard({ video, active, index, aspect }) {
   const [inView, setInView] = useState(false);
   const poster = getPoster(video);
 
-  // Carrega vídeo só quando o card está perto da viewport
   useEffect(() => {
     if (!active) {
       setInView(false);
@@ -40,7 +39,7 @@ function CarouselCard({ video, active, index, aspect }) {
     <div
       ref={cardRef}
       style={{ aspectRatio: aspect }}
-      className="group relative h-full flex-shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-card/60"
+      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black">
         <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
@@ -49,7 +48,7 @@ function CarouselCard({ video, active, index, aspect }) {
       {poster && (
         <img
           src={poster}
-          alt={video.title}
+          alt=""
           loading={index < 8 ? 'eager' : 'lazy'}
           decoding="async"
           fetchpriority={index < 4 ? 'high' : 'auto'}
@@ -60,27 +59,119 @@ function CarouselCard({ video, active, index, aspect }) {
 
       <CardPreview video={video} active={inView} />
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
+      {/* Vinheta sutil só pra dar profundidade */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+    </div>
+  );
+}
 
-      <div className="absolute top-2 right-2 z-10 rounded-full border border-white/15 bg-black/50 px-2 py-0.5 backdrop-blur-md">
-        <span className="font-mono text-[9px] tabular-nums text-white/70">
-          {String((index % 999) + 1).padStart(2, '0')}
-        </span>
-      </div>
+function CarouselRow({ videos, direction, active, aspect, height, withArrows }) {
+  const scrollRef = useRef(null);
+  const [paused, setPaused] = useState(false);
+  const pauseTimerRef = useRef(null);
 
-      <div className="absolute top-2 left-2 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-white/15 bg-black/50 backdrop-blur-md">
-        <VolumeX className="h-3 w-3 text-white/70" />
-      </div>
+  // Auto-scroll loop infinito (direção configurável)
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || paused || !active || videos.length === 0) return;
 
-      <div className="absolute inset-x-0 bottom-0 z-10 p-3">
-        <p className="truncate font-display text-xs font-bold tracking-tight text-white">
-          {video.title}
-        </p>
-        {(video.category || video.tag) && (
-          <p className="truncate font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
-            {video.category || video.tag}
-          </p>
-        )}
+    let raf;
+    const speed = 0.6;
+    const tick = () => {
+      const half = el.scrollWidth / 2;
+      if (direction === 'right') {
+        el.scrollLeft -= speed;
+        if (el.scrollLeft <= 0) el.scrollLeft += half;
+      } else {
+        el.scrollLeft += speed;
+        if (el.scrollLeft >= half) el.scrollLeft -= half;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [paused, active, direction, videos.length]);
+
+  // Pra direção "right", começa no meio (pra ter conteúdo à esquerda)
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || direction !== 'right') return;
+    const init = () => {
+      if (el.scrollWidth > el.clientWidth) {
+        el.scrollLeft = el.scrollWidth / 2;
+      }
+    };
+    init();
+    const t1 = setTimeout(init, 100);
+    const t2 = setTimeout(init, 500);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [direction, videos.length]);
+
+  useEffect(() => () => clearTimeout(pauseTimerRef.current), []);
+
+  const pauseTemporarily = () => {
+    setPaused(true);
+    clearTimeout(pauseTimerRef.current);
+    pauseTimerRef.current = setTimeout(() => setPaused(false), 3000);
+  };
+
+  const scrollByCard = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const firstCard = el.querySelector('[data-card]');
+    const cardWidth = firstCard ? firstCard.getBoundingClientRect().width + 16 : 200;
+    pauseTemporarily();
+    // dir is +1 for visual "next" (right arrow), -1 for "previous" (left arrow)
+    // Each row scrolls in its natural direction
+    const offset = direction === 'right' ? -dir : dir;
+    el.scrollBy({ left: offset * cardWidth, behavior: 'smooth' });
+  };
+
+  // Duplica pra loop infinito seamless
+  const loopList = [...videos, ...videos];
+
+  return (
+    <div className="relative">
+      {withArrows && (
+        <>
+          <button
+            onClick={() => scrollByCard(-1)}
+            aria-label="Anterior"
+            className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:border-white/40 hover:text-white md:left-6 md:h-12 md:w-12"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => scrollByCard(1)}
+            aria-label="Próximo"
+            className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:border-white/40 hover:text-white md:right-6 md:h-12 md:w-12"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </>
+      )}
+
+      <div
+        ref={scrollRef}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        className={`marquee-mask flex gap-3 overflow-x-auto sm:gap-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${height}`}
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
+        <div className="flex-shrink-0 w-2 md:w-8" aria-hidden />
+
+        {loopList.map((v, i) => (
+          <div key={`${v.blob || v.vimeo || v.src}-${i}`} data-card>
+            <CarouselCard
+              video={v}
+              active={active}
+              index={i % videos.length}
+              aspect={aspect}
+            />
+          </div>
+        ))}
+
+        <div className="flex-shrink-0 w-2 md:w-8" aria-hidden />
       </div>
     </div>
   );
@@ -97,14 +188,10 @@ export default function CarouselSection({
   compact = false,
 }) {
   const sectionRef = useRef(null);
-  const scrollRef = useRef(null);
   const [sectionVisible, setSectionVisible] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const pauseTimerRef = useRef(null);
 
   const cfg = FORMAT_CONFIG[format] || FORMAT_CONFIG.reels;
 
-  // Detecta quando seção está visível
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -116,47 +203,12 @@ export default function CarouselSection({
     return () => io.disconnect();
   }, []);
 
-  // Auto-scroll contínuo (loop infinito)
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el || paused || !sectionVisible || videos.length === 0) return;
-
-    let raf;
-    const tick = () => {
-      el.scrollLeft += 0.6; // velocidade (px/frame ≈ 36px/s)
-      const half = el.scrollWidth / 2;
-      if (el.scrollLeft >= half) {
-        el.scrollLeft -= half; // reset silencioso (visualmente seamless)
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [paused, sectionVisible, videos.length]);
-
-  // Cleanup do timer ao desmontar
-  useEffect(() => () => clearTimeout(pauseTimerRef.current), []);
-
-  // Pausa temporariamente ao usar arrows
-  const pauseTemporarily = () => {
-    setPaused(true);
-    clearTimeout(pauseTimerRef.current);
-    pauseTimerRef.current = setTimeout(() => setPaused(false), 3000);
-  };
-
-  const scrollByCard = (dir) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const firstCard = el.querySelector('[data-card]');
-    const cardWidth = firstCard ? firstCard.getBoundingClientRect().width + 16 : 200;
-    pauseTemporarily();
-    el.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
-  };
-
   if (videos.length === 0) return null;
 
-  // Duplica pra loop infinito seamless
-  const loopList = [...videos, ...videos];
+  // Divide os vídeos em 2 linhas
+  const half = Math.ceil(videos.length / 2);
+  const row1 = videos.slice(0, half);
+  const row2 = videos.slice(half).concat(videos.slice(0, Math.max(0, half - (videos.length - half))));
 
   return (
     <section
@@ -200,51 +252,25 @@ export default function CarouselSection({
         </motion.div>
       </div>
 
-      {/* Carousel com arrows */}
-      <div className="relative">
-        {/* Arrow esquerda */}
-        <button
-          onClick={() => scrollByCard(-1)}
-          aria-label="Anterior"
-          className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:border-white/40 hover:text-white md:left-6 md:h-12 md:w-12"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </button>
+      <div className="space-y-3 md:space-y-4">
+        {/* Linha 1 — direção esquerda (cards vão pra esquerda) — COM setas */}
+        <CarouselRow
+          videos={row1}
+          direction="left"
+          active={sectionVisible}
+          aspect={cfg.aspect}
+          height={cfg.height}
+          withArrows
+        />
 
-        {/* Arrow direita */}
-        <button
-          onClick={() => scrollByCard(1)}
-          aria-label="Próximo"
-          className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:border-white/40 hover:text-white md:right-6 md:h-12 md:w-12"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </button>
-
-        {/* Scroll container */}
-        <div
-          ref={scrollRef}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          className={`marquee-mask flex gap-3 overflow-x-auto sm:gap-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${cfg.height}`}
-          style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
-        >
-          {/* Espaçamento inicial pras arrows não cobrirem o primeiro card */}
-          <div className="flex-shrink-0 w-2 md:w-8" aria-hidden />
-
-          {loopList.map((v, i) => (
-            <div key={`${v.blob || v.vimeo || v.src}-${i}`} data-card>
-              <CarouselCard
-                video={v}
-                active={sectionVisible}
-                index={i % videos.length}
-                aspect={cfg.aspect}
-              />
-            </div>
-          ))}
-
-          {/* Espaçamento final */}
-          <div className="flex-shrink-0 w-2 md:w-8" aria-hidden />
-        </div>
+        {/* Linha 2 — direção direita (cards vão pra direita) — SEM setas */}
+        <CarouselRow
+          videos={row2}
+          direction="right"
+          active={sectionVisible}
+          aspect={cfg.aspect}
+          height={cfg.height}
+        />
       </div>
     </section>
   );
