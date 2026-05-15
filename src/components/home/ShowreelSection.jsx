@@ -190,14 +190,17 @@ function ReelCard({ video, active, index, aspectRatio }) {
       style={{ aspectRatio }}
       className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60"
     >
-      {/* Gradient sempre presente como fallback */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black" />
+      {/* Skeleton shimmer enquanto carrega */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black">
+        <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+      </div>
       {poster && (
         <img
           src={poster}
           alt={video.title}
-          loading={index < 4 ? 'eager' : 'lazy'}
+          loading={index < 12 ? 'eager' : 'lazy'}
           decoding="async"
+          fetchpriority={index < 6 ? 'high' : 'auto'}
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
           className="absolute inset-0 h-full w-full object-cover"
         />
