@@ -6,16 +6,14 @@ import { useLanguage } from '@/lib/LanguageContext';
 import {
   VIDEOS,
   WIDESCREEN_VIDEOS,
-  NOVOS_VIDEOS,
-  MIXED_VIDEOS,
+  QUADRADO_VIDEOS,
 } from '../data/videos';
 
-// Junta tudo num feed só. Ordem: Novidades → Stories → Widescreen → Mix
+// Todos os 97 vídeos únicos (sem duplicar com a faixa "Últimos" da home)
 const ALL_VIDEOS = [
-  ...NOVOS_VIDEOS,
   ...VIDEOS,
   ...WIDESCREEN_VIDEOS,
-  ...MIXED_VIDEOS,
+  ...QUADRADO_VIDEOS,
 ];
 
 const FILTER_ALL = 'todos';
