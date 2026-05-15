@@ -354,13 +354,18 @@ export default function ShowreelSection({
               >
                 <div
                   className={`${
-                    isMosaic
-                      ? 'grid grid-rows-2 grid-flow-col [grid-auto-columns:max-content] [grid-auto-flow:dense]'
-                      : 'flex'
+                    isMosaic ? 'grid' : 'flex'
                   } h-full w-max gap-3 sm:gap-4 animate-marquee ${
                     rowDir === 'right' ? '[animation-direction:reverse]' : ''
                   }`}
-                  style={{ animationDuration: `${rowDuration}s` }}
+                  style={{
+                    animationDuration: `${rowDuration}s`,
+                    ...(isMosaic && {
+                      gridTemplateRows: 'repeat(2, minmax(0, 1fr))',
+                      gridAutoFlow: 'column dense',
+                      gridAutoColumns: 'max-content',
+                    }),
+                  }}
                 >
                   {loopList.map((v, i) => {
                     const originalIndex = videos.indexOf(v);
