@@ -59,11 +59,11 @@ function getPoster(video) {
    ============================================================ */
 
 // Alturas maiores no mobile pra dar protagonismo aos vídeos
-// Alturas menores no mobile (mais videos visiveis por linha)
+// Alturas das faixas. "mixed" é maior porque tem grid interno de 2 linhas (mosaico).
 const SECTION_HEIGHTS = {
   story: 'h-56 sm:h-72 md:h-[22rem] lg:h-[24rem]',
   wide:  'h-36 sm:h-52 md:h-64 lg:h-72',
-  mixed: 'h-48 sm:h-64 md:h-80 lg:h-[22rem]',
+  mixed: 'h-80 sm:h-96 md:h-[28rem] lg:h-[32rem]',
 };
 
 const DEFAULT_ASPECT = {
@@ -164,7 +164,7 @@ function CardPreview({ video, active }) {
    REEL CARD — display-only, sem click
    ============================================================ */
 
-function ReelCard({ video, active, index, aspectRatio }) {
+function ReelCard({ video, active, index, aspectRatio, extraClass = '' }) {
   const poster = getPoster(video);
   const cardRef = useRef(null);
   const [cardInView, setCardInView] = useState(false);
@@ -189,7 +189,7 @@ function ReelCard({ video, active, index, aspectRatio }) {
     <div
       ref={cardRef}
       style={{ aspectRatio }}
-      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60"
+      className={`group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60 ${extraClass}`}
     >
       {/* Skeleton shimmer enquanto carrega */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black">
@@ -271,7 +271,9 @@ export default function ShowreelSection({
   const isMobile = useIsMobile();
 
   const heightClass = SECTION_HEIGHTS[aspect] || SECTION_HEIGHTS.story;
-  const effectiveRows = isMobile ? Math.min(2, rows) : rows;
+  // Modo mosaico — quando aspect="mixed", uma única lane com grid interno 2 linhas (reels span-2)
+  const isMosaic = aspect === 'mixed';
+  const effectiveRows = isMosaic ? 1 : (isMobile ? Math.min(2, rows) : rows);
 
   // Toca previews só quando a seção está visível
   useEffect(() => {
@@ -351,7 +353,11 @@ export default function ShowreelSection({
                 className={`marquee-mask relative overflow-hidden ${heightClass}`}
               >
                 <div
-                  className={`flex h-full w-max gap-3 sm:gap-4 animate-marquee ${
+                  className={`${
+                    isMosaic
+                      ? 'grid grid-rows-2 grid-flow-col [grid-auto-columns:max-content] [grid-auto-flow:dense]'
+                      : 'flex'
+                  } h-full w-max gap-3 sm:gap-4 animate-marquee ${
                     rowDir === 'right' ? '[animation-direction:reverse]' : ''
                   }`}
                   style={{ animationDuration: `${rowDuration}s` }}
@@ -359,6 +365,9 @@ export default function ShowreelSection({
                   {loopList.map((v, i) => {
                     const originalIndex = videos.indexOf(v);
                     const cardAspect = resolveAspect(v, aspect);
+                    // No mosaico: reels (9/16 ou 9/10) ocupam 2 linhas, destacando
+                    const isReel = ['9/16', '9/10'].includes(cardAspect);
+                    const extraClass = isMosaic && isReel ? 'row-span-2' : '';
                     return (
                       <ReelCard
                         key={`${v.blob || v.vimeo || v.src}-${rowIdx}-${i}`}
@@ -366,6 +375,7 @@ export default function ShowreelSection({
                         index={originalIndex}
                         active={sectionVisible}
                         aspectRatio={cardAspect}
+                        extraClass={extraClass}
                       />
                     );
                   })}
