@@ -59,10 +59,11 @@ function getPoster(video) {
    ============================================================ */
 
 // Alturas maiores no mobile pra dar protagonismo aos vídeos
+// Alturas menores no mobile (mais videos visiveis por linha)
 const SECTION_HEIGHTS = {
-  story: 'h-72 sm:h-80 md:h-[22rem] lg:h-[24rem]',
-  wide:  'h-48 sm:h-56 md:h-64 lg:h-72',
-  mixed: 'h-64 sm:h-72 md:h-80 lg:h-[22rem]',
+  story: 'h-56 sm:h-72 md:h-[22rem] lg:h-[24rem]',
+  wide:  'h-36 sm:h-52 md:h-64 lg:h-72',
+  mixed: 'h-48 sm:h-64 md:h-80 lg:h-[22rem]',
 };
 
 const DEFAULT_ASPECT = {
@@ -270,7 +271,7 @@ export default function ShowreelSection({
   const isMobile = useIsMobile();
 
   const heightClass = SECTION_HEIGHTS[aspect] || SECTION_HEIGHTS.story;
-  const effectiveRows = isMobile ? 1 : rows;
+  const effectiveRows = isMobile ? Math.min(2, rows) : rows;
 
   // Toca previews só quando a seção está visível
   useEffect(() => {

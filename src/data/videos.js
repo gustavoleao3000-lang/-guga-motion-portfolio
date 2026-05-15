@@ -36,8 +36,8 @@ function widescreenEntry(num) {
 function quadradoEntry(num) {
   const n = String(num).padStart(2, '0');
   return {
-    title: `Quadrado ${n}`,
-    category: 'Quadrado',
+    title: `Post ${n}`,
+    category: 'Formato post',
     aspectRatio: '1/1',
     blob: `quadrado/${n}`,
   };

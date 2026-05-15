@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
 import GugaOverlay from './GugaOverlay';
 import { useLanguage } from '@/lib/LanguageContext';
 
@@ -9,28 +8,23 @@ const FOTO_URL = 'https://media.base44.com/images/public/69c67984fa1d361ff818abe
 export default function HeroSection() {
   const [overlayOpen, setOverlayOpen] = useState(false);
   const { t } = useLanguage();
-  const QUICK_STATS = [
-    { value: '400+', label: t('hero_stat_projects') },
-    { value: '3+',  label: t('hero_stat_years') },
-    { value: '24h', label: t('hero_stat_response') },
-  ];
 
   return (
     <>
-      <section className="relative px-5 pt-20 pb-2 md:px-12 md:pt-24 md:pb-4">
+      <section className="relative px-5 pt-20 pb-2 md:px-12 md:pt-24 md:pb-3">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-10">
             {/* Headline */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="min-w-0 flex-1"
             >
-              {/* Card pessoal — foto + nome + disponibilidade. Tudo cresce junto no hover. */}
+              {/* Card pessoal — foto + nome + disponibilidade */}
               <button
                 onClick={() => setOverlayOpen(true)}
-                className="group -ml-2 mb-4 inline-flex items-center gap-3 rounded-2xl px-2 py-1.5 transition-all duration-500 ease-out will-change-transform hover:scale-[1.18] hover:bg-card/40"
+                className="group -ml-2 mb-3 inline-flex items-center gap-3 rounded-2xl px-2 py-1.5 transition-all duration-500 ease-out will-change-transform hover:scale-[1.18] hover:bg-card/40"
                 style={{ transformOrigin: 'left center' }}
                 aria-label="Saber mais sobre o Guga"
               >
@@ -38,13 +32,12 @@ export default function HeroSection() {
                   <img
                     src={FOTO_URL}
                     alt="Gustavo Leão"
-                    className="h-14 w-14 rounded-full border-2 border-primary/40 object-cover transition-all duration-500 ease-out group-hover:border-primary group-hover:shadow-[0_0_28px_rgba(255,255,255,0.45)] sm:h-16 sm:w-16"
+                    className="h-12 w-12 rounded-full border-2 border-primary/40 object-cover transition-all duration-500 ease-out group-hover:border-primary group-hover:shadow-[0_0_28px_rgba(255,255,255,0.45)] sm:h-14 sm:w-14"
                     style={{ objectPosition: 'center 15%' }}
                   />
-                  {/* Indicador online — verde = "disponível" universal */}
-                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 sm:h-4 sm:w-4">
+                  <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3 sm:h-3.5 sm:w-3.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25D366]/60 opacity-75" />
-                    <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-[#25D366] ring-2 ring-background sm:h-4 sm:w-4" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-[#25D366] ring-2 ring-background sm:h-3.5 sm:w-3.5" />
                   </span>
                 </div>
                 <div className="text-left">
@@ -81,38 +74,19 @@ export default function HeroSection() {
                   }}
                 >
                   {t('hero_title_2')}
-                  {/* Acento decorativo */}
                   <span
                     aria-hidden
                     className="absolute -left-3 top-1/2 hidden h-1 w-2 -translate-y-1/2 rounded-full bg-primary md:block"
                   />
                 </span>
               </h1>
-
-              <p className="mt-3 max-w-md font-mono text-xs text-muted-foreground md:text-sm">
-                {t('hero_subtitle')}
-              </p>
-
-              {/* Stats inline — grid no mobile pra nunca quebrar */}
-              <div className="mt-5 grid grid-cols-3 gap-3 sm:flex sm:items-center sm:gap-5 md:gap-7">
-                {QUICK_STATS.map((s) => (
-                  <div key={s.label} className="flex flex-col items-start gap-0.5 sm:flex-row sm:items-baseline sm:gap-1.5">
-                    <span className="font-display text-lg font-black text-primary sm:text-xl md:text-2xl">
-                      {s.value}
-                    </span>
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
-                      {s.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
             </motion.div>
 
-            {/* Botão CTA */}
+            {/* Botões CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-shrink-0 flex-col items-stretch gap-2 md:items-end"
             >
               <button
@@ -136,24 +110,6 @@ export default function HeroSection() {
               </a>
             </motion.div>
           </div>
-
-          {/* Scroll hint */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-6 flex items-center gap-2 text-muted-foreground/50"
-          >
-            <motion.div
-              animate={{ y: [0, 4, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <ArrowDown className="h-3 w-3" />
-            </motion.div>
-            <span className="font-mono text-[10px] uppercase tracking-widest">
-              {t('hero_scroll')}
-            </span>
-          </motion.div>
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ClipboardList } from 'lucide-react';
 import HeroSection from '../components/home/HeroSection';
 import ShowreelSection from '../components/home/ShowreelSection';
 import StatsBanner from '../components/home/StatsBanner';
@@ -31,7 +31,6 @@ function PortfolioCTA() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card via-card to-card/60 p-7 text-center md:p-10"
         >
-          {/* Glow sutil */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
@@ -76,6 +75,40 @@ function PortfolioCTA() {
   );
 }
 
+function BriefingCTA() {
+  const { t } = useLanguage();
+  return (
+    <section className="px-5 pb-12 pt-2 md:px-12 md:pb-20 md:pt-4">
+      <div className="mx-auto max-w-3xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6 }}
+        >
+          <Link
+            to="/briefing"
+            className="group flex items-center gap-4 rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/[0.06] via-card to-card p-5 transition-all duration-300 hover:border-primary/70 hover:shadow-[0_0_40px_-12px_rgba(255,255,255,0.4)] md:gap-5 md:p-7"
+          >
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary/15 transition-colors group-hover:bg-primary/25 md:h-14 md:w-14">
+              <ClipboardList className="h-5 w-5 text-primary md:h-6 md:w-6" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="font-display text-base font-bold tracking-tight text-foreground md:text-lg">
+                {t('contact_briefing_cta')}
+              </p>
+              <p className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:text-xs">
+                {t('contact_briefing_subtitle')}
+              </p>
+            </div>
+            <ArrowRight className="h-5 w-5 flex-shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const { t } = useLanguage();
   return (
@@ -90,7 +123,7 @@ export default function Home() {
           aspect="mixed"
           direction="right"
           eyebrow={t('showreel_novos_eyebrow')}
-          rows={2}
+          rows={3}
           withTopBorder={false}
           title={
             <>
@@ -102,14 +135,12 @@ export default function Home() {
         />
       )}
 
-      {/* CTA pra portfolio completo */}
       <PortfolioCTA />
-
-      {/* Resto da home */}
       <StatsBanner />
       <ProcessSection />
       <PackagesSection />
       <FAQSection />
+      <BriefingCTA />
     </div>
   );
 }

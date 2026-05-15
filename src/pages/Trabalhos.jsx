@@ -38,15 +38,14 @@ function FeedItem({ video, index, total }) {
   return (
     <motion.article
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="mx-auto w-full max-w-3xl"
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className="mb-3 break-inside-avoid md:mb-4"
     >
       <div
         style={{ aspectRatio }}
-        className="relative w-full overflow-hidden rounded-2xl border border-border bg-card/60 max-h-[85vh]"
+        className="relative w-full overflow-hidden rounded-2xl border border-border bg-card/60"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black" />
 
@@ -54,7 +53,7 @@ function FeedItem({ video, index, total }) {
           <img
             src={poster}
             alt={video.title}
-            loading={index < 3 ? 'eager' : 'lazy'}
+            loading={index < 6 ? 'eager' : 'lazy'}
             decoding="async"
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
             className="absolute inset-0 h-full w-full object-cover"
@@ -63,20 +62,20 @@ function FeedItem({ video, index, total }) {
 
         <CardPreview video={video} active={inView} />
 
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/10" />
 
-        <div className="absolute top-3 right-3 z-10 rounded-full border border-white/15 bg-black/50 px-2.5 py-1 backdrop-blur-md">
-          <span className="font-mono text-[10px] tabular-nums text-white/70">
-            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+        <div className="absolute top-2 right-2 z-10 rounded-full border border-white/15 bg-black/50 px-2 py-0.5 backdrop-blur-md">
+          <span className="font-mono text-[9px] tabular-nums text-white/70">
+            {String(index + 1).padStart(2, '0')}
           </span>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 p-4 md:p-5">
-          <p className="font-display text-base font-bold tracking-tight text-white md:text-lg">
+        <div className="absolute inset-x-0 bottom-0 z-10 p-3">
+          <p className="truncate font-display text-xs font-bold tracking-tight text-white md:text-sm">
             {video.title}
           </p>
           {(video.category || video.tag) && (
-            <p className="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="mt-0.5 truncate font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
               {video.category || video.tag}
             </p>
           )}
@@ -208,8 +207,8 @@ export default function Trabalhos() {
           </div>
         </motion.div>
 
-        {/* Feed */}
-        <div ref={feedRef} className="flex flex-col gap-5 md:gap-8">
+        {/* Grid masonry — colunas com items respeitando aspect ratio individual */}
+        <div ref={feedRef}>
           {filtered.length === 0 ? (
             <div className="mx-auto max-w-md rounded-2xl border border-dashed border-border bg-card/30 px-6 py-12 text-center">
               <p className="font-display text-lg font-bold tracking-tight text-foreground">
@@ -220,7 +219,7 @@ export default function Trabalhos() {
               </p>
             </div>
           ) : (
-            <AnimatePresence mode="popLayout">
+            <div className="columns-2 gap-3 sm:columns-3 md:columns-4 md:gap-4 lg:columns-5">
               {filtered.map((v, i) => (
                 <FeedItem
                   key={`${v.blob || v.vimeo || v.src}`}
@@ -229,7 +228,7 @@ export default function Trabalhos() {
                   total={filtered.length}
                 />
               ))}
-            </AnimatePresence>
+            </div>
           )}
         </div>
 
