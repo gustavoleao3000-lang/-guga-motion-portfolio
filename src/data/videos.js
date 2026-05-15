@@ -92,10 +92,11 @@ export const MIXED_VIDEOS = QUADRADO_VIDEOS;
 
 // Números escolhidos pelo Guga (preservando a ordem)
 const PICKED_REELS = [
-  2, 3, 4, 6, 8, 11, 19, 15, 23, 24, 25, 29, 30, 39, 35, 36, 41, 44, 49, 54, 57, 58, 69,
+  2, 3, 4, 6, 7, 8, 11, 12, 15, 17, 19, 21, 23, 24, 25, 27, 29, 30, 33, 35, 36, 39, 41,
+  44, 47, 49, 51, 54, 57, 58, 62, 65, 67, 69,
 ];
-const PICKED_WIDESCREEN = [15, 17, 13, 9, 11, 5, 12, 10];
-const PICKED_QUADRADO = [1, 3, 4];
+const PICKED_WIDESCREEN = [1, 3, 5, 7, 9, 10, 11, 12, 13, 15, 17, 18, 20, 22];
+const PICKED_QUADRADO = [1, 2, 3, 4];
 
 // Misturado em ordem balanceada (varia formato no marquee)
 export const NOVOS_VIDEOS = interleave(

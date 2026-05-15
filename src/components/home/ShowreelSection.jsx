@@ -59,11 +59,11 @@ function getPoster(video) {
    ============================================================ */
 
 // Alturas maiores no mobile pra dar protagonismo aos vídeos
-// Alturas das faixas. "mixed" é maior porque tem grid interno de 2 linhas (mosaico).
+// Alturas das faixas. "mixed" é maior porque tem grid interno de 3 linhas (mosaico).
 const SECTION_HEIGHTS = {
   story: 'h-56 sm:h-72 md:h-[22rem] lg:h-[24rem]',
   wide:  'h-36 sm:h-52 md:h-64 lg:h-72',
-  mixed: 'h-80 sm:h-96 md:h-[28rem] lg:h-[32rem]',
+  mixed: 'h-[26rem] sm:h-[28rem] md:h-[34rem] lg:h-[40rem]',
 };
 
 const DEFAULT_ASPECT = {
@@ -361,7 +361,7 @@ export default function ShowreelSection({
                   style={{
                     animationDuration: `${rowDuration}s`,
                     ...(isMosaic && {
-                      gridTemplateRows: 'repeat(2, minmax(0, 1fr))',
+                      gridTemplateRows: 'repeat(3, minmax(0, 1fr))',
                       gridAutoFlow: 'column dense',
                       gridAutoColumns: 'max-content',
                     }),
