@@ -13,14 +13,12 @@ import {
   VIDEOS,
   WIDESCREEN_VIDEOS,
   QUADRADO_VIDEOS,
-  FEATURED_REELS,
-  FEATURED_WIDESCREEN,
 } from '../data/videos';
 
 function PortfolioCTA() {
   const { t } = useLanguage();
   const total = VIDEOS.length + WIDESCREEN_VIDEOS.length + QUADRADO_VIDEOS.length;
-  const remaining = total - (FEATURED_REELS.length + FEATURED_WIDESCREEN.length);
+  const remaining = QUADRADO_VIDEOS.length;
 
   return (
     <section className="px-5 pb-10 pt-2 md:px-12 md:pb-14 md:pt-4">
@@ -116,11 +114,12 @@ export default function Home() {
     <div>
       <HeroSection />
 
-      {/* SAIU DO FORNO · REELS — só verticais, com setas */}
-      {FEATURED_REELS.length > 0 && (
+      {/* SAIU DO FORNO · REELS — todos os 69 verticais (window de 20, varia) */}
+      {VIDEOS.length > 0 && (
         <CarouselSection
           id="reels-featured"
-          videos={FEATURED_REELS}
+          videos={VIDEOS}
+          windowSize={20}
           format="reels"
           eyebrow={t('featured_reels_eyebrow')}
           title={
@@ -134,11 +133,12 @@ export default function Home() {
         />
       )}
 
-      {/* SAIU DO FORNO · WIDESCREEN — só horizontais, com setas */}
-      {FEATURED_WIDESCREEN.length > 0 && (
+      {/* SAIU DO FORNO · WIDESCREEN — todos os 24 horizontais (window de 10, varia) */}
+      {WIDESCREEN_VIDEOS.length > 0 && (
         <CarouselSection
           id="widescreen-featured"
-          videos={FEATURED_WIDESCREEN}
+          videos={WIDESCREEN_VIDEOS}
+          windowSize={10}
           format="widescreen"
           eyebrow={t('featured_wide_eyebrow')}
           title={

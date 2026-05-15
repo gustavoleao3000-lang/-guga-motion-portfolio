@@ -186,9 +186,12 @@ export default function CarouselSection({
   subtitle,
   withTopBorder = true,
   compact = false,
+  windowSize,           // Quantos vídeos por vez. Ex: 20 pra reels, 10 pra wide.
+  rotateMs = 45000,     // De quanto em quanto tempo o batch troca (45s)
 }) {
   const sectionRef = useRef(null);
   const [sectionVisible, setSectionVisible] = useState(false);
+  const [windowStart, setWindowStart] = useState(0);
 
   const cfg = FORMAT_CONFIG[format] || FORMAT_CONFIG.reels;
 
@@ -203,12 +206,36 @@ export default function CarouselSection({
     return () => io.disconnect();
   }, []);
 
+  // Rotaciona o batch ao longo do tempo (só se windowSize < total)
+  useEffect(() => {
+    if (!windowSize || windowSize >= videos.length) return;
+    if (!sectionVisible) return;
+    const id = setInterval(() => {
+      // Avança metade da window pra ter mistura suave (não swap brusco)
+      const step = Math.max(1, Math.floor(windowSize / 2));
+      setWindowStart((prev) => (prev + step) % videos.length);
+    }, rotateMs);
+    return () => clearInterval(id);
+  }, [windowSize, videos.length, rotateMs, sectionVisible]);
+
   if (videos.length === 0) return null;
 
-  // Divide os vídeos em 2 linhas
-  const half = Math.ceil(videos.length / 2);
-  const row1 = videos.slice(0, half);
-  const row2 = videos.slice(half).concat(videos.slice(0, Math.max(0, half - (videos.length - half))));
+  // Se windowSize definido, pega só uma janela (com wrap circular)
+  const activeVideos = (() => {
+    if (!windowSize || windowSize >= videos.length) return videos;
+    const out = [];
+    for (let i = 0; i < windowSize; i++) {
+      out.push(videos[(windowStart + i) % videos.length]);
+    }
+    return out;
+  })();
+
+  // Divide em 2 linhas
+  const half = Math.ceil(activeVideos.length / 2);
+  const row1 = activeVideos.slice(0, half);
+  const row2 = activeVideos.slice(half).concat(
+    activeVideos.slice(0, Math.max(0, half - (activeVideos.length - half)))
+  );
 
   return (
     <section
