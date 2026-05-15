@@ -1,25 +1,18 @@
 // Listas de vídeos do showreel.
 //
 // Estrutura no R2 (bucket "asaasas"):
-//   reels/01.mp4 + reels/01.jpg     (verticais 9:16)
-//   widescreen/01.mp4 + ...          (horizontais 16:9)
-//   quadrado/01.mp4 + ...            (quadrados 1:1)
-//
-// Pra adicionar um vídeo novo:
-//   1) Comprime + gera capa .jpg do mesmo nome
-//   2) Sobe os 2 arquivos no R2 dentro da pasta certa
-//   3) Adiciona o número aqui na lista da categoria
+//   reels-A/{01-35}.mp4 + .jpg     (verticais 9:16, batch A)
+//   reels-B/{36-69}.mp4 + .jpg     (verticais 9:16, batch B)
+//   widescreen/{01-24}.mp4 + .jpg  (horizontais 16:9)
+//   quadrado/{01-04}.mp4 + .jpg    (quadrados 1:1)
 
-// URL pública do bucket R2 (sem barra no fim)
 export const BLOB_BASE_URL = 'https://pub-c3e36dd02e914afb99967a0962723319.r2.dev';
 
-/* ============================================================
-   REELS — verticais 9:16 (69 vídeos)
-   Subidos em 2 batches no R2: reels-A (01-35) e reels-B (36-69)
-   ============================================================ */
-const REELS_COUNT = 69;
-export const VIDEOS = Array.from({ length: REELS_COUNT }, (_, i) => {
-  const num = i + 1;
+// ============================================================
+// HELPERS — montam cada entrada com path certo
+// ============================================================
+
+function reelEntry(num) {
   const n = String(num).padStart(2, '0');
   const folder = num <= 35 ? 'reels-A' : 'reels-B';
   return {
@@ -28,39 +21,85 @@ export const VIDEOS = Array.from({ length: REELS_COUNT }, (_, i) => {
     aspectRatio: '9/16',
     blob: `${folder}/${n}`,
   };
-});
+}
 
-/* ============================================================
-   WIDESCREEN — horizontais 16:9 (24 vídeos)
-   ============================================================ */
-const WIDESCREEN_COUNT = 24;
-export const WIDESCREEN_VIDEOS = Array.from({ length: WIDESCREEN_COUNT }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
+function widescreenEntry(num) {
+  const n = String(num).padStart(2, '0');
   return {
     title: `Widescreen ${n}`,
     category: 'Widescreen',
     aspectRatio: '16/9',
     blob: `widescreen/${n}`,
   };
-});
+}
 
-/* ============================================================
-   NOVIDADES — vazio por enquanto
-   ============================================================ */
-// Pra destacar drops recentes, copia entradas pra cá.
-// Como vazio, a seção "Novidades" não aparece na home.
-export const NOVOS_VIDEOS = [];
-
-/* ============================================================
-   MIX / QUADRADOS — quadrados 1:1 (4 vídeos)
-   ============================================================ */
-const QUADRADO_COUNT = 4;
-export const MIXED_VIDEOS = Array.from({ length: QUADRADO_COUNT }, (_, i) => {
-  const n = String(i + 1).padStart(2, '0');
+function quadradoEntry(num) {
+  const n = String(num).padStart(2, '0');
   return {
     title: `Quadrado ${n}`,
     category: 'Quadrado',
     aspectRatio: '1/1',
     blob: `quadrado/${n}`,
   };
-});
+}
+
+/**
+ * Mistura arrays de forma proporcional (pra faixa "Últimos trabalhos" ficar variada).
+ * Em cada iteração escolhe o array com maior % restante.
+ */
+function interleave(...arrays) {
+  const totals = arrays.map((a) => a.length);
+  const remaining = arrays.map((a) => [...a]);
+  const out = [];
+  while (remaining.some((a) => a.length > 0)) {
+    let bestIdx = 0;
+    let bestRatio = -1;
+    for (let i = 0; i < remaining.length; i++) {
+      if (remaining[i].length === 0) continue;
+      const ratio = remaining[i].length / totals[i];
+      if (ratio > bestRatio) {
+        bestRatio = ratio;
+        bestIdx = i;
+      }
+    }
+    out.push(remaining[bestIdx].shift());
+  }
+  return out;
+}
+
+// ============================================================
+// REELS — todos os 69 vídeos verticais (faixa Stories)
+// ============================================================
+export const VIDEOS = Array.from({ length: 69 }, (_, i) => reelEntry(i + 1));
+
+// ============================================================
+// WIDESCREEN — todos os 24 vídeos horizontais
+// ============================================================
+export const WIDESCREEN_VIDEOS = Array.from({ length: 24 }, (_, i) => widescreenEntry(i + 1));
+
+// ============================================================
+// QUADRADO — todos os 4 (usado no /trabalhos pelo filtro Quadrado)
+// ============================================================
+export const QUADRADO_VIDEOS = Array.from({ length: 4 }, (_, i) => quadradoEntry(i + 1));
+
+// Alias antigo (Trabalhos.jsx ainda pode estar referenciando)
+export const MIXED_VIDEOS = QUADRADO_VIDEOS;
+
+// ============================================================
+// ÚLTIMOS TRABALHOS — seleção misturada (reels + widescreen + quadrado)
+// Aparece como PRIMEIRA faixa na home. Mostra os melhores trabalhos.
+// ============================================================
+
+// Números escolhidos pelo Guga (preservando a ordem)
+const PICKED_REELS = [
+  2, 3, 4, 6, 8, 11, 19, 15, 23, 24, 25, 29, 30, 39, 35, 36, 41, 44, 49, 54, 57, 58, 69,
+];
+const PICKED_WIDESCREEN = [15, 17, 13, 9, 11, 5, 12, 10];
+const PICKED_QUADRADO = [1, 3, 4];
+
+// Misturado em ordem balanceada (varia formato no marquee)
+export const NOVOS_VIDEOS = interleave(
+  PICKED_REELS.map(reelEntry),
+  PICKED_WIDESCREEN.map(widescreenEntry),
+  PICKED_QUADRADO.map(quadradoEntry),
+);

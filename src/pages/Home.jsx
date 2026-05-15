@@ -7,7 +7,7 @@ import PackagesSection from '../components/home/PackagesSection';
 import FAQSection from '../components/home/FAQSection';
 import CTASection from '../components/home/CTASection';
 import { useLanguage } from '@/lib/LanguageContext';
-import { VIDEOS, WIDESCREEN_VIDEOS, MIXED_VIDEOS, NOVOS_VIDEOS } from '../data/videos';
+import { VIDEOS, WIDESCREEN_VIDEOS, NOVOS_VIDEOS } from '../data/videos';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -15,6 +15,27 @@ export default function Home() {
     <div>
       <HeroSection />
 
+      {/* ÚLTIMOS TRABALHOS — faixa mista (reels + widescreen + quadrado misturados) */}
+      {NOVOS_VIDEOS.length > 0 && (
+        <ShowreelSection
+          id="novidades"
+          videos={NOVOS_VIDEOS}
+          aspect="mixed"
+          direction="right"
+          eyebrow={t('showreel_novos_eyebrow')}
+          rows={2}
+          withTopBorder={false}
+          title={
+            <>
+              {t('showreel_novos_title_1')}<br className="hidden md:block" />
+              <span className="text-primary"> {t('showreel_novos_title_2')}</span>
+            </>
+          }
+          subtitle={t('showreel_novos_subtitle')}
+        />
+      )}
+
+      {/* SHOWREEL · STORIES — todos os reels (69) */}
       <ShowreelSection
         id="showreel"
         videos={VIDEOS}
@@ -23,9 +44,9 @@ export default function Home() {
         eyebrow={t('showreel_stories_eyebrow')}
         rows={3}
         compact
-        withTopBorder={false}
       />
 
+      {/* WIDESCREEN — todos horizontais (24) */}
       <ShowreelSection
         id="widescreen"
         videos={WIDESCREEN_VIDEOS}
@@ -41,42 +62,6 @@ export default function Home() {
         }
         subtitle={t('showreel_wide_subtitle')}
       />
-
-      {NOVOS_VIDEOS.length > 0 && (
-        <ShowreelSection
-          id="novidades"
-          videos={NOVOS_VIDEOS}
-          aspect="mixed"
-          direction="left"
-          eyebrow={t('showreel_novos_eyebrow')}
-          rows={2}
-          title={
-            <>
-              {t('showreel_novos_title_1')}<br className="hidden md:block" />
-              <span className="text-primary"> {t('showreel_novos_title_2')}</span>
-            </>
-          }
-          subtitle={t('showreel_novos_subtitle')}
-        />
-      )}
-
-      {MIXED_VIDEOS.length > 0 && (
-        <ShowreelSection
-          id="mix"
-          videos={MIXED_VIDEOS}
-          aspect="mixed"
-          direction="right"
-          eyebrow={t('showreel_mix_eyebrow')}
-          rows={2}
-          title={
-            <>
-              {t('showreel_mix_title_1')}<br className="hidden md:block" />
-              <span className="text-primary"> {t('showreel_mix_title_2')}</span>
-            </>
-          }
-          subtitle={t('showreel_mix_subtitle')}
-        />
-      )}
 
       <StatsBanner />
       <ProcessSection />
