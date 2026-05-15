@@ -7,11 +7,11 @@ import { CardPreview, getPoster } from '../../lib/videoUtils';
 const FORMAT_CONFIG = {
   reels: {
     aspect: '9/16',
-    height: 'h-56 sm:h-64 md:h-72 lg:h-80',
+    height: 'h-80 sm:h-96 md:h-[26rem] lg:h-[30rem]',
   },
   widescreen: {
     aspect: '16/9',
-    height: 'h-32 sm:h-40 md:h-52 lg:h-60',
+    height: 'h-48 sm:h-64 md:h-80 lg:h-96',
   },
 };
 
