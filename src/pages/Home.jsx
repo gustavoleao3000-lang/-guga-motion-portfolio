@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ClipboardList } from 'lucide-react';
 import HeroSection from '../components/home/HeroSection';
-import ShowreelSection from '../components/home/ShowreelSection';
+import CarouselSection from '../components/home/CarouselSection';
 import StatsBanner from '../components/home/StatsBanner';
 import ProcessSection from '../components/home/ProcessSection';
 import PackagesSection from '../components/home/PackagesSection';
@@ -13,13 +13,14 @@ import {
   VIDEOS,
   WIDESCREEN_VIDEOS,
   QUADRADO_VIDEOS,
-  NOVOS_VIDEOS,
+  FEATURED_REELS,
+  FEATURED_WIDESCREEN,
 } from '../data/videos';
 
 function PortfolioCTA() {
   const { t } = useLanguage();
   const total = VIDEOS.length + WIDESCREEN_VIDEOS.length + QUADRADO_VIDEOS.length;
-  const remaining = total - NOVOS_VIDEOS.length;
+  const remaining = total - (FEATURED_REELS.length + FEATURED_WIDESCREEN.length);
 
   return (
     <section className="px-5 pb-10 pt-2 md:px-12 md:pb-14 md:pt-4">
@@ -115,23 +116,38 @@ export default function Home() {
     <div>
       <HeroSection />
 
-      {/* ÚLTIMOS TRABALHOS — única faixa de vídeos na home */}
-      {NOVOS_VIDEOS.length > 0 && (
-        <ShowreelSection
-          id="novidades"
-          videos={NOVOS_VIDEOS}
-          aspect="mixed"
-          direction="right"
-          eyebrow={t('showreel_novos_eyebrow')}
-          rows={3}
-          withTopBorder={false}
+      {/* SAIU DO FORNO · REELS — só verticais, com setas */}
+      {FEATURED_REELS.length > 0 && (
+        <CarouselSection
+          id="reels-featured"
+          videos={FEATURED_REELS}
+          format="reels"
+          eyebrow={t('featured_reels_eyebrow')}
           title={
             <>
-              {t('showreel_novos_title_1')}<br className="hidden md:block" />
-              <span className="text-primary"> {t('showreel_novos_title_2')}</span>
+              {t('featured_reels_title_1')}<br className="hidden md:block" />
+              <span className="text-primary"> {t('featured_reels_title_2')}</span>
             </>
           }
-          subtitle={t('showreel_novos_subtitle')}
+          subtitle={t('featured_reels_subtitle')}
+          withTopBorder={false}
+        />
+      )}
+
+      {/* SAIU DO FORNO · WIDESCREEN — só horizontais, com setas */}
+      {FEATURED_WIDESCREEN.length > 0 && (
+        <CarouselSection
+          id="widescreen-featured"
+          videos={FEATURED_WIDESCREEN}
+          format="widescreen"
+          eyebrow={t('featured_wide_eyebrow')}
+          title={
+            <>
+              {t('featured_wide_title_1')}<br className="hidden md:block" />
+              <span className="text-primary"> {t('featured_wide_title_2')}</span>
+            </>
+          }
+          subtitle={t('featured_wide_subtitle')}
         />
       )}
 

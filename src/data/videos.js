@@ -98,9 +98,13 @@ const PICKED_REELS = [
 const PICKED_WIDESCREEN = [1, 3, 5, 7, 9, 10, 11, 12, 13, 15, 17, 18, 20, 22];
 const PICKED_QUADRADO = [1, 2, 3, 4];
 
-// Misturado em ordem balanceada (varia formato no marquee)
+// Misturado em ordem balanceada (mantido pra retrocompat, se precisar)
 export const NOVOS_VIDEOS = interleave(
   PICKED_REELS.map(reelEntry),
   PICKED_WIDESCREEN.map(widescreenEntry),
   PICKED_QUADRADO.map(quadradoEntry),
 );
+
+// Listas separadas (usado pelas seções "Saiu do forno · Reels" e "· Widescreen")
+export const FEATURED_REELS = PICKED_REELS.map(reelEntry);
+export const FEATURED_WIDESCREEN = PICKED_WIDESCREEN.map(widescreenEntry);
