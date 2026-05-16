@@ -39,10 +39,10 @@ function CarouselCard({ video, active, index, aspect }) {
     <div
       ref={cardRef}
       style={{ aspectRatio: aspect }}
-      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60"
+      className="group relative h-full flex-shrink-0 overflow-hidden rounded-2xl border border-border bg-card/60 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.5)]"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card to-black">
-        <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+        <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/[0.05] to-transparent" />
       </div>
 
       {poster && (
@@ -59,8 +59,11 @@ function CarouselCard({ video, active, index, aspect }) {
 
       <CardPreview video={video} active={inView} />
 
-      {/* Vinheta sutil só pra dar profundidade */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      {/* Vinheta sutil pra dar profundidade */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
+
+      {/* Borda interna sutil pra brilho refinado */}
+      <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.03]" />
     </div>
   );
 }
@@ -137,16 +140,16 @@ function CarouselRow({ videos, direction, active, aspect, height, withArrows }) 
           <button
             onClick={() => scrollByCard(-1)}
             aria-label="Anterior"
-            className="absolute left-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:border-white/40 hover:text-white md:left-6 md:h-12 md:w-12"
+            className="group/arrow absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white/85 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-white hover:bg-black/80 hover:text-white hover:shadow-[0_0_24px_rgba(255,255,255,0.3)] active:scale-95 md:left-6 md:h-13 md:w-13"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-5 w-5 transition-transform duration-300 group-hover/arrow:-translate-x-0.5" />
           </button>
           <button
             onClick={() => scrollByCard(1)}
             aria-label="Próximo"
-            className="absolute right-2 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/80 backdrop-blur-md transition-all hover:scale-105 hover:border-white/40 hover:text-white md:right-6 md:h-12 md:w-12"
+            className="group/arrow absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/60 text-white/85 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-white hover:bg-black/80 hover:text-white hover:shadow-[0_0_24px_rgba(255,255,255,0.3)] active:scale-95 md:right-6 md:h-13 md:w-13"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover/arrow:translate-x-0.5" />
           </button>
         </>
       )}

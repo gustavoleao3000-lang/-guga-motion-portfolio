@@ -106,6 +106,21 @@
   100% { transform: translateX(100%); }
 }
 
+/* Performance: defer rendering de seções fora da viewport */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+/* Fade-in suave ao mudar de página */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+main > * {
+  animation: pageFadeIn 0.4s ease-out;
+}
+
 /* Gradient shimmer pro título do hero */
 @keyframes gradient-shimmer {
   0%, 100% { background-position: 0% 50%; }

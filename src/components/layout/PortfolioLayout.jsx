@@ -10,7 +10,7 @@ export default function PortfolioLayout() {
     <div className="min-h-screen bg-background text-foreground font-display">
       <ScrollProgress />
       <Navbar />
-      <main>
+      <main className="cv-auto">
         <Outlet />
       </main>
       <Footer />
