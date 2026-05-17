@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Calendar, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+import AnimatedNumber from '../components/common/AnimatedNumber';
 
 const FOTO_URL = 'https://media.base44.com/images/public/69c67984fa1d361ff818abe5/fbbd09a48_Imagem1gerada.png';
 
@@ -205,8 +206,8 @@ export default function About() {
               transition={{ duration: 0.6, delay: i * 0.08 }}
               className="text-center"
             >
-              <p className="font-display text-4xl font-black tracking-tight text-primary md:text-6xl">
-                {s.value}
+              <p className="font-display text-4xl font-black tracking-tight text-primary tabular-nums md:text-6xl">
+                <AnimatedNumber value={s.value} />
               </p>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:text-xs">
                 {s.label}
