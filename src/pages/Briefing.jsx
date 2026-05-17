@@ -25,7 +25,12 @@ function isValid(step, value) {
   if (!step.required) return true;
   if (step.type === 'checkbox') return Array.isArray(value) && value.length > 0;
   if (step.type === 'email') return /.+@.+\..+/.test(String(value || ''));
-  return String(value || '').trim().length > 0;
+  if (step.type === 'radio' || step.type === 'select') {
+    // Pra radio/select, value pode ser 0 (primeira opção) — não usar `|| ''` que trata 0 como falsy
+    return value !== null && value !== undefined && value !== '';
+  }
+  // text, textarea
+  return typeof value === 'string' && value.trim().length > 0;
 }
 
 export default function Briefing() {
