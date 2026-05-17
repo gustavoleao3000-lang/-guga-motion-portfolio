@@ -27,9 +27,10 @@ function CarouselCard({ video, active, index, aspect }) {
     }
     const el = cardRef.current;
     if (!el) return;
+    // rootMargin pequeno: só toca vídeos realmente visíveis (evita travar Safari mobile com 10+ videos)
     const io = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { rootMargin: '200px', threshold: 0 }
+      { rootMargin: '0px', threshold: 0.1 }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -193,8 +194,25 @@ export default function CarouselSection({
   const sectionRef = useRef(null);
   const [sectionVisible, setSectionVisible] = useState(false);
   const [windowStart, setWindowStart] = useState(0);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false
+  );
 
   const cfg = FORMAT_CONFIG[format] || FORMAT_CONFIG.reels;
+
+  // Reage a mudanças de tamanho de tela (mobile <-> desktop)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 767px)');
+    const onChange = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  // Window menor no mobile pra não estourar memória do Safari iOS (que crasha com muitos videos)
+  const effectiveWindowSize = windowSize
+    ? Math.min(windowSize, isMobile ? 6 : windowSize)
+    : windowSize;
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -207,25 +225,25 @@ export default function CarouselSection({
     return () => io.disconnect();
   }, []);
 
-  // Rotaciona o batch ao longo do tempo (só se windowSize < total)
+  // Rotaciona o batch ao longo do tempo (só se effectiveWindowSize < total)
   useEffect(() => {
-    if (!windowSize || windowSize >= videos.length) return;
+    if (!effectiveWindowSize || effectiveWindowSize >= videos.length) return;
     if (!sectionVisible) return;
     const id = setInterval(() => {
       // Avança metade da window pra ter mistura suave (não swap brusco)
-      const step = Math.max(1, Math.floor(windowSize / 2));
+      const step = Math.max(1, Math.floor(effectiveWindowSize / 2));
       setWindowStart((prev) => (prev + step) % videos.length);
     }, rotateMs);
     return () => clearInterval(id);
-  }, [windowSize, videos.length, rotateMs, sectionVisible]);
+  }, [effectiveWindowSize, videos.length, rotateMs, sectionVisible]);
 
   if (videos.length === 0) return null;
 
-  // Se windowSize definido, pega só uma janela (com wrap circular)
+  // Se effectiveWindowSize definido, pega só uma janela (com wrap circular)
   const activeVideos = (() => {
-    if (!windowSize || windowSize >= videos.length) return videos;
+    if (!effectiveWindowSize || effectiveWindowSize >= videos.length) return videos;
     const out = [];
-    for (let i = 0; i < windowSize; i++) {
+    for (let i = 0; i < effectiveWindowSize; i++) {
       out.push(videos[(windowStart + i) % videos.length]);
     }
     return out;
