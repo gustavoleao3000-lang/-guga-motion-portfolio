@@ -2,7 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Eye, Zap } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
+<<<<<<< HEAD
 import AnimatedNumber from '../common/AnimatedNumber';
+=======
+>>>>>>> parent of 41e0b9c (polish: numeros animados nos stats + scroll cue + divisorias suaves)
 
 export default function StatsBanner() {
   const { t } = useLanguage();
@@ -29,10 +32,7 @@ export default function StatsBanner() {
   ];
 
   return (
-    <section className="relative px-5 py-10 md:px-12 md:py-14">
-      {/* Divisória elegante no topo (gradient sutil) */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
+    <section className="border-t border-border/30 px-5 py-10 md:px-12 md:py-14">
       <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -49,12 +49,7 @@ export default function StatsBanner() {
           </div>
           <h2 className="font-display text-3xl font-black leading-tight tracking-tight md:text-5xl">
             {t('stats_title_1')}<br className="hidden md:block" />
-            <span
-              className="italic text-primary"
-              style={{ fontFamily: "'DM Serif Display', serif", fontWeight: 400 }}
-            >
-              {' '}{t('stats_title_2')}
-            </span>
+            <span className="text-primary"> {t('stats_title_2')}</span>
           </h2>
         </motion.div>
 
@@ -68,13 +63,13 @@ export default function StatsBanner() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="group rounded-2xl border border-border/50 bg-card/50 p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-card hover:shadow-[0_8px_28px_-12px_rgba(255,255,255,0.18)]"
+                className="group rounded-2xl border border-border/50 bg-card/50 p-6 transition-all duration-300 hover:border-primary/40 hover:bg-card"
               >
                 <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <p className="font-display text-4xl font-black tracking-tight text-primary tabular-nums md:text-5xl">
-                  <AnimatedNumber value={s.value} />
+                <p className="font-display text-4xl font-black tracking-tight text-primary md:text-5xl">
+                  {s.value}
                 </p>
                 <p className="mt-1 font-display text-sm font-bold tracking-tight text-foreground md:text-base">
                   {t(s.labelKey)}
