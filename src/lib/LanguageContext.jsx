@@ -6,7 +6,7 @@ export const translations = {
   pt: {
     /* ===== NAVBAR ===== */
     nav_home: 'Home',
-    nav_work: 'Trabalho',
+    nav_work: 'Portfólio',
     nav_about: 'Sobre',
     nav_contact: 'Contato',
     nav_whatsapp: 'WhatsApp →',
@@ -180,13 +180,11 @@ export const translations = {
 
     /* ===== TRABALHOS ===== */
     works_eyebrow: 'Portfólio',
-    works_title_1: 'Todos os',
-    works_title_2: 'trabalhos.',
-    works_subtitle: 'vídeos · clica nos filtros pra ver por categoria',
-    works_filter_all: 'Todos',
-    works_filter_clear: 'Limpar',
-    works_empty_title: 'Nenhum vídeo dessa categoria',
-    works_empty_subtitle: 'Tenta outro filtro acima',
+    works_title_1: 'Meu',
+    works_title_2: 'portfólio.',
+    works_subtitle: 'vídeos · reels, widescreens e posts misturados.',
+    works_empty_title: 'Sem vídeos por enquanto',
+    works_empty_subtitle: 'Logo logo aparece coisa nova aqui',
     works_cta_title: 'Gostou do trabalho?',
     works_cta_subtitle: 'Vamos transformar sua ideia em motion. Manda no WhatsApp e a gente conversa.',
     works_cta_button: 'Falar no WhatsApp',
@@ -297,7 +295,7 @@ export const translations = {
   en: {
     /* ===== NAVBAR ===== */
     nav_home: 'Home',
-    nav_work: 'Work',
+    nav_work: 'Portfolio',
     nav_about: 'About',
     nav_contact: 'Contact',
     nav_whatsapp: 'WhatsApp →',
@@ -471,13 +469,11 @@ export const translations = {
 
     /* ===== TRABALHOS ===== */
     works_eyebrow: 'Portfolio',
-    works_title_1: 'All',
-    works_title_2: 'the works.',
-    works_subtitle: 'videos · click filters to see by category',
-    works_filter_all: 'All',
-    works_filter_clear: 'Clear',
-    works_empty_title: 'No videos in this category',
-    works_empty_subtitle: 'Try another filter above',
+    works_title_1: 'My',
+    works_title_2: 'portfolio.',
+    works_subtitle: 'videos · reels, widescreens and posts mixed.',
+    works_empty_title: 'No videos yet',
+    works_empty_subtitle: 'New stuff coming soon',
     works_cta_title: 'Liked the work?',
     works_cta_subtitle: 'Let\'s turn your idea into motion. Hit me up on WhatsApp.',
     works_cta_button: 'Chat on WhatsApp',
