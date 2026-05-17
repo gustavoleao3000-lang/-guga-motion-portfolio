@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import GugaOverlay from './GugaOverlay';
 import { useLanguage } from '@/lib/LanguageContext';
 
@@ -110,6 +111,23 @@ export default function HeroSection() {
               </a>
             </motion.div>
           </div>
+
+          {/* Setinha sutil indicando scroll */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="mt-6 flex justify-center md:mt-8"
+          >
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="text-muted-foreground/40"
+              aria-hidden
+            >
+              <ChevronDown className="h-4 w-4" />
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
