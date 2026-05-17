@@ -25,7 +25,7 @@ export default function About() {
     { value: '100%', label: t('about_stat_4_label') },
   ];
 
-  const BIO = [t('about_bio_1'), t('about_bio_2'), t('about_bio_3')];
+  const BIO = [t('about_bio_1'), t('about_bio_2')];
 
   return (
     <div className="pt-20 pb-16 md:pt-28 md:pb-24">
