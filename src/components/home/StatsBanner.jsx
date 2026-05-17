@@ -2,10 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Eye, Zap } from 'lucide-react';
 import { useLanguage } from '@/lib/LanguageContext';
-<<<<<<< HEAD
-import AnimatedNumber from '../common/AnimatedNumber';
-=======
->>>>>>> parent of 41e0b9c (polish: numeros animados nos stats + scroll cue + divisorias suaves)
 
 export default function StatsBanner() {
   const { t } = useLanguage();
